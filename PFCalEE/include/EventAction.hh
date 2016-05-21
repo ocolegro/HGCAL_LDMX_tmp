@@ -38,15 +38,11 @@ public:
 	      G4int trackID, G4int parentID,
 	      const HGCSSGenParticle & genPart);
   
-  //void Detect(G4double edep, G4double stepl,G4double globalTime, G4int pdgId, G4VPhysicalVolume *volume,int iyiz);
 
   void SetPrintModulo(G4int    val)  {printModulo = val;};
   void Add( std::vector<SamplingSection> *newDetector ) { detector_=newDetector; }
-  //Float_t GetCellSize() { return cellSize_; }
 
-  //std::ofstream & fout() {return fout_;}
 
-  bool isFirstVolume(const std::string volname) const;
 
 private:
   RunAction*  runAct;
