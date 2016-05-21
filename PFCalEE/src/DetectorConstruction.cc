@@ -128,9 +128,7 @@ DetectorConstruction::~DetectorConstruction() { delete m_detectorMessenger;}
 void DetectorConstruction::DefineMaterials()
 {
   G4NistManager* nistManager = G4NistManager::Instance();
-  m_materials["Abs"] = (version_== v_CALICE || version_==v_HGCALEE_W) ?
-    nistManager->FindOrBuildMaterial("G4_W",false) :
-    nistManager->FindOrBuildMaterial("G4_Pb",false);
+
   m_materials["Al"] = nistManager->FindOrBuildMaterial("G4_Al",false);
   m_dEdx["Al"] = 0.4358;
   m_materials["W"] = nistManager->FindOrBuildMaterial("G4_W",false);
@@ -188,12 +186,8 @@ void DetectorConstruction::DefineMaterials()
   m_materials["SSteel"]->AddMaterial(m_materials["Cr"], 0.19);
   m_materials["SSteel"]->AddMaterial(m_materials["Ni"], 0.10);
   m_dEdx["SSteel"] = 0.7*m_dEdx["Fe"]+0.01*m_dEdx["Mn"]+0.19*m_dEdx["Cr"]+0.1*m_dEdx["Ni"];
-  m_materials["AbsHCAL"] = (version_== v_HGCALHE_CALICE) ?
-    m_materials["Steel"]:
-    m_materials["Brass"];
-  m_dEdx["AbsHCAL"] = (version_== v_HGCALHE_CALICE) ?
-    m_dEdx["Steel"]:
-    m_dEdx["Brass"];
+
+
   m_materials["Scintillator"]= new G4Material("Scintillator",1.032*g/cm3,2);
   m_materials["Scintillator"]->AddMaterial(m_materials["C"]  , 91.512109*perCent);
   m_materials["Scintillator"]->AddMaterial(m_materials["H"]  , 8.4878906*perCent);
