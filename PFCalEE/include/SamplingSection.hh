@@ -123,6 +123,15 @@ public:
   //reset
   inline void resetCounters()
   {
+	ele_den.clear();
+	ele_dl.clear();
+	sens_time.clear();
+	sens_gFlux.clear();
+	sens_eFlux.clear();
+	sens_muFlux.clear();
+	sens_neutronFlux.clear();
+	sens_hadFlux.clear();
+
     ele_den.resize(n_elements,0);
     ele_dl.resize(n_elements,0);
     sens_time.resize(n_sens_elements,0);
@@ -131,6 +140,7 @@ public:
     sens_muFlux.resize(n_sens_elements,0);
     sens_neutronFlux.resize(n_sens_elements,0);
     sens_hadFlux.resize(n_sens_elements,0);
+
     //reserve some space based on first event....
     for (unsigned idx(0); idx<n_sens_elements; ++idx){
       if (sens_HitVec[idx].size() > sens_HitVec_size_max) {
