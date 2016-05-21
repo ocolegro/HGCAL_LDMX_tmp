@@ -67,7 +67,6 @@ int main()
     {
     	HGCSSSamplingSection& sec =(*simhits)[j];
     	eng += sec.measuredE();
-    	std::cout << sec.getTotalSensE() << std::endl;
     }
 	std::cout << eng << std::endl;
 
