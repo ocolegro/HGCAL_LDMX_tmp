@@ -86,17 +86,6 @@ void EventAction::Detect(G4double edep, G4double stepl,G4double globalTime,
 }
 
 
-bool EventAction::isFirstVolume(const std::string volname) const{
-  if (detector_->size()>0 && (*detector_)[0].n_elements>0){
-    bool found = false;
-    for (unsigned iS(0); iS<(*detector_)[0].n_sectors;++iS){
-   
-      if ((((*detector_)[0].ele_vol[(*detector_)[0].n_elements*iS])->GetName())==(volname.c_str() || "G4_Galactic1phys")) found = true;
-    }
-    return found;
-  }
-  return "";
-}
 
 //
 void EventAction::EndOfEventAction(const G4Event* g4evt)
@@ -158,7 +147,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt)
       }//loop on sensitive layers
 
       if(debug) {
-	(*detector_)[i].report( (i==0) );
+	  (*detector_)[i].report( (i==0) );
       }
 
       (*detector_)[i].resetCounters();
