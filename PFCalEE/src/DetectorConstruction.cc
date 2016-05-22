@@ -357,9 +357,9 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 	  cout << "solid = constructSolid("<<baseName
 	       <<",thick="<<thick
 	       <<",zOffset+zOverburden="<<zOffset+zOverburden
-	       <<",width+extraWidth="<<width+extraWidth<<");"<<endl;
+	       <<",width="<<width<<");"<<endl;
 #endif
-	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width+extraWidth,i);
+	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width,i);
 	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
 	  m_caloStruct[i].ele_X0[ie]   = m_materials[eleName]->GetRadlen();
 	  m_caloStruct[i].ele_dEdx[ie] = m_dEdx[eleName];
@@ -428,13 +428,12 @@ void DetectorConstruction::fillInterSectorSpace(const unsigned sectorNum,
 
 	std::string eleName = m_caloStruct[i].ele_name[ie];
 	G4double thick = m_caloStruct[i].ele_thick[ie];
-	G4double extraWidth = 0;
 
 	eleName = "CFMix";
 	sprintf(nameBuf,"%s%d_%d",eleName.c_str(),int(sectorNum),int(i+1));
 	std::string baseName(nameBuf);
 	if(thick>0){
-	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width+extraWidth);
+	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width);
 	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
 	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2+crackOffset;
 	  G4PVPlacement *tmp = new G4PVPlacement(0, G4ThreeVector(xpvpos,0.,zOffset+zOverburden+thick/2), logi, baseName+"phys", m_logicWorld, false, 0);
