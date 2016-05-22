@@ -431,7 +431,7 @@ void DetectorConstruction::fillInterSectorSpace(const unsigned sectorNum,
 	sprintf(nameBuf,"%s%d_%d",eleName.c_str(),int(sectorNum),int(i+1));
 	std::string baseName(nameBuf);
 	if(thick>0){
-	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width);
+	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width,i);
 	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
 	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2;
 	  G4PVPlacement *tmp = new G4PVPlacement(0, G4ThreeVector(xpvpos,0.,zOffset+zOverburden+thick/2), logi, baseName+"phys", m_logicWorld, false, 0);
