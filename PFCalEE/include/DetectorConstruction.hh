@@ -36,18 +36,13 @@ public:
     m_SIMPLE_50=1,
     m_FULLSECTION=2,
     m_SIMPLE_100=3,
-    m_BOXWITHCRACK_100=4,
-    m_2016TB=5
   };
 
   /**
      @short CTOR
    */
   DetectorConstruction(G4int ver=DetectorConstruction::v_HGCALEE_v6,
-		       G4int mod=DetectorConstruction::m_SIMPLE_20,
-		       std::string absThickW="1.75,1.75,1.75,1.75,1.75,2.8,2.8,2.8,2.8,2.8,4.2,4.2,4.2,4.2,4.2",
-		       std::string absThickPb="1,1,1,1,1,2.1,2.1,2.1,2.1,2.1,4.4,4.4,4.4,4.4",
-		       std::string dropLayer="");
+		       G4int mod=DetectorConstruction::m_SIMPLE_20);
 
   void buildHGCALFHE(const unsigned aVersion);
   void buildHGCALBHE(const unsigned aVersion);
@@ -78,15 +73,6 @@ public:
   void SetMagField(G4double fieldValue);
   G4UniformMagField* m_magField;      //pointer to the magnetic field
 
-  /**
-     @short set detector model
-   */
-
-  void SetDetModel(G4int model);
-
-  void SetWThick(std::string thick);
-  void SetPbThick(std::string thick);
-  void SetDropLayers(std::string layers);
 
   /**
      @short DTOR
@@ -115,13 +101,6 @@ private:
   //integer to define detector model
   int model_;
 
-  //add a pre PCB plate
-  bool addPrePCB_;
-
-  std::vector<G4double> absThickW_;
-  std::vector<G4double> absThickPb_;
-  std::vector<G4bool> dropLayer_;
-
   /**
      @short compute the calor dimensions
    */
@@ -140,17 +119,15 @@ private:
 			    const G4double & minL, 
 			    const G4double & width);
 
-  G4double getCrackOffset(size_t layer);
-  G4double getAngOffset(size_t layer);
 
-  G4VSolid *constructSolid (std::string baseName, G4double thick, G4double zpos,const G4double & minL, const G4double & width);
+  G4VSolid *constructSolid (std::string baseName, G4double thick, G4double zpos,const G4double & minL, const G4double & width, const size_t which_ele);
   
 
   std::vector<G4Material* > m_SensitiveMaterial;
   
   G4double           m_CalorSizeXY, m_CalorSizeZ;
   G4double           m_minRadius,m_maxRadius;
-  G4double           m_minEta,m_maxEta;
+  G4double           m_maxTheta;
   G4double           m_z0pos;
   G4double           m_WorldSizeXY, m_WorldSizeZ;
   G4double m_nSectors,m_sectorWidth,m_interSectorWidth;
