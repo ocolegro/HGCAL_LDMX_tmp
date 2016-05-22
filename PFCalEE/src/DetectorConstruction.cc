@@ -275,9 +275,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4SolidStore::GetInstance()->Clean();
 
   //world
-  G4double expHall_z = model_ ==  6*m;
-  G4double expHall_x = model_ ==  3*m;
-  G4double expHall_y = model_ ==  3*m;
+  G4double expHall_z  =  6*m;
+  G4double expHall_x  =  3*m;
+  G4double expHall_y  =  3*m;
 
   G4Box* experimentalHall_box = new G4Box("expHall_box",expHall_x,expHall_y,expHall_z);
 
