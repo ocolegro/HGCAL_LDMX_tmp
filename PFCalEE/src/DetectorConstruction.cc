@@ -1,8 +1,6 @@
 #include "DetectorConstruction.hh"
 #include "DetectorMessenger.hh"
 
-#include "HGCSSSimHit.hh"
-
 #include <boost/algorithm/string.hpp>
 
 #include "G4Material.hh"
@@ -30,16 +28,9 @@
 using namespace std;
 
 //
-DetectorConstruction::DetectorConstruction(G4int ver, G4int mod,
-					   std::string absThickW,
-					   std::string absThickPb,
-					   std::string dropLayer) :
-  version_(ver), model_(mod), addPrePCB_(false)
+DetectorConstruction::DetectorConstruction(G4int ver, G4int mod):
+  version_(ver), model_(mod)
 {
-  SetWThick(absThickW);
-  SetPbThick(absThickPb);
-  SetDropLayers(dropLayer);
-
   switch(version_)
   {
     case v_HGCALEE_v6:
@@ -238,7 +229,6 @@ void DetectorConstruction::UpdateCalorSize(){
   }
 
   m_nSectors = 1;
-  m_interSectorWidth = 0;
   if (model_ == DetectorConstruction::m_SIMPLE_20){
     m_CalorSizeXY=200;
     m_sectorWidth = m_CalorSizeXY;
@@ -251,11 +241,12 @@ void DetectorConstruction::UpdateCalorSize(){
     m_CalorSizeXY=1000;
     m_sectorWidth = m_CalorSizeXY;
   }
-  else if (model_ == DetectorConstruction::m_BOXWITHCRACK_100 ){
-    m_nSectors = 3;
-    m_sectorWidth = 460;
-    m_interSectorWidth = 10;
-    m_CalorSizeXY=m_nSectors*m_sectorWidth;
+
+  else if (model_ == DetectorConstruction::m_FULLSECTION){
+	m_maxTheta         = pi/6.0;
+    m_maxRadius		   = m_CalorSizeZ*tan(m_maxTheta);
+    m_CalorSizeXY      = m_maxRadius*2;//use full length for making hexagon map
+    m_sectorWidth      = m_CalorSizeXY;
   }
 
 
@@ -265,16 +256,7 @@ void DetectorConstruction::UpdateCalorSize(){
   if (m_nSectors>1) m_WorldSizeXY=(m_CalorSizeXY+2*m_sectorWidth)*1.1;
   else m_WorldSizeXY=m_CalorSizeXY*1.1;
 
-  if (model_ == DetectorConstruction::m_FULLSECTION || model_ == DetectorConstruction::m_2016TB)
-    G4cout << "[DetectorConstruction][UpdateCalorSize] Z x minR * maxR = "
-	   << m_CalorSizeZ << " x "
-	   << m_minRadius << " x "
-	   << m_maxRadius
-	   << " mm, eta range "
-	   << m_minEta << " - "
-	   << m_maxEta << " nsectors = " << m_nSectors
-	   << G4endl;
-  else G4cout << "[DetectorConstruction][UpdateCalorSize] Z x XY = "
+  G4cout << "[DetectorConstruction][UpdateCalorSize] Z x XY = "
 	      << m_CalorSizeZ << " x "
 	      << m_CalorSizeXY << " mm "
 	      << ", nsectors = " << m_nSectors
@@ -293,9 +275,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4SolidStore::GetInstance()->Clean();
 
   //world
-  G4double expHall_z = model_ == DetectorConstruction::m_2016TB? 0.5*m : 6*m;
-  G4double expHall_x = model_ == DetectorConstruction::m_2016TB? 20*cm : 3*m;
-  G4double expHall_y = model_ == DetectorConstruction::m_2016TB? 20*cm : 3*m;
+  G4double expHall_z = model_ ==  6*m;
+  G4double expHall_x = model_ ==  3*m;
+  G4double expHall_y = model_ ==  3*m;
 
   G4Box* experimentalHall_box = new G4Box("expHall_box",expHall_x,expHall_y,expHall_z);
 
@@ -313,18 +295,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double pos_x = 0.;
   G4double pos_y = 0.;
   G4double pos_z = 0.;
-  if (model_ == DetectorConstruction::m_FULLSECTION){
-    pos_x = 0.;
-    pos_y = 0.;
-    pos_z = m_z0pos+m_CalorSizeZ/2;
-  }
 
-  if (model_ == DetectorConstruction::m_FULLSECTION){
-    m_solidWorld = new G4Tubs("Wbox",m_minRadius*1.1,m_maxRadius*1.1,m_WorldSizeZ/2,0,2*pi);
-  }
-  else {
-    m_solidWorld = new G4Box("Wbox",m_WorldSizeXY/2,m_WorldSizeXY/2,m_WorldSizeZ/2);
-  }
+  m_solidWorld = new G4Box("Wbox",m_WorldSizeXY/2,m_WorldSizeXY/2,m_WorldSizeZ/2);
+
   cout << "m_WorldSizeXY = " << m_WorldSizeXY << ", m_WorldSizeZ = " << m_WorldSizeZ << endl;
 
   m_logicWorld = new G4LogicalVolume(m_solidWorld, m_materials["Air"], "Wlog");
@@ -332,8 +305,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   for (unsigned iS(0); iS<m_nSectors; ++iS){
     G4double minL = m_sectorWidth*iS;
-    buildSectorStack(iS,minL,m_sectorWidth-m_interSectorWidth);
-    if (m_nSectors>1) fillInterSectorSpace(iS,minL+m_sectorWidth-m_interSectorWidth,m_interSectorWidth);
+    buildSectorStack(iS,minL,m_sectorWidth);
+    if (m_nSectors>1) fillInterSectorSpace(iS,minL+m_sectorWidth,m_interSectorWidth);
   }
   // Visualization attributes
   //
@@ -359,13 +332,9 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 
   for(size_t i=0; i<m_caloStruct.size(); i++)
     {
-      G4double crackOffset = getCrackOffset(i);
-      G4double angOffset = getAngOffset(i);
 
       //std::cout << " sector " << sectorNum << " layer " << i << " offset " << crackOffset  << std::endl;
-      if (model_ == DetectorConstruction::m_FULLSECTION) {
-	crackOffset=0;
-      }
+
       const unsigned nEle = m_caloStruct[i].n_elements;
       //index for counting Si sensitive layers
       unsigned idx = 0;
@@ -382,19 +351,15 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 	std::string baseName(nameBuf);
 	G4double thick = m_caloStruct[i].ele_thick[ie];
 	//
-	G4double extraWidth = 0;
-	if (m_nSectors>1 && eleName=="W" && model_ != DetectorConstruction::m_FULLSECTION){
-	 extraWidth = 10*mm;
-	}
+
 	if(thick>0){
 #if 0
 	  cout << "solid = constructSolid("<<baseName
 	       <<",thick="<<thick
 	       <<",zOffset+zOverburden="<<zOffset+zOverburden
-	       <<",angOffset+minL="<<angOffset+minL
 	       <<",width+extraWidth="<<width+extraWidth<<");"<<endl;
 #endif
-	  solid = constructSolid(baseName,thick,zOffset+zOverburden,angOffset+minL,width+extraWidth);
+	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width+extraWidth,i);
 	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
 	  m_caloStruct[i].ele_X0[ie]   = m_materials[eleName]->GetRadlen();
 	  m_caloStruct[i].ele_dEdx[ie] = m_dEdx[eleName];
@@ -414,7 +379,6 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 	  if (m_caloStruct[i].isSensitiveElement(ie)) m_logicSi.push_back(logi);
 
 	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2+crackOffset;
-	  if (model_ == DetectorConstruction::m_FULLSECTION) xpvpos=0;
 #if 0
 	  cout << "m_caloStruct[i].ele_vol[nEle*sectorNum+ie]=new G4PVPlacement(0, G4ThreeVector(xpvpos="<<xpvpos
 	       << ",0.,zOffset+zOverburden+thick/2="<<zOffset+zOverburden+thick/2
@@ -457,30 +421,22 @@ void DetectorConstruction::fillInterSectorSpace(const unsigned sectorNum,
 
   for(size_t i=0; i<m_caloStruct.size(); i++)
     {
-      G4double crackOffset = getCrackOffset(i);
-      G4double angOffset = getAngOffset(i);
 
-      if (model_ == DetectorConstruction::m_FULLSECTION) {
-	crackOffset=0;
-      }
+
       const unsigned nEle = m_caloStruct[i].n_elements;
       for (unsigned ie(0); ie<nEle;++ie){
 
 	std::string eleName = m_caloStruct[i].ele_name[ie];
 	G4double thick = m_caloStruct[i].ele_thick[ie];
 	G4double extraWidth = 0;
-	if (eleName=="W" && model_ != DetectorConstruction::m_FULLSECTION){
-	 extraWidth = -10.*mm;
-	 //std::cout << " -- total width: " << width+extraWidth << " offsets: " << crackOffset << " " << angOffset << std::endl;
-	}
+
 	eleName = "CFMix";
 	sprintf(nameBuf,"%s%d_%d",eleName.c_str(),int(sectorNum),int(i+1));
 	std::string baseName(nameBuf);
 	if(thick>0){
-	  solid = constructSolid(baseName,thick,zOffset+zOverburden,angOffset+minL,width+extraWidth);
+	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width+extraWidth);
 	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
 	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2+crackOffset;
-	  if (model_ == DetectorConstruction::m_FULLSECTION) xpvpos=0;
 	  G4PVPlacement *tmp = new G4PVPlacement(0, G4ThreeVector(xpvpos,0.,zOffset+zOverburden+thick/2), logi, baseName+"phys", m_logicWorld, false, 0);
 	  //std::cout << "** positionning layer " << baseName << " at " << xpvpos << " 0 " << zOffset+zOverburden+thick/2 << std::endl;
 
@@ -495,26 +451,8 @@ void DetectorConstruction::fillInterSectorSpace(const unsigned sectorNum,
 
 }//fill intersector space
 
-G4double DetectorConstruction::getCrackOffset(size_t layer){
-  //model with 3 cracks identical by block of 10 layers
-  //if (m_nSectors>1) return static_cast<unsigned>(layer/10.)*static_cast<unsigned>(m_sectorWidth/30.)*10;
-  //with cracks shifted systematically layer-to-layer
-  //if (m_nSectors>1) return 10*((7*layer)%31);
-  //cracks shifted every two layers by 2cm
-  //if (m_nSectors>1) return static_cast<unsigned>(layer/2.)*30;
-  //cracks shifted every other layer by 2cm
-  if (m_nSectors>1) return static_cast<unsigned>((layer%4)/2.)*30;
 
-  return 0;
-}
 
-G4double DetectorConstruction::getAngOffset(size_t layer){
-  if (model_ == DetectorConstruction::m_FULLSECTION){
-    if (m_nSectors>1) return static_cast<unsigned>(layer/10.)*m_sectorWidth/3.;
-    return 0;
-  }
-  return 0;
-}
 //
 void DetectorConstruction::SetMagField(G4double fieldValue)
 {
@@ -537,71 +475,24 @@ void DetectorConstruction::SetDetModel(G4int model)
   model_ = model;
 }
 
-void DetectorConstruction::SetWThick(std::string thick)
-{
-  if (thick.size() <= 0) return;
-  std::cout << " -- Setting W thick to " << thick << std::endl;
-  std::vector<std::string> vec;
-  boost::split(vec, thick, boost::is_any_of(","));
-  absThickW_.resize(vec.size(),0);
-  for (unsigned iE(0); iE<vec.size(); ++iE){//loop on elements
-    std::istringstream(vec[iE])>>absThickW_[iE];
-    std::cout << absThickW_[iE] << " ";
-  }
-  std::cout << std::endl;
-}
 
-void DetectorConstruction::SetPbThick(std::string thick)
-{
-  if (thick.size() <= 0) return;
-  std::cout << " -- Setting Pb thick to " << thick << std::endl;
-  std::vector<std::string> vec;
-  boost::split(vec, thick, boost::is_any_of(","));
-  absThickPb_.resize(vec.size(),0);
-  for (unsigned iE(0); iE<vec.size(); ++iE){//loop on elements
-    std::istringstream(vec[iE])>>absThickPb_[iE];
-    std::cout << absThickPb_[iE] << " ";
+G4VSolid *DetectorConstruction::constructSolid (std::string baseName, G4double thick, G4double zpos,const G4double & minL, const G4double & width,size_t which_ele){
+  if (which_ele == 0)
+  {
+	  G4VSolid *solid;
+	  solid = new G4Box(baseName+"box", width/2, m_CalorSizeXY/2, thick/2 );
   }
-  std::cout << std::endl;
-}
+  else
+  {
+	  G4VSolid *solid;
+	  if (model_ == DetectorConstruction::m_FULLSECTION){
+		double maxR = tan(m_maxTheta)*(zpos+m_z0pos+m_CalorSizeZ/2);
+		solid = new G4Tubs(baseName+"box",0,maxR,thick/2,minL,width);
+	  }
 
-void DetectorConstruction::SetDropLayers(std::string layers)
-{
-  dropLayer_.resize(28,false);
-  if (layers.size() <= 0) return;
-  std::cout << " -- Dropping layers " << layers << std::endl;
-  std::vector<std::string> vec;
-  boost::split(vec, layers, boost::is_any_of(","));
-  for (unsigned iE(0); iE<vec.size(); ++iE){//loop on elements
-    unsigned layerId = 0;
-    std::istringstream(vec[iE])>>layerId;
-    if (layerId>0 && layerId<29) dropLayer_[layerId-1] = true;
-    else std::cout << " -- invalid layer to drop, ignoring..." << std::endl;
-  }
-  for (unsigned iE(0); iE<dropLayer_.size(); ++iE){//loop on elements
-    std::cout << dropLayer_[iE] << " ";
-  }
-  std::cout << std::endl;
-}
-
-G4VSolid *DetectorConstruction::constructSolid (std::string baseName, G4double thick, G4double zpos,const G4double & minL, const G4double & width){
-
-  G4VSolid *solid;
-  if (model_ == DetectorConstruction::m_FULLSECTION){
-    double minR = tan(2*atan(exp(-m_maxEta)))*(zpos+m_z0pos+m_CalorSizeZ/2);
-    double maxR = tan(2*atan(exp(-m_minEta)))*(zpos+m_z0pos+m_CalorSizeZ/2);
-    //std::cout << " zpos = " << zpos+m_z0pos+m_CalorSizeZ/2 << " radius range " << minR << " " << maxR << std::endl;
-    solid = new G4Tubs(baseName+"box",minR,maxR,thick/2,minL,width);
-  }
-  else if (model_ == DetectorConstruction::m_2016TB){
-    std::cout << " zpos = " << zpos << "-" << zpos+thick << " hexagon with side " << m_maxRadius << std::endl;
-    G4double zPlane[2] = { -thick/2,thick/2};
-    G4double rInner[2] = { 0, 0 };
-    G4double rOuter[2] = { m_minRadius, m_minRadius }; // feed center-to-side distance to G4Polyhedra
-    solid = new G4Polyhedra(baseName+"hexa",0,2*pi,6,2,zPlane,rInner,rOuter); // startphi angle points to a corner
-  }
-  else{
-    solid = new G4Box(baseName+"box", width/2, m_CalorSizeXY/2, thick/2 );
+	  else{
+		solid = new G4Box(baseName+"box", width/2, m_CalorSizeXY/2, thick/2 );
+	  }
   }
   return solid;
 }
