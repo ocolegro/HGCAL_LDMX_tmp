@@ -333,8 +333,6 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
   for(size_t i=0; i<m_caloStruct.size(); i++)
     {
 
-      //std::cout << " sector " << sectorNum << " layer " << i << " offset " << crackOffset  << std::endl;
-
       const unsigned nEle = m_caloStruct[i].n_elements;
       //index for counting Si sensitive layers
       unsigned idx = 0;
@@ -378,7 +376,7 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 
 	  if (m_caloStruct[i].isSensitiveElement(ie)) m_logicSi.push_back(logi);
 
-	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2+crackOffset;
+	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2;
 #if 0
 	  cout << "m_caloStruct[i].ele_vol[nEle*sectorNum+ie]=new G4PVPlacement(0, G4ThreeVector(xpvpos="<<xpvpos
 	       << ",0.,zOffset+zOverburden+thick/2="<<zOffset+zOverburden+thick/2
@@ -435,7 +433,7 @@ void DetectorConstruction::fillInterSectorSpace(const unsigned sectorNum,
 	if(thick>0){
 	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width);
 	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
-	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2+crackOffset;
+	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2;
 	  G4PVPlacement *tmp = new G4PVPlacement(0, G4ThreeVector(xpvpos,0.,zOffset+zOverburden+thick/2), logi, baseName+"phys", m_logicWorld, false, 0);
 	  //std::cout << "** positionning layer " << baseName << " at " << xpvpos << " 0 " << zOffset+zOverburden+thick/2 << std::endl;
 
