@@ -28,6 +28,8 @@ parser.add_option('-g', '--gun'         ,    action="store_true",  dest='dogun' 
 parser.add_option('-S', '--no-submit'   ,    action="store_true",  dest='nosubmit'           , help='Do not submit batch job.')
 (opt, args) = parser.parse_args()
 
+label=''
+
 enlist=[0]
 if opt.dogun :
     enlist=[30]
@@ -36,8 +38,7 @@ if opt.dogun :
 for et in enlist :
 
     nevents=opt.nevts
-    myqueue=opt.lqueue
-    if et>0 and et<60 : myqueue=opt.squeue
+    myqueue=opt.squeue
     
     bval="BOFF"
     if opt.Bfield>0 : bval="BON" 
