@@ -47,22 +47,7 @@ wthick='1.75,1.75,1.75,1.75,1.75,2.8,2.8,2.8,2.8,2.8,4.2,4.2,4.2,4.2,4.2'
 pbthick='1,1,1,1,1,2.1,2.1,2.1,2.1,2.1,4.4,4.4,4.4,4.4'
 droplayers=''
 label=''
-#label='v5_30'
-##28
-#wthick='1.75,1.75,1.75,1.75,1.75,2.8,2.8,2.8,2.8,2.8,4.2,4.2,4.2,4.2,4.2'
-#pbthick='1,1,1,1,1,2.1,2.1,2.1,2.1,2.1,4.4,4.4,5.6,5.6'
-#droplayers='25,27'
-#label='v5_28'
-##24
-#wthick='1.75,1.75,1.75,1.75,1.75,2.8,2.8,2.8,2.8,2.8,4.2,4.2,4.2,4.2,4.2'
-#pbthick='2.2,2.2,1,1,2.2,2.1,2.1,3.3,2.1,2.1,4.4,4.4,5.6,5.6'
-#droplayers='1,3,10,15,25,27'
-#label='v5_24'
-##18
-#wthick='1.75,1.75,1.75,1.75,1.75,2.8,2.8,2.8,2.8,2.8,4.2,4.2,4.2,4.2,4.2'
-#pbthick='2.2,2.2,2.2,2.2,2.2,2.2,2.1,3.3,3.3,3.3,4.4,5.6,5.6,5.6'
-#droplayers='1,3,5,7,10,12,15,18,20,23,25,27'
-#label='v5_18'
+
 
 
 for et in enlist :
@@ -92,7 +77,7 @@ for et in enlist :
     scriptFile.write('source %s/g4env.sh\n'%(os.getcwd()))
     #scriptFile.write('cd %s\n'%(outDir))
     scriptFile.write('cp %s/g4steer.mac .\n'%(outDir))
-    scriptFile.write('PFCalEE g4steer.mac %d %d %f %s %s %s | tee g4.log\n'%(opt.version,opt.model,opt.eta,wthick,pbthick,droplayers))
+    scriptFile.write('PFCalEE g4steer.mac %d %d %f| tee g4.log\n'%(opt.version,opt.model,opt.eta))
     outTag='%s_version%d_model%d_%s'%(label,opt.version,opt.model,bval)
     if et>0 : outTag='%s_et%d'%(outTag,et)
     if opt.eta>0 : outTag='%s_eta%3.3f'%(outTag,opt.eta) 
