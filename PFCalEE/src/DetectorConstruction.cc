@@ -367,9 +367,7 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 	    if (m_nSectors>1) G4cout << " sector " << sectorNum;
 	    G4cout << " layer " << i << " dEdx=" << m_caloStruct[i].ele_dEdx[ie] << " X0=" << m_caloStruct[i].ele_X0[ie]
 		   << " L0=" << m_caloStruct[i].ele_L0[ie] << " zpos=" << m_z0pos+zOverburden << "mm w=" << m_caloStruct[i].ele_thick[ie] << "mm";
-	    //G4cout << " d=" << m_materials[eleName]->GetDensity();
-	  //G4cout << G4endl;
-	  //G4cout << *(m_materials[eleName]->GetMaterialTable()) << G4endl;
+
 	    totalLengthX0 += m_caloStruct[i].ele_thick[ie]/m_caloStruct[i].ele_X0[ie]; G4cout << " TotX0=" << totalLengthX0;// << G4endl;
 	    totalLengthL0 += m_caloStruct[i].ele_thick[ie]/m_caloStruct[i].ele_L0[ie]; G4cout << " TotLambda=" << totalLengthL0 << G4endl;
 	  }
