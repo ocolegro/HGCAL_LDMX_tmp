@@ -330,33 +330,35 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
   G4double totalLengthX0 = 0;
   G4double totalLengthL0 = 0;
 
-  for(size_t i=0; i<m_caloStruct.size(); i++)
-    {
-
+  for(size_t i=0; i<m_caloStruct.size(); i++){
       const unsigned nEle = m_caloStruct[i].n_elements;
       //index for counting Si sensitive layers
       unsigned idx = 0;
 
       for (unsigned ie(0); ie<nEle;++ie){
-	std::string eleName = m_caloStruct[i].ele_name[ie];
-	if (m_nSectors==1) sprintf(nameBuf,"%s%d",eleName.c_str(),int(i+1));
-	else sprintf(nameBuf,"%s%d_%d",eleName.c_str(),int(sectorNum),int(i+1));
-	if (eleName=="Si") {
-	  if (m_nSectors==1) sprintf(nameBuf,"Si%d_%d",int(i+1),idx);
-	  else sprintf(nameBuf,"Si%d_%d_%d",int(sectorNum),int(i+1),idx);
-	  idx++;
+		std::string eleName = m_caloStruct[i].ele_name[ie];
+
+		if (m_nSectors==1) sprintf(nameBuf,"%s%d",eleName.c_str(),int(i+1));
+
+		else sprintf(nameBuf,"%s%d_%d",eleName.c_str(),int(sectorNum),int(i+1));
+
+		if (eleName=="Si") {
+			if (m_nSectors==1) sprintf(nameBuf,"Si%d_%d",int(i+1),idx);
+
+			else sprintf(nameBuf,"Si%d_%d_%d",int(sectorNum),int(i+1),idx);
+		  idx++;
 	}
 	std::string baseName(nameBuf);
 	G4double thick = m_caloStruct[i].ele_thick[ie];
 	//
 
 	if(thick>0){
-#if 0
-	  cout << "solid = constructSolid("<<baseName
-	       <<",thick="<<thick
-	       <<",zOffset+zOverburden="<<zOffset+zOverburden
-	       <<",width="<<width<<");"<<endl;
-#endif
+	#if 0
+		  cout << "solid = constructSolid("<<baseName
+			   <<",thick="<<thick
+			   <<",zOffset+zOverburden="<<zOffset+zOverburden
+			   <<",width="<<width<<");"<<endl;
+	#endif
 	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width,i);
 	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
 	  m_caloStruct[i].ele_X0[ie]   = m_materials[eleName]->GetRadlen();
@@ -368,22 +370,21 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 	    G4cout << " layer " << i << " dEdx=" << m_caloStruct[i].ele_dEdx[ie] << " X0=" << m_caloStruct[i].ele_X0[ie]
 		   << " L0=" << m_caloStruct[i].ele_L0[ie] << " zpos=" << m_z0pos+zOverburden << "mm w=" << m_caloStruct[i].ele_thick[ie] << "mm";
 
-	    totalLengthX0 += m_caloStruct[i].ele_thick[ie]/m_caloStruct[i].ele_X0[ie]; G4cout << " TotX0=" << totalLengthX0;// << G4endl;
+	    totalLengthX0 += m_caloStruct[i].ele_thick[ie]/m_caloStruct[i].ele_X0[ie]; G4cout << " TotX0=" << totalLengthX0;
 	    totalLengthL0 += m_caloStruct[i].ele_thick[ie]/m_caloStruct[i].ele_L0[ie]; G4cout << " TotLambda=" << totalLengthL0 << G4endl;
 	  }
 
 	  if (m_caloStruct[i].isSensitiveElement(ie)) m_logicSi.push_back(logi);
 
 	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2;
-#if 0
-	  cout << "m_caloStruct[i].ele_vol[nEle*sectorNum+ie]=new G4PVPlacement(0, G4ThreeVector(xpvpos="<<xpvpos
-	       << ",0.,zOffset+zOverburden+thick/2="<<zOffset+zOverburden+thick/2
-	       << "), logi,"
-	       << baseName+"phys, m_logicWorld, false, 0);" << endl;
-#endif
+	#if 0
+		  cout << "m_caloStruct[i].ele_vol[nEle*sectorNum+ie]=new G4PVPlacement(0, G4ThreeVector(xpvpos="<<xpvpos
+			   << ",0.,zOffset+zOverburden+thick/2="<<zOffset+zOverburden+thick/2
+			   << "), logi,"
+			   << baseName+"phys, m_logicWorld, false, 0);" << endl;
+	#endif
 	  m_caloStruct[i].ele_vol[nEle*sectorNum+ie]=
 	    new G4PVPlacement(0, G4ThreeVector(xpvpos,0.,zOffset+zOverburden+thick/2), logi, baseName+"phys", m_logicWorld, false, 0);
-	  //std::cout << " positionning layer at " << xpvpos << " 0 " << zOffset+zOverburden+thick/2 << std::endl;
 
 	  G4VisAttributes *simpleBoxVisAtt= new G4VisAttributes(m_caloStruct[i].g4Colour(ie));
 	  simpleBoxVisAtt->SetVisibility(true);
@@ -407,43 +408,36 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 
 void DetectorConstruction::fillInterSectorSpace(const unsigned sectorNum,
 						const G4double & minL,
-						const G4double & width)
-{
-
+						const G4double & width){
   //build the stack
   G4double zOffset(-m_CalorSizeZ/2), zOverburden(0.);
   char nameBuf[10];
   G4VSolid *solid;
 
-  for(size_t i=0; i<m_caloStruct.size(); i++)
-    {
-
-
-      const unsigned nEle = m_caloStruct[i].n_elements;
+  for(size_t i=0; i<m_caloStruct.size(); i++){
+	  const unsigned nEle = m_caloStruct[i].n_elements;
       for (unsigned ie(0); ie<nEle;++ie){
 
-	std::string eleName = m_caloStruct[i].ele_name[ie];
-	G4double thick = m_caloStruct[i].ele_thick[ie];
+		std::string eleName = m_caloStruct[i].ele_name[ie];
+		G4double thick = m_caloStruct[i].ele_thick[ie];
 
-	eleName = "CFMix";
-	sprintf(nameBuf,"%s%d_%d",eleName.c_str(),int(sectorNum),int(i+1));
-	std::string baseName(nameBuf);
-	if(thick>0){
-	  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width,i);
-	  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
-	  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2;
-	  G4PVPlacement *tmp = new G4PVPlacement(0, G4ThreeVector(xpvpos,0.,zOffset+zOverburden+thick/2), logi, baseName+"phys", m_logicWorld, false, 0);
-	  //std::cout << "** positionning layer " << baseName << " at " << xpvpos << " 0 " << zOffset+zOverburden+thick/2 << std::endl;
+		eleName = "CFMix";
+		sprintf(nameBuf,"%s%d_%d",eleName.c_str(),int(sectorNum),int(i+1));
+		std::string baseName(nameBuf);
+		if(thick>0){
+		  solid = constructSolid(baseName,thick,zOffset+zOverburden,minL,width,i);
+		  G4LogicalVolume *logi = new G4LogicalVolume(solid, m_materials[eleName], baseName+"log");
+		  G4double xpvpos = -m_CalorSizeXY/2.+minL+width/2;
+		  G4PVPlacement *tmp = new G4PVPlacement(0, G4ThreeVector(xpvpos,0.,zOffset+zOverburden+thick/2), logi, baseName+"phys", m_logicWorld, false, 0);
 
-	  G4VisAttributes *simpleBoxVisAtt= new G4VisAttributes(G4Colour::Magenta);
-	  simpleBoxVisAtt->SetVisibility(true);
-	  simpleBoxVisAtt->SetForceSolid(true);
-	  logi->SetVisAttributes(simpleBoxVisAtt);
-	  zOverburden = zOverburden + thick;
-	}
+		  G4VisAttributes *simpleBoxVisAtt= new G4VisAttributes(G4Colour::Magenta);
+		  simpleBoxVisAtt->SetVisibility(true);
+		  simpleBoxVisAtt->SetForceSolid(true);
+		  logi->SetVisAttributes(simpleBoxVisAtt);
+		  zOverburden = zOverburden + thick;
+		}
       }//loop on elements
     }//loop on layers
-
 }//fill intersector space
 
 
@@ -474,15 +468,13 @@ void DetectorConstruction::SetDetModel(G4int model)
 G4VSolid *DetectorConstruction::constructSolid (std::string baseName, G4double thick, G4double zpos,const G4double & minL, const G4double & width,size_t which_ele){
   G4VSolid *solid;
 
-  if (which_ele == 0)
-  {
+  if (which_ele == 0){
 	  solid = new G4Box(baseName+"box", width/2, m_CalorSizeXY/2, thick/2 );
   }
-  else
-  {
-
+  else{
 	  if (model_ == DetectorConstruction::m_FULLSECTION){
 		double maxR = tan(m_maxTheta)*(zpos+m_z0pos+m_CalorSizeZ/2);
+		G4cout << "Building a layer with radius " << maxR << "The max radius is " << m_CalorSizeXY << G4endl;
 		solid = new G4Tubs(baseName+"box",0,maxR,thick/2,minL,width);
 	  }
 
