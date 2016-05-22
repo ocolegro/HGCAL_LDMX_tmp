@@ -70,6 +70,8 @@ public:
   /**
      @short set magnetic field
    */
+  void SetDetModel(G4int model);
+
   void SetMagField(G4double fieldValue);
   G4UniformMagField* m_magField;      //pointer to the magnetic field
 
@@ -118,7 +120,6 @@ private:
   void fillInterSectorSpace(const unsigned sectorNum,
 			    const G4double & minL, 
 			    const G4double & width);
-  void SetDetModel(G4int model);
 
   G4VSolid *constructSolid (std::string baseName, G4double thick, G4double zpos,const G4double & minL, const G4double & width, const size_t which_ele);
   
