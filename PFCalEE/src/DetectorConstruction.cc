@@ -474,14 +474,15 @@ void DetectorConstruction::SetDetModel(G4int model)
 
 
 G4VSolid *DetectorConstruction::constructSolid (std::string baseName, G4double thick, G4double zpos,const G4double & minL, const G4double & width,size_t which_ele){
+  G4VSolid *solid;
+
   if (which_ele == 0)
   {
-	  G4VSolid *solid;
 	  solid = new G4Box(baseName+"box", width/2, m_CalorSizeXY/2, thick/2 );
   }
   else
   {
-	  G4VSolid *solid;
+
 	  if (model_ == DetectorConstruction::m_FULLSECTION){
 		double maxR = tan(m_maxTheta)*(zpos+m_z0pos+m_CalorSizeZ/2);
 		solid = new G4Tubs(baseName+"box",0,maxR,thick/2,minL,width);
