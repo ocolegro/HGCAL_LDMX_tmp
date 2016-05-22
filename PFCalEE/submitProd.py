@@ -29,32 +29,13 @@ parser.add_option('-S', '--no-submit'   ,    action="store_true",  dest='nosubmi
 (opt, args) = parser.parse_args()
 
 enlist=[0]
-if opt.dogun : 
-    #enlist=[3,5,7,10,20,30,40,50,60,70,80,90,100,125,150,175,200]
-    #enlist=[2,5,10,20,40,60,80,100,150,200]
-    #enlist=[3,5,10,30,50,70,100,200]
+if opt.dogun :
     enlist=[30]
-
-#hgg seeds
-#for seed in 1417791355 1417791400 1417791462 1417791488 1417791672 1417791741 1417791747 1417791766 1417791846
-#command:
-#run=1; for seed in 1417791355 1417791400 1417791462 1417791488 1417791672 1417791741 1417791747 1417791766 1417791846; do ./submitProd.py -s 1nw -q 1nw -t V00-02-14 -v 12 -m 2 -d Hgg -f /afs/cern.ch/work/a/amagnan/public/HepMCFiles/ggHgg_${seed}.dat -r ${run} -n 1300 -o /afs/cern.ch/work/a/amagnan/public/HGCalEEGeant4/ -e /store/cmst3/group/hgcal/HGCalEEGeant4; let run=$run+1; done
-#vbfHgg seeds
-#for seed in 1420833683 1420833689 1420833693 1420833695 1420833696 1420833717
-
-##30
-wthick='1.75,1.75,1.75,1.75,1.75,2.8,2.8,2.8,2.8,2.8,4.2,4.2,4.2,4.2,4.2'
-pbthick='1,1,1,1,1,2.1,2.1,2.1,2.1,2.1,4.4,4.4,4.4,4.4'
-droplayers=''
-label=''
-
 
 
 for et in enlist :
 
     nevents=opt.nevts
-    #if en>150: nevents=nevents/2
-    
     myqueue=opt.lqueue
     if et>0 and et<60 : myqueue=opt.squeue
     
@@ -131,8 +112,7 @@ for et in enlist :
         if opt.model!=2 :
             alpha = 2*math.atan(math.exp(-1.*opt.eta));
             g4Macro.write('/gun/direction %f %f %f\n'%(math.cos(math.pi*opt.phi)*math.sin(alpha),math.sin(math.pi*opt.phi)*math.sin(alpha),math.cos(alpha)))
-        #g4Macro.write('/gun/direction %f %f %f\n'%(math.cos(math.pi*opt.phi)*math.sin(opt.alpha),math.sin(math.pi*opt.phi)*math.sin(opt.alpha),math.cos(opt.alpha)))
-        #g4Macro.write('/gun/direction %f %f %f\n'%(random.uniform(0,1000)/100.-5.,math.sin(opt.alpha),math.cos(opt.alpha)))
+
     else :
         g4Macro.write('/generator/select hepmcAscii\n')
         g4Macro.write('/generator/hepmcAscii/open %s\n'%(opt.datafile))
