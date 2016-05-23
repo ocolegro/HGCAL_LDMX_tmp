@@ -225,8 +225,9 @@ void DetectorConstruction::DefineMaterials() {
 void DetectorConstruction::UpdateCalorSize() {
 
 	m_CalorSizeZ = 0;
+	for (size_t i = 0;  i < 1000; i++){
 	G4cout << "Constructing the model = " << model_ << "Calo." << G4endl;
-
+	}
 	for (size_t i = 0; i < m_caloStruct.size(); i++) {
 		m_CalorSizeZ = m_CalorSizeZ + m_caloStruct[i].Total_thick;
 	}
