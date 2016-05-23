@@ -225,6 +225,7 @@ void DetectorConstruction::DefineMaterials() {
 void DetectorConstruction::UpdateCalorSize() {
 
 	m_CalorSizeZ = 0;
+	G4cout << "Constructing the model = " << model_ << "Calo." << G4endl;
 
 	for (size_t i = 0; i < m_caloStruct.size(); i++) {
 		m_CalorSizeZ = m_CalorSizeZ + m_caloStruct[i].Total_thick;
@@ -244,6 +245,8 @@ void DetectorConstruction::UpdateCalorSize() {
 
 	else if (model_ == DetectorConstruction::m_FULLSECTION) {
 		m_maxTheta = pi / 6.0;
+		G4cout << "The m_CalorSizeZ " << m_CalorSizeZ << G4endl;
+
 		m_maxRadius = m_CalorSizeZ * tan(m_maxTheta);
 		G4cout << "The maximum radius is " << m_maxRadius << G4endl;
 		m_CalorSizeXY = m_maxRadius * 2; //use full length for making hexagon map
