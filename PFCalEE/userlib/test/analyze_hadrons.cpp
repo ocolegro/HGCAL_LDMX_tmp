@@ -51,9 +51,10 @@ int main()
   TFile hfile("simhits.root","RECREATE");
   TTree t1("hadrons","Hadron Study");
 
-  Float_t Full_dep,Hadron_dep,Neutron_Dep,Muon_Dep;
+  Float_t Full_dep,Full_sen,Hadron_dep,Neutron_Dep,Muon_Dep;
 
   t1.Branch("Full_dep",&Full_dep,"Full_dep/F");
+  t1.Branch("Full_sen",&Full_sen,"Full_sen/F");
   t1.Branch("Hadron_dep",&Hadron_dep,"Hadron_dep/F");
   t1.Branch("Neutron_Dep",&Neutron_Dep,"Neutron_Dep/F");
   t1.Branch("Muon_Dep",&Muon_Dep,"Muon_Dep/F");
@@ -62,17 +63,18 @@ int main()
   for (unsigned ievt(0); ievt<nEvts; ++ievt){//loop on entries
     tree->GetEntry(ievt);
 
-    Full_dep = 0;Hadron_dep = 0;Neutron_Dep = 0;Muon_Dep = 0;
+    Full_sen = 0;Full_dep = 0;Hadron_dep = 0;Neutron_Dep = 0;Muon_Dep = 0;
 
     if (ievt > 2500) break;
 
 
     for (Int_t j = 0; j<simhits->size();j++){
     	HGCSSSamplingSection& sec =(*simhits)[j];
-    	Full_dep    += sec.measuredE();
-    	Hadron_dep  += sec.measuredE() * sec.hadFrac();
-    	Neutron_Dep += sec.measuredE() * sec.neutronFrac();
-    	Muon_Dep    += sec.measuredE() * sec.muFrac();
+    	Full_sen    += sec.measuredE();
+    	Full_dep    += sec.totalE();
+    	Hadron_dep  += sec.totalE() * sec.hadFrac();
+    	Neutron_Dep += sec.totalE() * sec.neutronFrac();
+    	Muon_Dep    += sec.totalE() * sec.muFrac();
     }
 
     t1.Fill();
