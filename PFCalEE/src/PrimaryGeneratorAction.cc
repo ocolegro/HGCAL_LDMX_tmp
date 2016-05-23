@@ -51,90 +51,86 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, double eta)
-{
-  model_ = mod;
-  eta_ = eta;
-  G4int n_particle = 1;
+PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, double eta) {
+	model_ = mod;
+	eta_ = eta;
+	G4int n_particle = 1;
 
-  // default generator is particle gun.
-  currentGenerator= particleGun= new G4ParticleGun(n_particle);
-  currentGeneratorName= "particleGun";
-  hepmcAscii= new HepMCG4AsciiReader();
+	// default generator is particle gun.
+	currentGenerator = particleGun = new G4ParticleGun(n_particle);
+	currentGeneratorName = "particleGun";
+	hepmcAscii = new HepMCG4AsciiReader();
 #ifdef G4LIB_USE_PYTHIA
-  pythiaGen= new HepMCG4PythiaInterface();
+	pythiaGen= new HepMCG4PythiaInterface();
 #else
-  pythiaGen= 0;
+	pythiaGen = 0;
 #endif
-  gentypeMap["particleGun"]= particleGun;
-  gentypeMap["hepmcAscii"]= hepmcAscii;
-  gentypeMap["pythia"]= pythiaGen;
+	gentypeMap["particleGun"] = particleGun;
+	gentypeMap["hepmcAscii"] = hepmcAscii;
+	gentypeMap["pythia"] = pythiaGen;
 
-  Detector = (DetectorConstruction*)
-             G4RunManager::GetRunManager()->GetUserDetectorConstruction();
- 
-  //create a messenger for this class
-  gunMessenger = new PrimaryGeneratorMessenger(this);
+	Detector =
+			(DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction();
 
-  // default particle kinematic
+	//create a messenger for this class
+	gunMessenger = new PrimaryGeneratorMessenger(this);
 
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
-  G4ParticleDefinition* particle
-                    = particleTable->FindParticle(particleName="e-");
-  particleGun->SetParticleDefinition(particle);
-  particleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  particleGun->SetParticleEnergy(10.*GeV);
-  G4double position = -0.5*(Detector->GetWorldSizeZ());
-  particleGun->SetParticlePosition(G4ThreeVector(0.*cm,0.*cm,position));
-  
-  G4cout << " -- Gun position set to: 0,0," << position << G4endl;
+	// default particle kinematic
 
-  rndmFlag = "off";
+	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+	G4String particleName;
+	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
+			"e-");
+	particleGun->SetParticleDefinition(particle);
+	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+	particleGun->SetParticleEnergy(10. * GeV);
+	G4double position = -0.5 * (Detector->GetWorldSizeZ());
+	particleGun->SetParticlePosition(G4ThreeVector(0. * cm, 0. * cm, position));
+
+	G4cout << " -- Gun position set to: 0,0," << position << G4endl;
+
+	rndmFlag = "off";
 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorAction::~PrimaryGeneratorAction()
-{
-  delete particleGun;
-  delete hepmcAscii;
-  delete pythiaGen;
-  delete gunMessenger;
+PrimaryGeneratorAction::~PrimaryGeneratorAction() {
+	delete particleGun;
+	delete hepmcAscii;
+	delete pythiaGen;
+	delete gunMessenger;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
-{
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
+	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+	G4String particleName;
 
-  G4ParticleDefinition* particle
-                    = particleTable->FindParticle(particleName="e-");
-  particleGun->SetParticleDefinition(particle);
-  G4double et =  4.0;
-  particleGun->SetParticleEnergy(et*GeV);
- 
-  G4double y0 =  G4RandFlat::shoot(-65.,65);
-  G4double x0 =  G4RandFlat::shoot(-65.,65);
-  G4double z0 = -0.5*(Detector->GetWorldSizeZ());
+	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
+			"e-");
+	particleGun->SetParticleDefinition(particle);
+	G4double et = 4.0;
+	particleGun->SetParticleEnergy(et * GeV);
 
-  if (model_ == 0) particleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+	G4double y0 = G4RandFlat::shoot(-65.,65);
+	G4double x0 = G4RandFlat::shoot(-65.,65);
+	G4double z0 = -0.5 * (Detector->GetWorldSizeZ());
 
-  G4cout << " -- Gun position set to: " << x0 << "," << y0 << "," << z0 << G4endl;
+	if (model_ == 0)
+		particleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
 
+	G4cout << " -- Gun position set to: " << x0 << "," << y0 << "," << z0
+			<< G4endl;
 
-  if(currentGenerator){
-    currentGenerator->GeneratePrimaryVertex(anEvent);
+	if (currentGenerator) {
+		currentGenerator->GeneratePrimaryVertex(anEvent);
 
-  }
-  else
-    G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
-                "PrimaryGeneratorAction001", FatalException,
-                "generator is not instanciated." );
-
+	} else
+		G4Exception("PrimaryGeneratorAction::GeneratePrimaries",
+				"PrimaryGeneratorAction001", FatalException,
+				"generator is not instanciated.");
 
 }
 

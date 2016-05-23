@@ -42,47 +42,48 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 //PhysicsList::PhysicsList():  QGSP_FTFP_BERT() //G4VUserPhysicsList()
-PhysicsList::PhysicsList():  QGSP_BERT() //G4VUserPhysicsList()
+PhysicsList::PhysicsList() :
+		QGSP_BERT() //G4VUserPhysicsList()
 {
-  defaultCutValue = 0.03*mm;
-  SetVerboseLevel(1);
+	defaultCutValue = 0.03 * mm;
+	SetVerboseLevel(1);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PhysicsList::~PhysicsList()
-{}
+PhysicsList::~PhysicsList() {
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PhysicsList::SetCuts()
-{
-  if (verboseLevel >0){
-    G4cout << "PhysicsList::SetCuts:";
-    G4cout << "CutLength : " << G4BestUnit(defaultCutValue,"Length") << G4endl;
-  }
+void PhysicsList::SetCuts() {
+	if (verboseLevel > 0) {
+		G4cout << "PhysicsList::SetCuts:";
+		G4cout << "CutLength : " << G4BestUnit(defaultCutValue, "Length")
+				<< G4endl;
+			}
 
-  // set cut values for gamma at first and for e- second and next for e+,
-  // because some processes for e+/e- need cut values for gamma
-  //
+			// set cut values for gamma at first and for e- second and next for e+,
+			// because some processes for e+/e- need cut values for gamma
+			//
 
-  SetCutValue(0.7*mm, "gamma");
-  SetCutValue(0.7*mm, "e-");
-  SetCutValue(0.7*mm, "e+");
-  SetCutValue(0.7*mm, "proton");
+			SetCutValue(0.7*mm, "gamma");
+			SetCutValue(0.7*mm, "e-");
+			SetCutValue(0.7*mm, "e+");
+			SetCutValue(0.7*mm, "proton");
 
-   //set smaller cut for Si
-   const std::vector<G4LogicalVolume*> & logSi = ((DetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction())->getSiLogVol();
+			//set smaller cut for Si
+			const std::vector<G4LogicalVolume*> & logSi = ((DetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction())->getSiLogVol();
 
-  for(size_t i=0; i<logSi.size(); i++){
-      G4Region* reg = logSi[i]->GetRegion();
-      G4ProductionCuts* cuts = new G4ProductionCuts;
-      cuts->SetProductionCut(defaultCutValue);
-      reg->SetProductionCuts(cuts);    
-    }
+			for(size_t i=0; i<logSi.size(); i++) {
+				G4Region* reg = logSi[i]->GetRegion();
+				G4ProductionCuts* cuts = new G4ProductionCuts;
+				cuts->SetProductionCut(defaultCutValue);
+				reg->SetProductionCuts(cuts);
+			}
 
-  if (verboseLevel>0) DumpCutValuesTable();
-}
+			if (verboseLevel>0) DumpCutValuesTable();
+		}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

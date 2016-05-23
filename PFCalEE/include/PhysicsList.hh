@@ -46,15 +46,13 @@
 class PhysicsList: public QGSP_BERT //G4VUserPhysicsList
 {
 public:
-  PhysicsList();
-  virtual ~PhysicsList();
-  void SetCuts();
+	PhysicsList();
+	virtual ~PhysicsList();
+	void SetCuts();
 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
-
 

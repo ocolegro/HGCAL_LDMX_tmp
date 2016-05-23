@@ -42,49 +42,47 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-DetectorMessenger::DetectorMessenger(
-                                           DetectorConstruction* Det)
-:Detector(Det)
-{ 
-  N03Dir = new G4UIdirectory("/N03/");
-  N03Dir->SetGuidance("UI commands of this example");
-  
-  detDir = new G4UIdirectory("/N03/det/");
-  detDir->SetGuidance("detector control");
-       
-  MagFieldCmd = new G4UIcmdWithADoubleAndUnit("/N03/det/setField",this);  
-  MagFieldCmd->SetGuidance("Define magnetic field.");
-  MagFieldCmd->SetGuidance("Magnetic field will be in Z direction.");
-  MagFieldCmd->SetParameterName("Bz",false);
-  MagFieldCmd->SetUnitCategory("Magnetic flux density");
-  MagFieldCmd->AvailableForStates(G4State_PreInit,G4State_Idle);  
+DetectorMessenger::DetectorMessenger(DetectorConstruction* Det) :
+		Detector(Det) {
+	N03Dir = new G4UIdirectory("/N03/");
+	N03Dir->SetGuidance("UI commands of this example");
 
-  SetModelCmd = new G4UIcmdWithAnInteger("/N03/det/setModel",this);
-  SetModelCmd->SetGuidance("Define detector model");
-  SetModelCmd->SetParameterName("Model",true);
-  SetModelCmd->SetDefaultValue(0);
-  SetModelCmd->AvailableForStates(G4State_PreInit,G4State_Idle);  
+	detDir = new G4UIdirectory("/N03/det/");
+	detDir->SetGuidance("detector control");
+
+	MagFieldCmd = new G4UIcmdWithADoubleAndUnit("/N03/det/setField", this);
+	MagFieldCmd->SetGuidance("Define magnetic field.");
+	MagFieldCmd->SetGuidance("Magnetic field will be in Z direction.");
+	MagFieldCmd->SetParameterName("Bz", false);
+	MagFieldCmd->SetUnitCategory("Magnetic flux density");
+	MagFieldCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
+
+	SetModelCmd = new G4UIcmdWithAnInteger("/N03/det/setModel", this);
+	SetModelCmd->SetGuidance("Define detector model");
+	SetModelCmd->SetParameterName("Model", true);
+	SetModelCmd->SetDefaultValue(0);
+	SetModelCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-DetectorMessenger::~DetectorMessenger()
-{
-  delete MagFieldCmd;
-  delete SetModelCmd;
-  delete detDir;
-  delete N03Dir;  
+DetectorMessenger::~DetectorMessenger() {
+	delete MagFieldCmd;
+	delete SetModelCmd;
+	delete detDir;
+	delete N03Dir;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
-{ 
-  if( command == MagFieldCmd )
-   { Detector->SetMagField(MagFieldCmd->GetNewDoubleValue(newValue));}
-  if (command == SetModelCmd )
-    { Detector->SetDetModel(SetModelCmd->GetNewIntValue(newValue));}
+void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String newValue) {
+	if (command == MagFieldCmd) {
+		Detector->SetMagField(MagFieldCmd->GetNewDoubleValue(newValue));
+	}
+	if (command == SetModelCmd) {
+		Detector->SetDetModel(SetModelCmd->GetNewIntValue(newValue));
+	}
 
 }
 

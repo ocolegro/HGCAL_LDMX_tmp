@@ -6,63 +6,69 @@
 #include <sstream>
 #include <map>
 
-class HGCSSEvent{
-
+class HGCSSEvent {
 
 public:
-  HGCSSEvent():
-    event_(0)
-  {
-    
-  };
+	HGCSSEvent() :
+			event_(0) {
 
-  ~HGCSSEvent(){};
+	}
+	;
 
-  inline unsigned eventNumber() const{
-    return event_;
-  };
+	~HGCSSEvent() {
+	}
+	;
 
-  inline void eventNumber(const unsigned aNum){
-    event_ = aNum;
-  };
+	inline unsigned eventNumber() const {
+		return event_;
+	}
+	;
 
-  inline double vtx_x() const{
-    return xvtx_;
-  };
+	inline void eventNumber(const unsigned aNum) {
+		event_ = aNum;
+	}
+	;
 
-  inline void vtx_x(const double x){
-    xvtx_ = x;
-  };
+	inline double vtx_x() const {
+		return xvtx_;
+	}
+	;
 
-  inline double vtx_y() const{
-    return yvtx_;
-  };
+	inline void vtx_x(const double x) {
+		xvtx_ = x;
+	}
+	;
 
-  inline void vtx_y(const double y){
-    yvtx_ = y;
-  };
+	inline double vtx_y() const {
+		return yvtx_;
+	}
+	;
 
-  inline double vtx_z() const{
-    return zvtx_;
-  };
+	inline void vtx_y(const double y) {
+		yvtx_ = y;
+	}
+	;
 
-  inline void vtx_z(const double z){
-    zvtx_ = z;
-  };
+	inline double vtx_z() const {
+		return zvtx_;
+	}
+	;
 
+	inline void vtx_z(const double z) {
+		zvtx_ = z;
+	}
+	;
 
 private:
 
-  unsigned event_;
-  double xvtx_;
-  double yvtx_;
-  double zvtx_;
+	unsigned event_;
+	double xvtx_;
+	double yvtx_;
+	double zvtx_;
 
-  ClassDef(HGCSSEvent,1);
-
-
+ClassDef(HGCSSEvent,1)
+	;
 
 };
-
 
 #endif

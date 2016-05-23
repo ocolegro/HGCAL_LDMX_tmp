@@ -40,63 +40,59 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
-                                          PrimaryGeneratorAction* Gun)
-:Action(Gun)
-{
-  dir= new G4UIdirectory("/generator/");
-  dir-> SetGuidance("Control commands for primary generator");
+		PrimaryGeneratorAction* Gun) :
+		Action(Gun) {
+	dir = new G4UIdirectory("/generator/");
+	dir->SetGuidance("Control commands for primary generator");
 
-  select= new G4UIcmdWithAString("/generator/select", this);
-  select-> SetGuidance("select generator type");
-  select-> SetParameterName("generator_type", false, false);
-  select-> SetCandidates("particleGun pythia hepmcAscii");
-  select-> SetDefaultValue("particleGun");
+	select = new G4UIcmdWithAString("/generator/select", this);
+	select->SetGuidance("select generator type");
+	select->SetParameterName("generator_type", false, false);
+	select->SetCandidates("particleGun pythia hepmcAscii");
+	select->SetDefaultValue("particleGun");
 
-  RndmCmd = new G4UIcmdWithAString("/generator/particleGun/rndm",this);
-  RndmCmd->SetGuidance("Shoot randomly the incident particle.");
-  RndmCmd->SetGuidance("  Choice : on(default), off");
-  RndmCmd->SetParameterName("choice",true);
-  RndmCmd->SetDefaultValue("on");
-  RndmCmd->SetCandidates("on off");
-  RndmCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+	RndmCmd = new G4UIcmdWithAString("/generator/particleGun/rndm", this);
+	RndmCmd->SetGuidance("Shoot randomly the incident particle.");
+	RndmCmd->SetGuidance("  Choice : on(default), off");
+	RndmCmd->SetParameterName("choice", true);
+	RndmCmd->SetDefaultValue("on");
+	RndmCmd->SetCandidates("on off");
+	RndmCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
-{
-  delete select;
-  delete RndmCmd;
-  delete dir;
-  //delete gunDir;
+PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger() {
+	delete select;
+	delete RndmCmd;
+	delete dir;
+	//delete gunDir;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PrimaryGeneratorMessenger::SetNewValue(
-                                        G4UIcommand* command, G4String newValue)
-{ 
-  if ( command==select) {
-    Action->SetGenerator(newValue);
-    G4cout << "current generator type: " 
-	   << Action-> GetGeneratorName() << G4endl;
-  } else if( command == RndmCmd ){ 
-    Action->SetRndmFlag(newValue);
-  }
-  else {}
+void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command,
+		G4String newValue) {
+	if (command == select) {
+		Action->SetGenerator(newValue);
+		G4cout << "current generator type: " << Action->GetGeneratorName()
+				<< G4endl;
+	} else if( command == RndmCmd ) {
+		Action->SetRndmFlag(newValue);
+	}
+	else {}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 
 //////////////////////////////////////////////////////////////////////////////
 G4String PrimaryGeneratorMessenger::GetCurrentValue(G4UIcommand* command)
 //////////////////////////////////////////////////////////////////////////////
-{
-  G4String cv, st;
-  if (command == select) {
-    cv= Action-> GetGeneratorName();
-  } 
+		{
+	G4String cv, st;
+	if (command == select) {
+		cv = Action->GetGeneratorName();
+	}
 
- return cv;
+	return cv;
 }

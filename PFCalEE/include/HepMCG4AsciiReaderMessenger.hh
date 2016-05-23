@@ -43,20 +43,20 @@ class G4UIcmdWithoutParameter;
 class G4UIcmdWithAString;
 class G4UIcmdWithAnInteger;
 
-class HepMCG4AsciiReaderMessenger : public G4UImessenger {
+class HepMCG4AsciiReaderMessenger: public G4UImessenger {
 private:
-  HepMCG4AsciiReader* gen;
+	HepMCG4AsciiReader* gen;
 
-  G4UIdirectory* dir;
-  G4UIcmdWithAnInteger* verbose;
-  G4UIcmdWithAString* open;
+	G4UIdirectory* dir;
+	G4UIcmdWithAnInteger* verbose;
+	G4UIcmdWithAString* open;
 
 public:
-  HepMCG4AsciiReaderMessenger(HepMCG4AsciiReader* agen);
-  ~HepMCG4AsciiReaderMessenger();
+	HepMCG4AsciiReaderMessenger(HepMCG4AsciiReader* agen);
+	~HepMCG4AsciiReaderMessenger();
 
-  void SetNewValue(G4UIcommand* command, G4String newValues);
-  G4String GetCurrentValue(G4UIcommand* command);
+	void SetNewValue(G4UIcommand* command, G4String newValues);
+	G4String GetCurrentValue(G4UIcommand* command);
 };
 
 #endif

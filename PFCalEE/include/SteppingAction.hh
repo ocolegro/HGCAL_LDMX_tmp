@@ -6,21 +6,19 @@
 
 class EventAction;
 
-class SteppingAction : public G4UserSteppingAction
-{
+class SteppingAction: public G4UserSteppingAction {
 public:
-  SteppingAction();
-  virtual ~SteppingAction();
+	SteppingAction();
+	virtual ~SteppingAction();
 
-  void UserSteppingAction(const G4Step*);
-    
+	void UserSteppingAction(const G4Step*);
+
 private:
-  EventAction *eventAction_;  
-  //to correct the energy in the scintillator
-  G4EmSaturation* saturationEngine;
-  G4double timeLimit_;
+	EventAction *eventAction_;
+	//to correct the energy in the scintillator
+	G4EmSaturation* saturationEngine;
+	G4double timeLimit_;
 
 };
-
 
 #endif

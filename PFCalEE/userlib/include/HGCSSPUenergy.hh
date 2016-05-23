@@ -7,17 +7,20 @@
 #include "TF1.h"
 #include "TMath.h"
 
-class HGCSSPUenergy{
-  
+class HGCSSPUenergy {
+
 public:
-  HGCSSPUenergy(){}; 
-  HGCSSPUenergy(const std::string filePath);
-  ~HGCSSPUenergy(); 
-  double getDensity(const double & eta, const unsigned layer, const double & cellSize, const unsigned PU) const;
-  
+	HGCSSPUenergy() {
+	}
+	;
+	HGCSSPUenergy(const std::string filePath);
+	~HGCSSPUenergy();
+	double getDensity(const double & eta, const unsigned layer,
+			const double & cellSize, const unsigned PU) const;
+
 private:
-  std::vector<double> p0_;
-  std::vector<double> p1_;
+	std::vector<double> p0_;
+	std::vector<double> p1_;
 };
 
 #endif 

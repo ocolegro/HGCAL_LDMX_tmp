@@ -18,131 +18,142 @@
 #include "Math/GenVector/VectorUtil.h"
 //#include "Math/GenVector/BitReproducible.h"
 
-class HGCSSCluster{
+class HGCSSCluster {
 
 public:
-  HGCSSCluster():
-    energy_(0),
-    pos_(0,0,0),
-    dir_(0,0,0),
-    layer_(0),
-    seedPos_(0,0,0),
-    seedE_(0),
-    width_(0)
-  {
-  };
+	HGCSSCluster() :
+			energy_(0), pos_(0, 0, 0), dir_(0, 0, 0), layer_(0), seedPos_(0, 0,
+					0), seedE_(0), width_(0) {
+	}
+	;
 
-  HGCSSCluster(const HGCSSRecoHit & aRecHit);
+	HGCSSCluster(const HGCSSRecoHit & aRecHit);
 
-  ~HGCSSCluster(){};
+	~HGCSSCluster() {
+	}
+	;
 
-  //double eta() const;
-  //double theta() const;
-  //double phi() const;
+	//double eta() const;
+	//double theta() const;
+	//double phi() const;
 
-  inline double getSeedE() const{
-    return seedE_;
-  };
+	inline double getSeedE() const {
+		return seedE_;
+	}
+	;
 
-  double getSeedEta() const;
-  double getSeedPhi() const;
+	double getSeedEta() const;
+	double getSeedPhi() const;
 
-  inline ROOT::Math::XYZPoint position() const{
-    return pos_;
-  };
+	inline ROOT::Math::XYZPoint position() const {
+		return pos_;
+	}
+	;
 
-  inline ROOT::Math::XYZVector direction() const{
-    return dir_;
-  };
+	inline ROOT::Math::XYZVector direction() const {
+		return dir_;
+	}
+	;
 
-   inline ROOT::Math::XYZPoint seedPosition() const{
-    return seedPos_;
-  };
-  
-  inline double energy() const {
-    return energy_;
-  };
+	inline ROOT::Math::XYZPoint seedPosition() const {
+		return seedPos_;
+	}
+	;
 
-  inline double pt() const {
-    return energy_/cosh(dir_.eta());
-  };
+	inline double energy() const {
+		return energy_;
+	}
+	;
 
-  inline double px() const {
-    return pt()*cos(dir_.phi());
-  };
+	inline double pt() const {
+		return energy_ / cosh(dir_.eta());
+	}
+	;
 
-  inline double py() const {
-    return pt()*sin(dir_.phi());
-  };
+	inline double px() const {
+		return pt() * cos(dir_.phi());
+	}
+	;
 
-  inline double pz() const {
-    return pt()*sinh(dir_.eta());
-  };
+	inline double py() const {
+		return pt() * sin(dir_.phi());
+	}
+	;
 
-  inline void setEnergy(const double & energy) {
-    energy_ = energy;
-  };
+	inline double pz() const {
+		return pt() * sinh(dir_.eta());
+	}
+	;
 
-  inline void setSeedEnergy(const double & energy) {
-    seedE_ = energy;
-  };
+	inline void setEnergy(const double & energy) {
+		energy_ = energy;
+	}
+	;
 
-  inline void setPosition(const ROOT::Math::XYZPoint & pos){
-    pos_ = pos;
-  };
+	inline void setSeedEnergy(const double & energy) {
+		seedE_ = energy;
+	}
+	;
 
-  inline void setDirection(const ROOT::Math::XYZVector & dir){
-    dir_ = dir;
-  };
+	inline void setPosition(const ROOT::Math::XYZPoint & pos) {
+		pos_ = pos;
+	}
+	;
 
-  inline unsigned layer() const {
-    return layer_;
-  };
+	inline void setDirection(const ROOT::Math::XYZVector & dir) {
+		dir_ = dir;
+	}
+	;
 
-  inline unsigned width() const{
-    return width_;
-  };
+	inline unsigned layer() const {
+		return layer_;
+	}
+	;
 
-  inline void setLayer(const unsigned & layer){
-    layer_ = layer;
-  };
+	inline unsigned width() const {
+		return width_;
+	}
+	;
 
-  inline void setSeed(const ROOT::Math::XYZPoint & pos){
-    seedPos_ = pos;
-  };
+	inline void setLayer(const unsigned & layer) {
+		layer_ = layer;
+	}
+	;
 
-  void addRecHitFraction(std::pair<HGCSSRecoHit*,double> aHit);
-  const std::map<HGCSSRecoHit*,double> & recHitFractions() const;
+	inline void setSeed(const ROOT::Math::XYZPoint & pos) {
+		seedPos_ = pos;
+	}
+	;
 
-  inline unsigned nRecHits() const{
-    return recHitMap_.size();
-  }
+	void addRecHitFraction(std::pair<HGCSSRecoHit*, double> aHit);
+	const std::map<HGCSSRecoHit*, double> & recHitFractions() const;
 
-  void calculatePosition();
+	inline unsigned nRecHits() const {
+		return recHitMap_.size();
+	}
 
-  void calculateDirection();
+	void calculatePosition();
 
+	void calculateDirection();
 
-  void Print(std::ostream & aOs) const;
+	void Print(std::ostream & aOs) const;
 
 private:
 
-  double energy_;
-  ROOT::Math::XYZPoint pos_;
-  ROOT::Math::XYZVector dir_;
-  unsigned layer_;
-  ROOT::Math::XYZPoint seedPos_;
-  double seedE_;
-  unsigned width_;
-  std::map<HGCSSRecoHit*,double> recHitMap_;
+	double energy_;
+	ROOT::Math::XYZPoint pos_;
+	ROOT::Math::XYZVector dir_;
+	unsigned layer_;
+	ROOT::Math::XYZPoint seedPos_;
+	double seedE_;
+	unsigned width_;
+	std::map<HGCSSRecoHit*, double> recHitMap_;
 
-  ClassDef(HGCSSCluster,1);
+ClassDef(HGCSSCluster,1)
+	;
 
 };
 
-
 typedef std::vector<HGCSSCluster> HGCSSClusterVec;
-
-
 
 #endif

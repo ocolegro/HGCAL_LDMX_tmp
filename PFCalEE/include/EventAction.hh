@@ -25,43 +25,42 @@
 class RunAction;
 class EventActionMessenger;
 
-class EventAction : public G4UserEventAction
-{
+class EventAction: public G4UserEventAction {
 public:
-  EventAction();
-  virtual ~EventAction();
-  void BeginOfEventAction(const G4Event*);
-  void EndOfEventAction(const G4Event*);
+	EventAction();
+	virtual ~EventAction();
+	void BeginOfEventAction(const G4Event*);
+	void EndOfEventAction(const G4Event*);
 
-  void Detect(G4double edep, G4double stepl,G4double globalTime, G4int pdgId, 
-	      G4VPhysicalVolume *volume, const G4ThreeVector & position,
-	      G4int trackID, G4int parentID,
-	      const HGCSSGenParticle & genPart);
-  
+	void Detect(G4double edep, G4double stepl, G4double globalTime, G4int pdgId,
+			G4VPhysicalVolume *volume, const G4ThreeVector & position,
+			G4int trackID, G4int parentID, const HGCSSGenParticle & genPart);
 
-  void SetPrintModulo(G4int    val)  {printModulo = val;};
-  void Add( std::vector<SamplingSection> *newDetector ) { detector_=newDetector; }
-
-
+	void SetPrintModulo(G4int val) {
+		printModulo = val;
+	}
+	;
+	void Add(std::vector<SamplingSection> *newDetector) {
+		detector_ = newDetector;
+	}
 
 private:
-  RunAction*  runAct;
-  std::vector<SamplingSection> *detector_;
-  G4int     evtNb_,printModulo;
+	RunAction* runAct;
+	std::vector<SamplingSection> *detector_;
+	G4int evtNb_, printModulo;
 
-  HGCSSGeometryConversion* geomConv_;
+	HGCSSGeometryConversion* geomConv_;
 
-  TFile *outF_;
-  TTree *tree_;
-  HGCSSEvent event_;
-  HGCSSSamplingSectionVec ssvec_;
-  HGCSSSimHitVec hitvec_;
-  HGCSSGenParticleVec genvec_;
-  EventActionMessenger*  eventMessenger;
-  //std::ofstream fout_;
+	TFile *outF_;
+	TTree *tree_;
+	HGCSSEvent event_;
+	HGCSSSamplingSectionVec ssvec_;
+	HGCSSSimHitVec hitvec_;
+	HGCSSGenParticleVec genvec_;
+	EventActionMessenger* eventMessenger;
+	//std::ofstream fout_;
 
 };
 
 #endif
 
-    

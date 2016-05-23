@@ -12,34 +12,34 @@
 
 #include "TVector3.h"
 
-class PCAShowerAnalysis
-{
+class PCAShowerAnalysis {
 
-  public:
+public:
 
-  PCAShowerAnalysis(bool segmented=true, bool logweighting=true, bool debug=false ) ;
-  
-  void showerParameters( const HGCSSCluster & );
+	PCAShowerAnalysis(bool segmented = true, bool logweighting = true,
+			bool debug = false);
 
-  ROOT::Math::XYZPoint showerBarycenter;
-  ROOT::Math::XYZVector showerAxis;
-  ROOT::Math::XYZVector showerEigenValues;
-  ROOT::Math::XYZVector showerSigmas;
+	void showerParameters(const HGCSSCluster &);
 
-  ~PCAShowerAnalysis();
-  
+	ROOT::Math::XYZPoint showerBarycenter;
+	ROOT::Math::XYZVector showerAxis;
+	ROOT::Math::XYZVector showerEigenValues;
+	ROOT::Math::XYZVector showerSigmas;
+
+	~PCAShowerAnalysis();
+
 private:
 
-  TPrincipal *principal_;
-  
-  double mip_;
-  double entryz_;
-  
-  bool logweighting_;
-  bool segmented_;
-  
-  bool alreadyfilled_;
-  bool debug_;
-  
+	TPrincipal *principal_;
+
+	double mip_;
+	double entryz_;
+
+	bool logweighting_;
+	bool segmented_;
+
+	bool alreadyfilled_;
+	bool debug_;
+
 };
 #endif
