@@ -61,7 +61,6 @@ int main()
     Eng_dep = 0;
     if (ievt > 2500) break;
 
-	std::cout << eng << std::endl;
 
     for (Int_t j = 0; j<simhits->size();j++)
     {
