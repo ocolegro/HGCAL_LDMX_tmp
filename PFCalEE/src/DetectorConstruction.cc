@@ -266,9 +266,9 @@ void DetectorConstruction::UpdateCalorSize() {
 	G4cout << "The m_CalorSizeZ " << m_CalorSizeZ << G4endl;
 	G4cout << "The m_CalorSizeXY " << m_CalorSizeXY << G4endl;
 	G4cout << "The m_maxRadius " << m_CalorSizeXY << G4endl;
-	G4cout << "[DetectorConstruction][UpdateCalorSize] Z x XY = "
-			<< m_CalorSizeZ << " x " << m_CalorSizeXY << " mm "
-			<< ", nsectors = " << m_nSectors << G4endl;
+	//G4cout << "[DetectorConstruction][UpdateCalorSize] Z x XY = "
+	//		<< m_CalorSizeZ << " x " << m_CalorSizeXY << " mm "
+	//		<< ", nsectors = " << m_nSectors << G4endl;
 
 }
 
