@@ -263,7 +263,6 @@ void DetectorConstruction::UpdateCalorSize() {
 	else
 		m_WorldSizeXY = m_CalorSizeXY * 1.1;
 
-
 	G4cout << "[DetectorConstruction][UpdateCalorSize] Z x XY = "
 			<< m_CalorSizeZ << " x " << m_CalorSizeXY << " mm "
 			<< ", nsectors = " << m_nSectors << G4endl;
