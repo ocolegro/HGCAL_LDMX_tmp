@@ -225,9 +225,7 @@ void DetectorConstruction::DefineMaterials() {
 void DetectorConstruction::UpdateCalorSize() {
 
 	m_CalorSizeZ = 0;
-	for (size_t i = 0;  i < 1000; i++){
-	G4cout << "Constructing the model = " << model_ << "Calo." << G4endl;
-	}
+
 	for (size_t i = 0; i < m_caloStruct.size(); i++) {
 		m_CalorSizeZ = m_CalorSizeZ + m_caloStruct[i].Total_thick;
 	}
@@ -246,10 +244,12 @@ void DetectorConstruction::UpdateCalorSize() {
 
 	else if (model_ == DetectorConstruction::m_FULLSECTION) {
 		m_maxTheta = pi / 6.0;
-		G4cout << "The m_CalorSizeZ " << m_CalorSizeZ << G4endl;
+		cout << "Constructing the model = " << model_ << "Calo." << endl;
+
+		cout << "The m_CalorSizeZ " << m_CalorSizeZ << endl;
 
 		m_maxRadius = m_CalorSizeZ * tan(m_maxTheta);
-		G4cout << "The maximum radius is " << m_maxRadius << G4endl;
+		cout << "The maximum radius is " << m_maxRadius << endl;
 		m_CalorSizeXY = m_maxRadius * 2; //use full length for making hexagon map
 		m_sectorWidth = m_CalorSizeXY;
 	}
@@ -381,6 +381,9 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 				m_caloStruct[i].ele_L0[ie] =
 						m_materials[eleName]->GetNuclearInterLength();
 				if (sectorNum == 0 || sectorNum == m_nSectors - 1) {
+					G4cout << "The m_CalorSizeZ " << m_CalorSizeZ << G4endl;
+					G4cout << "The m_CalorSizeXY " << m_CalorSizeXY << G4endl;
+					G4cout << "The m_maxRadius " << m_CalorSizeXY << G4endl;
 					G4cout << "************ " << eleName;
 					if (m_nSectors > 1)
 						G4cout << " sector " << sectorNum;
