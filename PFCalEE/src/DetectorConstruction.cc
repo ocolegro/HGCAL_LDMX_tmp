@@ -245,6 +245,7 @@ void DetectorConstruction::UpdateCalorSize() {
 	else if (model_ == DetectorConstruction::m_FULLSECTION) {
 		m_maxTheta = pi / 6.0;
 		m_maxRadius = m_CalorSizeZ * tan(m_maxTheta);
+		G4cout << "The maximum radius is " << m_maxRadius << G4endl;
 		m_CalorSizeXY = m_maxRadius * 2; //use full length for making hexagon map
 		m_sectorWidth = m_CalorSizeXY;
 	}
