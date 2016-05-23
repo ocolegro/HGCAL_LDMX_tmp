@@ -38,7 +38,7 @@ int main()
 {
   freopen( "hadron_log.txt", "w", stdout );
 
-  TFile *infile = TFile::Open("/afs/cern.ch/work/o/ocolegro/testing_fixed_cover/git_hexaV02-01-01/version_30/model_1/e-/BOFF/et_30/eta_10000.000/run_0/HGcal__version30_model1_BOFF_et30_eta10000.000_run0.root");
+  TFile *infile = TFile::Open("/afs/cern.ch/work/n/nmorrow/testing_fixed_cover/git_hexaV02-01-01/version_30/model_2/e-/BOFF/et_30/eta_10000.000/run_0/HGcal__version30_model2_BOFF_et30_eta10000.000_run0.root");
   //TFile *infile = TFile::Open("/afs/cern.ch/work/o/ocolegro/electron_high_stats_model1/git_hexaV02-01-01/version_30/model_1/e-/BOFF/et_30/eta_10000.000/run_0/HGcal__version30_model1_BOFF_et30_eta10000.000_run0.root");
 
   TTree *tree = (TTree*)infile->Get("HGCSSTree");
