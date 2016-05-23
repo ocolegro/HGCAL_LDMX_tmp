@@ -263,12 +263,10 @@ void DetectorConstruction::UpdateCalorSize() {
 	else
 		m_WorldSizeXY = m_CalorSizeXY * 1.1;
 
-	G4cout << "The m_CalorSizeZ " << m_CalorSizeZ << G4endl;
-	G4cout << "The m_CalorSizeXY " << m_CalorSizeXY << G4endl;
-	G4cout << "The m_maxRadius " << m_CalorSizeXY << G4endl;
-	//G4cout << "[DetectorConstruction][UpdateCalorSize] Z x XY = "
-	//		<< m_CalorSizeZ << " x " << m_CalorSizeXY << " mm "
-	//		<< ", nsectors = " << m_nSectors << G4endl;
+
+	G4cout << "[DetectorConstruction][UpdateCalorSize] Z x XY = "
+			<< m_CalorSizeZ << " x " << m_CalorSizeXY << " mm "
+			<< ", nsectors = " << m_nSectors << G4endl;
 
 }
 
@@ -384,9 +382,6 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 				m_caloStruct[i].ele_L0[ie] =
 						m_materials[eleName]->GetNuclearInterLength();
 				if (sectorNum == 0 || sectorNum == m_nSectors - 1) {
-					G4cout << "The m_CalorSizeZ " << m_CalorSizeZ << G4endl;
-					G4cout << "The m_CalorSizeXY " << m_CalorSizeXY << G4endl;
-					G4cout << "The m_maxRadius " << m_CalorSizeXY << G4endl;
 					G4cout << "************ " << eleName;
 					if (m_nSectors > 1)
 						G4cout << " sector " << sectorNum;
