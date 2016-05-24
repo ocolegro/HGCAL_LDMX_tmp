@@ -158,14 +158,7 @@ public:
 					sens_HitVec[idx].reserve(sens_HitVec_size_max);
 				}
 			}
-			inline std::vector<G4double> getKinHadronic(){
-				return sens_hadKinFlux;
-			}
-			;
-			inline std::vector<G4double> getKinNeutron(){
-				return sens_neutronFlux;
-			}
-			;
+
 			inline G4double getKinMuon(){
 				double val = 0;
 				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
