@@ -62,6 +62,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	HGCSSGenParticle genPart;
 
 	if ((globalTime < timeLimit_)
+			&& (lTrack->GetKineticEnergy()>50)
 			&& ((thePrePVname == "Wphys" && thePostPVname == "W1phys")
 					|| (thePrePVname == "W1phys"
 							&& thePostPVname == "G4_Galactic1phys")
