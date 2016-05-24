@@ -10,9 +10,9 @@ random.seed()
 
 usage = 'usage: %prog [options]'
 parser = optparse.OptionParser(usage)
-parser.add_option('-q', '--queue' ,    dest='queue'             , help='batch queue'            , default='1nd')
 #Long Que is 2nw
-parser.add_option('-t', '--git-tag'     ,    dest='gittag'             , help='git tag version'              , default='V00-00-00')
+parser.add_option('-q', '--queue' ,    dest='queue'             , help='batch queue'            , default='1nd')
+parser.add_option('-t', '--git-tag'     ,    dest='gittag'             , help='git tag version'              , default='hexaV02-01-01')
 parser.add_option('-r', '--run'         ,    dest='run'                , help='stat run'                     , default=-1,      type=int)
 parser.add_option('-v', '--version'     ,    dest='version'            , help='detector version'             , default=1,      type=int)
 parser.add_option('-m', '--model'       ,    dest='model'              , help='detector model'               , default=2,      type=int)
