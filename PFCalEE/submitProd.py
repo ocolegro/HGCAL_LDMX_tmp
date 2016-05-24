@@ -15,7 +15,7 @@ parser.add_option('-q', '--queue' ,    dest='queue'             , help='batch qu
 parser.add_option('-t', '--git-tag'     ,    dest='gittag'             , help='git tag version'              , default='V00-00-00')
 parser.add_option('-r', '--run'         ,    dest='run'                , help='stat run'                     , default=-1,      type=int)
 parser.add_option('-v', '--version'     ,    dest='version'            , help='detector version'             , default=1,      type=int)
-parser.add_option('-m', '--model'       ,    dest='model'              , help='detector model'               , default=3,      type=int)
+parser.add_option('-m', '--model'       ,    dest='model'              , help='detector model'               , default=2,      type=int)
 parser.add_option('-s', '--signal'      ,    dest='signal'             , help='signal flag'                  , default=0,      type=int)
 parser.add_option('-f', '--datafile'    ,    dest='datafile'           , help='full path to HepMC input file', default='data/example_MyPythia.dat')
 parser.add_option('-n', '--nevts'       ,    dest='nevts'              , help='number of events to generate' , default=1000,    type=int)

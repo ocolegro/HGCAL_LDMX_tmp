@@ -111,7 +111,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
 			"e-");
 	particleGun->SetParticleDefinition(particle);
-	if (signal == false){
+	if (signal_ == false){
 		G4double et = 4.0;
 		particleGun->SetParticleEnergy(et * GeV);
 	}
