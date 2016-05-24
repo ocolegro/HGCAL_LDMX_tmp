@@ -28,10 +28,12 @@ void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globa
 				}
 				else if (abs(pdgId) == 2112){
 					sens_neutronFlux[idx] += den;
+					if(pdgId == 2112)
 					sens_neutronKinFlux[idx] += eng;
 				}
 				else {
 					sens_hadFlux[idx] += den;
+					if ((abs(pdgId) != 111) && (abs(pdgId) != 310) && (pdgId!= -2212))
 					sens_hadKinFlux[idx] += eng;
 				}
 
