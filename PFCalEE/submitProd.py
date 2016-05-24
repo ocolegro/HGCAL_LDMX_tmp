@@ -31,7 +31,7 @@ nevents=opt.nevts
 myqueue=opt.queue
 
 
-outDir='%s/git_%s/version_%d/model_%d/%s/%s'%(opt.out,opt.gittag,opt.version,opt.model,bval)
+outDir='%s/git_%s/version_%d/model_%d/%s'%(opt.out,opt.gittag,opt.version,opt.model)
 outDir='%s/%s'%(outDir,label)
 eosDir='%s/git%s'%(opt.eos,opt.gittag)
 if opt.signal>0 : outDir='%s/signal_%3.3f/'%(outDir,opt.signal)
@@ -45,7 +45,7 @@ scriptFile.write('#!/bin/bash\n')
 scriptFile.write('source %s/g4env.sh\n'%(os.getcwd()))
 scriptFile.write('cp %s/g4steer.mac .\n'%(outDir))
 scriptFile.write('PFCalEE g4steer.mac %d %d %f| tee g4.log\n'%(opt.version,opt.model,opt.signal))
-outTag='%s_version%d_model%d_%s'%(label,opt.version,opt.model,bval)
+outTag='%s_version%d_model%d'%(label,opt.version,opt.model)
 if (opt.run>=0) : outTag='%s_run%d'%(outTag,opt.run)
 scriptFile.write('mv PFcal.root HGcal_%s.root\n'%(outTag))
 scriptFile.write('localdir=`pwd`\n')
