@@ -50,7 +50,7 @@ class HepMCG4PythiaInterface;
 
 class PrimaryGeneratorAction: public G4VUserPrimaryGeneratorAction {
 public:
-	PrimaryGeneratorAction(G4int mod = 0, bool signal = false);
+	PrimaryGeneratorAction(G4int mod = 0, bool signal = false,std::string data);
 	virtual ~PrimaryGeneratorAction();
 
 	void GeneratePrimaries(G4Event*);
@@ -67,6 +67,7 @@ public:
 private:
 	int model_;
 	bool signal_;
+	std::string data_;
 	G4ParticleGun* particleGun;
 	HepMCG4AsciiReader* hepmcAscii;
 	HepMCG4PythiaInterface* pythiaGen;

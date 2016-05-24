@@ -21,7 +21,10 @@ parser.add_option('-f', '--datafile'    ,    dest='datafile'           , help='f
 parser.add_option('-n', '--nevts'       ,    dest='nevts'              , help='number of events to generate' , default=1000,    type=int)
 parser.add_option('-o', '--out'         ,    dest='out'                , help='output directory'             , default=os.getcwd() )
 parser.add_option('-e', '--eos'         ,    dest='eos'                , help='eos path to save root file to EOS',         default='')
+##Location to a txt file containing a csv [particle_energy,dir_x,dir_y,dir_z]
+parser.add_option('-d', '--data_file'   ,    dest='data_file'          , help='data file'                        , default=  "/afs/cern.ch/user/o/ocolegro/HGCAL_LDMX/PFCalEE/data/mom.txt")
 parser.add_option('-S', '--no-submit'   ,    action="store_true",  dest='nosubmit'           , help='Do not submit batch job.')
+
 (opt, args) = parser.parse_args()
 
 label=''
@@ -44,7 +47,7 @@ scriptFile = open('%s/runJob.sh'%(outDir), 'w')
 scriptFile.write('#!/bin/bash\n')
 scriptFile.write('source %s/g4env.sh\n'%(os.getcwd()))
 scriptFile.write('cp %s/g4steer.mac .\n'%(outDir))
-scriptFile.write('PFCalEE g4steer.mac %d %d %f| tee g4.log\n'%(opt.version,opt.model,opt.signal))
+scriptFile.write('PFCalEE g4steer.mac %d %d %f %s| tee g4.log\n'%(opt.version,opt.model,opt.signal,opt.data_file))
 outTag='%s_version%d_model%d'%(label,opt.version,opt.model)
 if (opt.run>=0) : outTag='%s_run%d'%(outTag,opt.run)
 scriptFile.write('mv PFcal.root HGcal_%s.root\n'%(outTag))

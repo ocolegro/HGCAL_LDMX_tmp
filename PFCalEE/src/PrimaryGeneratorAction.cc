@@ -64,9 +64,10 @@ std::vector<std::string> split(const std::string &s, char delim) {
 	return tokens;
 }
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal) {
-	model_ = mod;
+PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal,std::string data) {
+	model_  = mod;
 	signal_ = signal;
+	data_   = data;
 	G4int n_particle = 1;
 
 	// default generator is particle gun.
@@ -133,8 +134,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 		G4cout << "Insert signal code here" << G4endl;
 		G4cout << "The line is " << anEvent->GetEventID() << G4endl;
 		G4double E,dir_x,dir_y,dir_z;
+		G4cout << "The data file is " << data_ << G4endl;
 
-		std::ifstream in("/afs/cern.ch/user/o/ocolegro/HGCAL_LDMX/PFCalEE/data/mom.txt");
+		std::ifstream in(data_);
 		std::string line;
 		for (int i =0;i < anEvent->GetEventID()+1; i++){
 			std::getline(in, line);
