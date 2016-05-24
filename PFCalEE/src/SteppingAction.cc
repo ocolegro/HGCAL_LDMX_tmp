@@ -56,17 +56,17 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	G4int pdgId = lTrack->GetDefinition()->GetPDGEncoding();
 	G4double globalTime = lTrack->GetGlobalTime();
+    G4double kineng = lTrack->GetKineticEnergy();
 
 	const G4ThreeVector & position = thePreStepPoint->GetPosition();
 
 	HGCSSGenParticle genPart;
 
 	if ((globalTime < timeLimit_)
-			&& (lTrack->GetKineticEnergy()>50)
 			&& ((thePrePVname == "Wphys" && thePostPVname == "W1phys")
 					|| (thePrePVname == "W1phys"
 							&& thePostPVname == "G4_Galactic1phys")
-					|| (pdgId == 2112))) {
+					|| (pdgId == 2112 && (kineng>50)))) {
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
@@ -79,7 +79,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.trackID(trackID);
 
 	}
-    G4double eng = lTrack->GetKineticEnergy();
-	eventAction_->Detect(eng,edep, stepl, globalTime, pdgId, volume, position,
+	eventAction_->Detect(kineng,edep, stepl, globalTime, pdgId, volume, position,
 			trackID, parentID, genPart);
 }

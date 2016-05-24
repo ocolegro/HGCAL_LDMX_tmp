@@ -133,6 +133,10 @@ public:
 				sens_neutronFlux.clear();
 				sens_hadFlux.clear();
 
+				sens_muKinFlux.clear();
+				sens_neutronKinFlux.clear();
+				sens_hadKinFlux.clear();
+
 				ele_den.resize(n_elements,0);
 				ele_dl.resize(n_elements,0);
 				sens_time.resize(n_sens_elements,0);
@@ -141,7 +145,9 @@ public:
 				sens_muFlux.resize(n_sens_elements,0);
 				sens_neutronFlux.resize(n_sens_elements,0);
 				sens_hadFlux.resize(n_sens_elements,0);
-
+				sens_muKinFlux.resize(n_sens_elements,0);
+				sens_neutronKinFlux.resize(n_sens_elements,0);
+				sens_hadKinFlux.resize(n_sens_elements,0);
 				//reserve some space based on first event....
 				for (unsigned idx(0); idx<n_sens_elements; ++idx) {
 					if (sens_HitVec[idx].size() > sens_HitVec_size_max) {
@@ -152,6 +158,38 @@ public:
 					sens_HitVec[idx].reserve(sens_HitVec_size_max);
 				}
 			}
+			inline std::vector<G4double> getKinHadronic(){
+				return sens_hadKinFlux;
+			}
+			;
+			inline std::vector<G4double> getKinNeutron(){
+				return sens_neutronFlux;
+			}
+			;
+			inline G4double getKinMuon(){
+				double val = 0;
+				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
+					val += sens_muKinFlux[ie];
+				}
+				return val;
+			}
+			;
+			inline G4double getKinHadron(){
+				double val = 0;
+				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
+					val += sens_hadFlux[ie];
+				}
+				return val;
+			}
+			;
+			inline G4double getKinNeutron(){
+				double val = 0;
+				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
+					val += sens_neutronKinFlux[ie];
+				}
+				return val;
+			}
+			;
 
 			//
 			G4double getMeasuredEnergy(bool weighted=true);
@@ -187,7 +225,8 @@ public:
 			std::vector<G4double> ele_den;
 			std::vector<G4double> ele_dl;
 			std::vector<G4VPhysicalVolume*> ele_vol;
-			std::vector<G4double> sens_gFlux, sens_eFlux, sens_muFlux, sens_neutronFlux, sens_hadFlux, sens_time;
+			std::vector<G4double> sens_gFlux, sens_eFlux, sens_muFlux, sens_muKinFlux,sens_neutronFlux, sens_neutronKinFlux,
+			sens_hadFlux, sens_hadKinFlux, sens_time;
 			G4double Total_thick;
 			std::vector<G4SiHitVec> sens_HitVec;
 			unsigned sens_HitVec_size_max;

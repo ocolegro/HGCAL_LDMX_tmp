@@ -14,7 +14,6 @@ void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globa
 			ele_dl[eleidx] += dl;
 			if (isSensitiveElement(eleidx)) { //if Si || sci
 				unsigned idx = getSensitiveLayerIndex(lstr);
-				//std::cout << "sens layer " << idx << " " << lstr << std::endl;
 				sens_time[idx] += den * globalTime;
 
 				//discriminate further by particle type
@@ -22,12 +21,17 @@ void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globa
 					sens_gFlux[idx] += den;
 				else if (abs(pdgId) == 11)
 					sens_eFlux[idx] += den;
-				else if (abs(pdgId) == 13)
+				else if (abs(pdgId) == 13){
 					sens_muFlux[idx] += den;
-				else if (abs(pdgId) == 2112)
+					sens_muKinFlux[idx] += eng;
+				}
+				else if (abs(pdgId) == 2112){
 					sens_neutronFlux[idx] += den;
+					sens_neutronKinFlux[idx] += eng;
+				}
 				else {
 					sens_hadFlux[idx] += den;
+					sens_hadKinFlux[idx] += eng;
 				}
 
 				//add hit
@@ -44,10 +48,8 @@ void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globa
 				lHit.parentEng = eng;
 
 				sens_HitVec[idx].push_back(lHit);
-
 			} //if Si
 		} //if in right material
-
 	} //loop on available materials
 
 }

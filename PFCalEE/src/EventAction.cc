@@ -116,6 +116,11 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		lSec.hadFrac((*detector_)[i].getHadronicFraction());
 		lSec.avgTime((*detector_)[i].getAverageTime());
 		lSec.nSiHits((*detector_)[i].getTotalSensHits());
+
+		lSec.neutronFrac((*detector_)[i].getKinNeutron());
+		lSec.hadKinFrac((*detector_)[i].getKinHadron());
+		lSec.muKinFrac((*detector_)[i].getKinMuon());
+
 		ssvec_.push_back(lSec);
 		if (evtNb_ == 1)
 			std::cout << "if (layer==" << i << ") return " << lSec.voldEdx()
