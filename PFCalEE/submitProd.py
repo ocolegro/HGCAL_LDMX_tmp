@@ -10,8 +10,8 @@ random.seed()
 
 usage = 'usage: %prog [options]'
 parser = optparse.OptionParser(usage)
-parser.add_option('-s', '--short-queue' ,    dest='squeue'             , help='short batch queue'            , default='1nd')
-parser.add_option('-q', '--long-queue'  ,    dest='lqueue'             , help='long batch queue'             , default='2nw')
+parser.add_option('-q', '--queue' ,    dest='queue'             , help='batch queue'            , default='1nd')
+#Long Que is 2nw
 parser.add_option('-t', '--git-tag'     ,    dest='gittag'             , help='git tag version'              , default='V00-00-00')
 parser.add_option('-r', '--run'         ,    dest='run'                , help='stat run'                     , default=-1,      type=int)
 parser.add_option('-v', '--version'     ,    dest='version'            , help='detector version'             , default=1,      type=int)
@@ -29,7 +29,7 @@ label=''
 
 
 nevents=opt.nevts
-myqueue=opt.squeue
+myqueue=opt.queue
 
 
 outDir='%s/git_%s/version_%d/model_%d/%s/%s'%(opt.out,opt.gittag,opt.version,opt.model,bval)
