@@ -31,7 +31,7 @@ nevents=opt.nevts
 myqueue=opt.queue
 
 
-outDir='%s/git_%s/version_%d/model_%d/%s'%(opt.out,opt.gittag,opt.version,opt.model)
+outDir='%s/git_%s/version_%d/model_%d'%(opt.out,opt.gittag,opt.version,opt.model)
 outDir='%s/%s'%(outDir,label)
 eosDir='%s/git%s'%(opt.eos,opt.gittag)
 if opt.signal>0 : outDir='%s/signal_%3.3f/'%(outDir,opt.signal)
