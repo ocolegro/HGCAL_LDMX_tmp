@@ -47,9 +47,22 @@
 #include "HepMCG4AsciiReader.hh"
 #include "HepMCG4PythiaInterface.hh"
 
+#include <fstream>
+#include <string>
+#include <sstream>
 #define PI 3.1415926535
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+std::vector<std::string> split(const std::string &s, char delim) {
+	stringstream ss(s);
+	std::string item;
+	std::vector<std::string> tokens;
+	while (std::getline(ss, item, delim)) {
+		tokens.push_back(item);
+	}
+	return tokens;
+}
 
 PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal) {
 	model_ = mod;
@@ -117,8 +130,34 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	}
 	else{
 		G4cout << "Insert signal code here" << G4endl;
-		G4double et = 4.0;
-		particleGun->SetParticleEnergy(et * GeV);
+		G4cout << "The line is " << anEvent->GetEventID() << G4endl;
+		G4double E,dir_x,dir_y,dir_z;
+
+		std::ifstream in("../data/mom.txt");
+		std::string line;
+		for (int i =0;i < anEvent->GetEventID()+1; i++){
+			std::getline(in, line);
+			if (i ==anEvent->GetEventID()){
+		        std::vector<std::string> split_ = (split(line, ' '));
+		        //Fetch the components from this line
+		        istringstream os(split_.at(0));
+		        os >> E;
+		        os.clear();
+
+		        istringstream os(split_.at(1));
+		        os >> dir_x;
+		        os.clear();
+		        istringstream os(split_.at(2));
+		        os >> dir_y;
+		        os.clear();
+		        istringstream os(split_.at(3));
+		        os >> dir_z;
+		        os.clear();
+			}
+		}
+		G4cout << "The tuple (E,dir_x,dir_y,dir_z) = (" << E << "," << dir_x << ", " << dir_y << " , " << dir_z << ")" <<  G4endl;
+		particleGun->SetParticleEnergy(E * GeV);
+		particleGun->SetParticleMomentumDirection(G4ThreeVector(dir_x, dir_y, dir_z));
 	}
 
 
