@@ -55,7 +55,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 std::vector<std::string> split(const std::string &s, char delim) {
-	stringstream ss = stringstream(s);
+	std::stringstream ss(s);
 
 	std::string item;
 	std::vector<std::string> tokens;
