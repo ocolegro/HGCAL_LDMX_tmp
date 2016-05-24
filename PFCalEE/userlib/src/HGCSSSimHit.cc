@@ -18,46 +18,12 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	//double z = aSiHit.hit_x;
 	double x = aSiHit.hit_x;
 	double y = aSiHit.hit_y;
-	//cellid encoding:
-	//map->Reset("");
-	//map->Fill(x,y);
-	//GetMaximumBin doesn't work :(
+
 
 	assert(map);
 	cellid_ = map->FindBin(x, y);
 
-	//for (int ix(1);ix<map->GetNumberOfBins()+1; ++ix){
-	//if (map->GetBinContent(ix)!=0)
-	//cellid_ = ix;
-	//std::cout << ix << " " << map->GetBinContent(ix) << std::endl;
-	//}
 
-	/*
-	 TIter next(map->GetBins());
-	 TObject *obj=0; 
-	 TH2PolyBin *polyBin = 0;
-
-	 while ((obj=next())){
-	 polyBin=(TH2PolyBin*)obj;
-	 int id = polyBin->GetBinNumber();
-	 if (id==cellid_) break; 
-	 }
-
-	 std::cout << " - Sanity check: x,y = " << x << " " << y 
-	 << " cellid=" << cellid_ 
-	 << " polybin# " << polyBin->GetBinNumber() << " area " << polyBin->GetArea() << std::endl
-	 << " x bin = " << polyBin->GetXMin() << "-" << polyBin->GetXMax() << std::endl
-	 << " y bin = " << polyBin->GetYMin() << "-" << polyBin->GetYMax() << std::endl
-	 << " middle = " << (polyBin->GetXMax()+polyBin->GetXMin())/2 
-	 << " " << (polyBin->GetYMax()+polyBin->GetYMin())/2 
-	 << std::endl;
-	 */
-
-	//bool x_side = x>0 ? true : false;
-	//bool y_side = y>0 ? true : false;
-	//unsigned x_cell = static_cast<unsigned>(fabs(x)/(cellSize*getGranularity()));
-	//unsigned y_cell = static_cast<unsigned>(fabs(y)/(cellSize*getGranularity()));
-	//encodeCellId(x_side,y_side,x_cell,y_cell);
 	nGammas_ = 0;
 	nElectrons_ = 0;
 	nMuons_ = 0;
@@ -79,21 +45,10 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 
 	trackIDMainParent_ = aSiHit.parentId;
 	energyMainParent_ = aSiHit.energy;
-
+	trackID_ = aSiHit.trackId;
 }
 
-/*void HGCSSSimHit::encodeCellId(const bool x_side,const bool y_side,const unsigned x_cell,const unsigned y_cell){
- cellid_ = 
- x_side | (x_cell<<1) |
- (y_side<<16) | (y_cell<<17);
 
- // std::cout << " Cross-check of encoding: cellid=" << cellid_ << std::endl
- // 	    << " x_side " << x_side << " " << get_x_side() << std::endl
- // 	    << " y_side " << y_side << " " << get_y_side() << std::endl
- // 	    << " x_cell " << x_cell << " " << get_x_cell() << std::endl
- // 	    << " y_cell " << y_cell << " " << get_y_cell() << std::endl
- //   ;
- }*/
 
 void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
 

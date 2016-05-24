@@ -25,7 +25,7 @@ public:
 	HGCSSSimHit() :
 			energy_(0), time_(0), zpos_(0), layer_(0), cellid_(0), nGammas_(0), nElectrons_(
 					0), nMuons_(0), nNeutrons_(0), nProtons_(0), nHadrons_(0), trackIDMainParent_(
-					0), energyMainParent_(0) {
+					0), energyMainParent_(0),trackID_(0) {
 
 	}
 	;
@@ -145,23 +145,7 @@ public:
 
 	void Add(const G4SiHit & aSiHit);
 
-	//void encodeCellId(const bool x_side,const bool y_side,const unsigned x_cell,const unsigned y_cell);
 
-	//inline bool get_x_side() const{
-	//return cellid_ & 0x0001;
-	//};
-
-	//inline bool get_y_side() const {
-	//return (cellid_ & 0x00010000) >> 16;
-	//};
-
-	//inline unsigned get_x_cell() const {
-	//return (cellid_ & 0xFFFE) >> 1;
-	//};
-
-	//inline unsigned get_y_cell() const {
-	// return (cellid_ & 0xFFFE0000) >> 17;
-	//};
 
 	std::pair<double, double> get_xy(const bool isScintillator,
 			const HGCSSGeometryConversion & aGeom) const;
@@ -169,50 +153,6 @@ public:
 	ROOT::Math::XYZPoint position(const bool isScintillator,
 			const HGCSSGeometryConversion & aGeom) const;
 
-	//inline double get_x(TH2Poly* map) const {
-	//float sign = get_x_side() ? 1. : -1. ;
-	//if (sign > 0)
-	//return get_x_cell()*sign*cellSize*getGranularity()+cellSize*getGranularity()/2;
-	//else return get_x_cell()*sign*cellSize*getGranularity()-cellSize*getGranularity()/2;
-	//};
-
-	//inline double get_y(TH2Poly* map) const {
-	//float sign = get_y_side() ? 1. : -1. ;
-	//if (sign > 0)
-	//return get_y_cell()*sign*cellSize*getGranularity()+cellSize*getGranularity()/2;
-	//else return get_y_cell()*sign*cellSize*getGranularity()-cellSize*getGranularity()/2;
-	//};
-	/*
-	 inline bool get_x_side_old() const{
-	 return cellid_ & 0x0001;
-	 };
-
-	 inline bool get_y_side_old() const {
-	 return (cellid_ & 0x0100) >> 8;
-	 };
-
-	 inline unsigned get_x_cell_old() const {
-	 return (cellid_ & 0x00FE) >> 1;
-	 };
-
-	 inline unsigned get_y_cell_old() const {
-	 return (cellid_ & 0xFE00) >> 9;
-	 };
-
-	 inline double get_x_old(const float cellSize = CELL_SIZE_X) const {
-	 float sign = get_x_side_old() ? 1. : -1. ;
-	 if (sign > 0)
-	 return get_x_cell_old()*sign*cellSize*getGranularity()+cellSize*getGranularity()/2;
-	 else return get_x_cell_old()*sign*cellSize*getGranularity()-cellSize*getGranularity()/2;
-	 };
-
-	 inline double get_y_old(const float cellSize = CELL_SIZE_Y) const {
-	 float sign = get_y_side_old() ? 1. : -1. ;
-	 if (sign > 0)
-	 return get_y_cell_old()*sign*cellSize*getGranularity()+cellSize*getGranularity()/2;
-	 else return get_y_cell_old()*sign*cellSize*getGranularity()-cellSize*getGranularity()/2;
-	 };
-	 */
 
 	inline double get_z() const {
 		return zpos_;
@@ -248,6 +188,7 @@ private:
 	double energy_;
 	double time_;
 	double zpos_;
+	double trackID_;
 	unsigned layer_;
 	unsigned cellid_;
 	unsigned nGammas_;

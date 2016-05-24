@@ -512,8 +512,7 @@ G4VSolid *DetectorConstruction::constructSolid(std::string baseName,
 	} else {
 		if (model_ == DetectorConstruction::m_FULLSECTION) {
 			double maxR = tan(m_maxTheta) * (zpos + m_z0pos + m_CalorSizeZ / 2);
-			G4cout << "Building a layer with radius " << maxR
-					<< "The max radius is " << m_CalorSizeXY << G4endl;
+			G4cout << "Building a layer with radius " << maxR<< G4endl;
 			solid = new G4Tubs(baseName + "box", 0, maxR, thick / 2, minL,
 					width);
 		}
