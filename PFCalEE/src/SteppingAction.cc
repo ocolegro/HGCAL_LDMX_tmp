@@ -78,7 +78,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.trackID(trackID);
 
 	}
-
-	eventAction_->Detect(edep, stepl, globalTime, pdgId, volume, position,
+    G4double eng = lTrack->GetKineticEnergy();
+	eventAction_->Detect(eng,edep, stepl, globalTime, pdgId, volume, position,
 			trackID, parentID, genPart);
 }

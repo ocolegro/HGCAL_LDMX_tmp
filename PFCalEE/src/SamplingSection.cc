@@ -3,7 +3,7 @@
 #include "SamplingSection.hh"
 
 //
-void SamplingSection::add(G4double den, G4double dl, G4double globalTime,
+void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globalTime,
 		G4int pdgId, G4VPhysicalVolume* vol, const G4ThreeVector & position,
 		G4int trackID, G4int parentID, G4int layerId) {
 	std::string lstr = vol->GetName();
@@ -41,6 +41,8 @@ void SamplingSection::add(G4double den, G4double dl, G4double globalTime,
 				lHit.hit_z = position.z();
 				lHit.trackId = trackID;
 				lHit.parentId = parentID;
+				lHit.parentEng = eng;
+
 				sens_HitVec[idx].push_back(lHit);
 
 			} //if Si

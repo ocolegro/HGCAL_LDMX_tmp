@@ -13,7 +13,6 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	time_ = aSiHit.time * aSiHit.energy;
 	zpos_ = aSiHit.hit_z;
 	setLayer(aSiHit.layer, asilayer);
-
 	//coordinates in mm
 	//double z = aSiHit.hit_x;
 	double x = aSiHit.hit_x;
@@ -43,9 +42,10 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	else
 		nHadrons_++;
 
-	trackIDMainParent_ = aSiHit.parentId;
-	energyMainParent_ = aSiHit.energy;
-	trackID_ = aSiHit.trackId;
+	trackIDMainParent_  = aSiHit.parentId;
+	energyMainParent_   = aSiHit.energy;
+	trackID_ 			= aSiHit.trackId;
+	parentEng_ 			= aSiHit.parentEng;
 }
 
 

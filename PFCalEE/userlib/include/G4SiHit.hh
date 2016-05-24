@@ -12,7 +12,7 @@ public:
 	~G4SiHit() {
 	}
 	;
-
+	double parentEng;
 	double energy;
 	double time;
 	unsigned layer;

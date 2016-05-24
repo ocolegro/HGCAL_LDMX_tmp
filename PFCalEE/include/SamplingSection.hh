@@ -73,7 +73,7 @@ public:
 			};
 
 			//
-			void add(G4double den, G4double dl,
+			void add(G4double eng,G4double den, G4double dl,
 					G4double globalTime,G4int pdgId,
 					G4VPhysicalVolume* vol,
 					const G4ThreeVector & position,
