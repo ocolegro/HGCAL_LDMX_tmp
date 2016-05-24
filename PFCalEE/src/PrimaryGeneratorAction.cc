@@ -145,13 +145,15 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 		        os >> E;
 		        os.clear();
 
-		        std::istringstream os(split_.at(1));
+		        os << split_.at(1);
 		        os >> dir_x;
 		        os.clear();
-		        std::istringstream os(split_.at(2));
+
+		        os << split_.at(2);
 		        os >> dir_y;
 		        os.clear();
-		        std::istringstream os(split_.at(3));
+
+		        os << split_.at(3);
 		        os >> dir_z;
 		        os.clear();
 			}
