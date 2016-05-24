@@ -26,7 +26,7 @@ class DetectorConstruction: public G4VUserDetectorConstruction {
 public:
 
 	enum DetectorVersion {
-		v_HGCALEE_v6 = 30,
+		v_HGCALEE_v6 = 1,
 
 	};
 

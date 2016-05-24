@@ -51,9 +51,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, double eta) {
+PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal) {
 	model_ = mod;
-	eta_ = eta;
+	signal_ = signal;
 	G4int n_particle = 1;
 
 	// default generator is particle gun.
@@ -83,7 +83,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, double eta) {
 			"e-");
 	particleGun->SetParticleDefinition(particle);
 	particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
-	particleGun->SetParticleEnergy(10. * GeV);
+	particleGun->SetParticleEnergy(4. * GeV);
 	G4double position = -0.5 * (Detector->GetWorldSizeZ());
 	particleGun->SetParticlePosition(G4ThreeVector(0. * cm, 0. * cm, position));
 
@@ -111,8 +111,16 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
 			"e-");
 	particleGun->SetParticleDefinition(particle);
-	G4double et = 4.0;
-	particleGun->SetParticleEnergy(et * GeV);
+	if (signal == false){
+		G4double et = 4.0;
+		particleGun->SetParticleEnergy(et * GeV);
+	}
+	else{
+		G4cout << "Insert signal code here" << G4endl;
+		G4double et = 4.0;
+		particleGun->SetParticleEnergy(et * GeV);
+	}
+
 
 	G4double y0 = G4RandFlat::shoot(-65.,65);
 	G4double x0 = G4RandFlat::shoot(-65.,65);
