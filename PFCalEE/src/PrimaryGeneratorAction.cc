@@ -131,10 +131,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 		particleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
 	}
 	else{
-		G4cout << "Insert signal code here" << G4endl;
-		G4cout << "The line is " << anEvent->GetEventID() << G4endl;
 		G4double E,dir_x,dir_y,dir_z;
-		G4cout << "The data file is " << data_ << G4endl;
 
 		std::ifstream in(data_);
 		std::string line;
@@ -160,7 +157,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 		        os.clear();
 			}
 		}
-		G4cout << "The tuple (E,dir_x,dir_y,dir_z) = (" << E << "," << dir_x << ", " << dir_y << " , " << dir_z << ")" <<  G4endl;
 		particleGun->SetParticleEnergy(E * GeV);
 		particleGun->SetParticleMomentumDirection(G4ThreeVector(dir_x, dir_y, dir_z));
 	}
