@@ -12,8 +12,8 @@ public:
 	HGCSSSamplingSection() :
 			volNb_(0), volX0trans_(0), voldEdx_(0), volLambdatrans_(0), measuredE_(
 					0), absorberE_(0), totalE_(0), gFrac_(0), eFrac_(0), muFrac_(
-					0), neutronFrac_(0), hadFrac_(0),muKinFrac_(
-							0), neutronKinFrac_(0), hadKinFrac_(0), avgTime_(0), nSiHits_(0) {
+					0), neutronFrac_(0), hadFrac_(0),muKin_(
+							0), neutronKin_(0), hadKin_(0), avgTime_(0), nSiHits_(0) {
 
 	}
 	;
@@ -65,24 +65,24 @@ public:
 		return muFrac_;
 	}
 	;
-	inline double muKinFrac() const {
-		return muFrac_;
+	inline double muKin() const {
+		return muKin_;
 	}
 	;
 	inline double neutronFrac() const {
 		return neutronFrac_;
 	}
 	;
-	inline double neutronKinFrac() const {
-		return neutronKinFrac_;
+	inline double neutronKin() const {
+		return neutronKin_;
 	}
 	;
 	inline double hadFrac() const {
 		return hadFrac_;
 	}
 	;
-	inline double hadKinFrac() const {
-		return hadKinFrac_;
+	inline double hadKin() const {
+		return hadKin_;
 	}
 	;
 	inline double avgTime() const {
@@ -151,16 +151,16 @@ public:
 		nSiHits_ = aVal;
 	}
 	;
-	inline void muKinFrac(const double & aVal) {
-		muKinFrac_ = aVal;
+	inline void muKin(const double & aVal) {
+		muKin_ = aVal;
 	}
 	;
-	inline void neutronKinFrac(const double & aVal) {
-		neutronKinFrac_ = aVal;
+	inline void neutronKin(const double & aVal) {
+		neutronKin_ = aVal;
 	}
 	;
-	inline void hadKinFrac(const double & aVal) {
-		hadKinFrac_ = aVal;
+	inline void hadKin(const double & aVal) {
+		hadKin_ = aVal;
 	}
 	;
 private:
@@ -176,9 +176,9 @@ private:
 	double muFrac_;
 	double neutronFrac_;
 	double hadFrac_;
-	double muKinFrac_;
-	double neutronKinFrac_;
-	double hadKinFrac_;
+	double muKin_;
+	double neutronKin_;
+	double hadKin_;
 	double avgTime_;
 	unsigned nSiHits_;
 

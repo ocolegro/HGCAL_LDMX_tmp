@@ -117,9 +117,9 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		lSec.avgTime((*detector_)[i].getAverageTime());
 		lSec.nSiHits((*detector_)[i].getTotalSensHits());
 
-		lSec.neutronFrac((*detector_)[i].getKinNeutron());
-		lSec.hadKinFrac((*detector_)[i].getKinHadron());
-		lSec.muKinFrac((*detector_)[i].getKinMuon());
+		lSec.neutronKin((*detector_)[i].getKinNeutron());
+		lSec.hadKin((*detector_)[i].getKinHadron());
+		lSec.muKin((*detector_)[i].getKinMuon());
 
 		ssvec_.push_back(lSec);
 		if (evtNb_ == 1)

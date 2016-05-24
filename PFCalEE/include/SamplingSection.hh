@@ -170,7 +170,7 @@ public:
 			inline G4double getKinHadron(){
 				double val = 0;
 				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
-					val += sens_hadFlux[ie];
+					val += sens_hadKinFlux[ie];
 				}
 				return val;
 			}

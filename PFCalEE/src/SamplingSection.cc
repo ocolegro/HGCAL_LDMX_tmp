@@ -21,6 +21,7 @@ void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globa
 					sens_gFlux[idx] += den;
 				else if (abs(pdgId) == 11)
 					sens_eFlux[idx] += den;
+
 				else if (abs(pdgId) == 13){
 					sens_muFlux[idx] += den;
 					sens_muKinFlux[idx] += eng;
