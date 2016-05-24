@@ -17,7 +17,6 @@ parser.add_option('-r', '--run'         ,    dest='run'                , help='s
 parser.add_option('-v', '--version'     ,    dest='version'            , help='detector version'             , default=1,      type=int)
 parser.add_option('-m', '--model'       ,    dest='model'              , help='detector model'               , default=3,      type=int)
 parser.add_option('-s', '--signal'      ,    dest='signal'             , help='signal flag'                  , default=0,      type=int)
-parser.add_option('-d', '--datatype'    ,    dest='datatype'           , help='data type or particle to shoot', default='e-')
 parser.add_option('-f', '--datafile'    ,    dest='datafile'           , help='full path to HepMC input file', default='data/example_MyPythia.dat')
 parser.add_option('-n', '--nevts'       ,    dest='nevts'              , help='number of events to generate' , default=1000,    type=int)
 parser.add_option('-o', '--out'         ,    dest='out'                , help='output directory'             , default=os.getcwd() )
@@ -33,9 +32,9 @@ nevents=opt.nevts
 myqueue=opt.squeue
 
 
-outDir='%s/git_%s/version_%d/model_%d/%s/%s'%(opt.out,opt.gittag,opt.version,opt.model,opt.datatype,bval)
+outDir='%s/git_%s/version_%d/model_%d/%s/%s'%(opt.out,opt.gittag,opt.version,opt.model,bval)
 outDir='%s/%s'%(outDir,label)
-eosDir='%s/git%s/%s'%(opt.eos,opt.gittag,opt.datatype)
+eosDir='%s/git%s'%(opt.eos,opt.gittag)
 if opt.signal>0 : outDir='%s/signal_%3.3f/'%(outDir,opt.signal)
 if (opt.run>=0) : outDir='%s/run_%d/'%(outDir,opt.run)
 
