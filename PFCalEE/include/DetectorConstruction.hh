@@ -38,7 +38,7 @@ public:
 	 @short CTOR
 	 */
 	DetectorConstruction(G4int ver = DetectorConstruction::v_HGCALEE_v6,
-			G4int mod = DetectorConstruction::m_SIMPLE_20);
+			G4int mod = DetectorConstruction::m_SIMPLE_20, bool signal = false);
 
 	void buildHGCALFHE(const unsigned aVersion);
 	void buildHGCALBHE(const unsigned aVersion);

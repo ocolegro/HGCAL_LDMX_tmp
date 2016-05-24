@@ -28,7 +28,7 @@
 using namespace std;
 
 //
-DetectorConstruction::DetectorConstruction(G4int ver, G4int mod) :
+DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		version_(ver), model_(mod) {
 	switch (version_) {
 	case v_HGCALEE_v6: {
@@ -37,8 +37,14 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod) :
 		//Add the target
 		std::vector<std::string> iEle;
 		std::vector<G4double> iThick;
-		iThick.push_back(.3504*mm);iEle.push_back("W");
+		if (signal == false){
+			iThick.push_back(.3504*mm);iEle.push_back("W");
+		}
+		else{
+			iThick.push_back(0.0001*mm);iEle.push_back("W");
+		}
 		iThick.push_back(20*cm);iEle.push_back("G4_Galactic");
+
 		m_caloStruct.push_back( SamplingSection(iThick,iEle) );
 
 		G4double airThick = 2*mm;

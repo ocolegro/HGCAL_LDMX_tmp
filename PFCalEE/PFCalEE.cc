@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 	std::cout << "-- Running version " << version << " model " << model
 			<< std::endl;
 
-	runManager->SetUserInitialization(new DetectorConstruction(version, model));
+	runManager->SetUserInitialization(new DetectorConstruction(version, model, signal));
 	runManager->SetUserInitialization(new PhysicsList);
 
 	// Set user action classes
