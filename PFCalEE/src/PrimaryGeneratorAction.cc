@@ -55,7 +55,8 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 std::vector<std::string> split(const std::string &s, char delim) {
-	stringstream ss(s);
+	stringstream ss = stringstream(s);
+
 	std::string item;
 	std::vector<std::string> tokens;
 	while (std::getline(ss, item, delim)) {
@@ -127,6 +128,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	if (signal_ == false){
 		G4double et = 4.0;
 		particleGun->SetParticleEnergy(et * GeV);
+		particleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
 	}
 	else{
 		G4cout << "Insert signal code here" << G4endl;
