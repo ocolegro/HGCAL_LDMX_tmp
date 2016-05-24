@@ -134,7 +134,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 		G4cout << "The line is " << anEvent->GetEventID() << G4endl;
 		G4double E,dir_x,dir_y,dir_z;
 
-		std::ifstream in("$HOME/HGCAL_LDMX/PFCalEE/data/mom.txt");
+		std::ifstream in("/afs/cern.ch/user/o/ocolegro/HGCAL_LDMX/PFCalEE/data/mom.txt");
 		std::string line;
 		for (int i =0;i < anEvent->GetEventID()+1; i++){
 			std::getline(in, line);
