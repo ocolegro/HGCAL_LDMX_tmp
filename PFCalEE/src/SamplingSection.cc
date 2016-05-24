@@ -3,9 +3,10 @@
 #include "SamplingSection.hh"
 
 //
-void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globalTime,
-		G4int pdgId, G4VPhysicalVolume* vol, const G4ThreeVector & position,
-		G4int trackID, G4int parentID, G4int layerId) {
+void SamplingSection::add(G4double eng, G4double den, G4double dl,
+		G4double globalTime, G4int pdgId, G4VPhysicalVolume* vol,
+		const G4ThreeVector & position, G4int trackID, G4int parentID,
+		G4int layerId) {
 	std::string lstr = vol->GetName();
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
@@ -22,19 +23,18 @@ void SamplingSection::add(G4double eng,G4double den, G4double dl, G4double globa
 				else if (abs(pdgId) == 11)
 					sens_eFlux[idx] += den;
 
-				else if (abs(pdgId) == 13){
+				else if (abs(pdgId) == 13) {
 					sens_muFlux[idx] += den;
 					sens_muKinFlux[idx] += eng;
-				}
-				else if (abs(pdgId) == 2112){
+				} else if (abs(pdgId) == 2112) {
 					sens_neutronFlux[idx] += den;
-					if(pdgId == 2112)
-					sens_neutronKinFlux[idx] += eng;
-				}
-				else {
+					if (pdgId == 2112)
+						sens_neutronKinFlux[idx] += eng;
+				} else {
 					sens_hadFlux[idx] += den;
-					if ((abs(pdgId) != 111) && (abs(pdgId) != 310) && (pdgId!= -2212))
-					sens_hadKinFlux[idx] += eng;
+					if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
+							&& (pdgId != -2212))
+						sens_hadKinFlux[idx] += eng;
 				}
 
 				//add hit

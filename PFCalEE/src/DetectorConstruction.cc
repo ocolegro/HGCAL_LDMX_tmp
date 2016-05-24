@@ -37,10 +37,10 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		//Add the target
 		std::vector<std::string> iEle;
 		std::vector<G4double> iThick;
-		if (signal == false){
+		if (signal == false) {
 			iThick.push_back(.3504*mm);iEle.push_back("W");
 		}
-		else{
+		else {
 			iThick.push_back(0.0001*mm);iEle.push_back("W");
 		}
 		iThick.push_back(20*cm);iEle.push_back("G4_Galactic");
@@ -518,7 +518,7 @@ G4VSolid *DetectorConstruction::constructSolid(std::string baseName,
 	} else {
 		if (model_ == DetectorConstruction::m_FULLSECTION) {
 			double maxR = tan(m_maxTheta) * (zpos + m_z0pos + m_CalorSizeZ / 2);
-			G4cout << "Building a layer with radius " << maxR<< G4endl;
+			G4cout << "Building a layer with radius " << maxR << G4endl;
 			solid = new G4Tubs(baseName + "box", 0, maxR, thick / 2, minL,
 					width);
 		}

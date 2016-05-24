@@ -159,7 +159,7 @@ public:
 				}
 			}
 
-			inline G4double getKinMuon(){
+			inline G4double getKinMuon() {
 				double val = 0;
 				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
 					val += sens_muKinFlux[ie];
@@ -167,7 +167,7 @@ public:
 				return val;
 			}
 			;
-			inline G4double getKinHadron(){
+			inline G4double getKinHadron() {
 				double val = 0;
 				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
 					val += sens_hadKinFlux[ie];
@@ -175,7 +175,7 @@ public:
 				return val;
 			}
 			;
-			inline G4double getKinNeutron(){
+			inline G4double getKinNeutron() {
 				double val = 0;
 				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
 					val += sens_neutronKinFlux[ie];

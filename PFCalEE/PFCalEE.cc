@@ -46,15 +46,16 @@ int main(int argc, char** argv) {
 	if (argc > 2)
 		version = atoi(argv[2]);
 	if (argc > 3)
-		model   = atoi(argv[3]);
+		model = atoi(argv[3]);
 	if (argc > 4)
-		signal  = atoi(argv[4]);
+		signal = atoi(argv[4]);
 	if (argc > 5)
-		data  = argv[5];
+		data = argv[5];
 	std::cout << "-- Running version " << version << " model " << model
 			<< std::endl;
 
-	runManager->SetUserInitialization(new DetectorConstruction(version, model, signal));
+	runManager->SetUserInitialization(
+			new DetectorConstruction(version, model, signal));
 	runManager->SetUserInitialization(new PhysicsList);
 
 	// Set user action classes

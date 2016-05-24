@@ -18,10 +18,8 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	double x = aSiHit.hit_x;
 	double y = aSiHit.hit_y;
 
-
 	assert(map);
 	cellid_ = map->FindBin(x, y);
-
 
 	nGammas_ = 0;
 	nElectrons_ = 0;
@@ -42,13 +40,11 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	else
 		nHadrons_++;
 
-	trackIDMainParent_  = aSiHit.parentId;
-	energyMainParent_   = aSiHit.energy;
-	trackID_ 			= aSiHit.trackId;
-	parentEng_ 			= aSiHit.parentEng;
+	trackIDMainParent_ = aSiHit.parentId;
+	energyMainParent_ = aSiHit.energy;
+	trackID_ = aSiHit.trackId;
+	parentEng_ = aSiHit.parentEng;
 }
-
-
 
 void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
 

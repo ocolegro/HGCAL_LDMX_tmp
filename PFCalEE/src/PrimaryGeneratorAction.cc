@@ -64,10 +64,11 @@ std::vector<std::string> split(const std::string &s, char delim) {
 	return tokens;
 }
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal,std::string data) {
-	model_  = mod;
+PrimaryGeneratorAction::PrimaryGeneratorAction(G4int mod, bool signal,
+		std::string data) {
+	model_ = mod;
 	signal_ = signal;
-	data_   = data;
+	data_ = data;
 	G4int n_particle = 1;
 
 	// default generator is particle gun.
@@ -125,42 +126,41 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 	G4ParticleDefinition* particle = particleTable->FindParticle(particleName =
 			"e-");
 	particleGun->SetParticleDefinition(particle);
-	if (signal_ == false){
+	if (signal_ == false) {
 		G4double et = 4.0;
 		particleGun->SetParticleEnergy(et * GeV);
-		particleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-	}
-	else{
-		G4double E,dir_x,dir_y,dir_z;
+		particleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+	} else {
+		G4double E, dir_x, dir_y, dir_z;
 
 		std::ifstream in(data_);
 		std::string line;
-		for (int i =0;i < anEvent->GetEventID()+1; i++){
+		for (int i = 0; i < anEvent->GetEventID() + 1; i++) {
 			std::getline(in, line);
-			if (i ==anEvent->GetEventID()){
-		        std::vector<std::string> split_ = (split(line, ' '));
-		        //Fetch the components from this line
-		        std::istringstream os(split_.at(0));
-		        os >> E;
-		        os.clear();
+			if (i == anEvent->GetEventID()) {
+				std::vector<std::string> split_ = (split(line, ' '));
+				//Fetch the components from this line
+				std::istringstream os(split_.at(0));
+				os >> E;
+				os.clear();
 
-		        os.str(split_.at(1));
-		        os >> dir_x;
-		        os.clear();
+				os.str(split_.at(1));
+				os >> dir_x;
+				os.clear();
 
-		        os.str(split_.at(2));
-		        os >> dir_y;
-		        os.clear();
+				os.str(split_.at(2));
+				os >> dir_y;
+				os.clear();
 
-		        os.str(split_.at(3));
-		        os >> dir_z;
-		        os.clear();
+				os.str(split_.at(3));
+				os >> dir_z;
+				os.clear();
 			}
 		}
 		particleGun->SetParticleEnergy(E * GeV);
-		particleGun->SetParticleMomentumDirection(G4ThreeVector(dir_x, dir_y, dir_z));
+		particleGun->SetParticleMomentumDirection(
+				G4ThreeVector(dir_x, dir_y, dir_z));
 	}
-
 
 	G4double y0 = G4RandFlat::shoot(-65.,65);
 	G4double x0 = G4RandFlat::shoot(-65.,65);

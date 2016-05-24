@@ -75,12 +75,13 @@ void EventAction::BeginOfEventAction(const G4Event* evt) {
 }
 
 //
-void EventAction::Detect(G4double eng,G4double edep, G4double stepl, G4double globalTime,
-		G4int pdgId, G4VPhysicalVolume *volume, const G4ThreeVector & position,
-		G4int trackID, G4int parentID, const HGCSSGenParticle & genPart) {
+void EventAction::Detect(G4double eng, G4double edep, G4double stepl,
+		G4double globalTime, G4int pdgId, G4VPhysicalVolume *volume,
+		const G4ThreeVector & position, G4int trackID, G4int parentID,
+		const HGCSSGenParticle & genPart) {
 	for (size_t i = 0; i < detector_->size(); i++)
-		(*detector_)[i].add(eng,edep, stepl, globalTime, pdgId, volume, position,
-				trackID, parentID, i);
+		(*detector_)[i].add(eng, edep, stepl, globalTime, pdgId, volume,
+				position, trackID, parentID, i);
 
 	if (genPart.isIncoming())
 		genvec_.push_back(genPart);

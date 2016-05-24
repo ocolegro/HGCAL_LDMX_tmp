@@ -32,9 +32,10 @@ public:
 	void BeginOfEventAction(const G4Event*);
 	void EndOfEventAction(const G4Event*);
 
-	void Detect(G4double eng,G4double edep, G4double stepl, G4double globalTime, G4int pdgId,
-			G4VPhysicalVolume *volume, const G4ThreeVector & position,
-			G4int trackID, G4int parentID, const HGCSSGenParticle & genPart);
+	void Detect(G4double eng, G4double edep, G4double stepl,
+			G4double globalTime, G4int pdgId, G4VPhysicalVolume *volume,
+			const G4ThreeVector & position, G4int trackID, G4int parentID,
+			const HGCSSGenParticle & genPart);
 
 	void SetPrintModulo(G4int val) {
 		printModulo = val;

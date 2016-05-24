@@ -25,7 +25,7 @@ public:
 	HGCSSSimHit() :
 			energy_(0), time_(0), zpos_(0), layer_(0), cellid_(0), nGammas_(0), nElectrons_(
 					0), nMuons_(0), nNeutrons_(0), nProtons_(0), nHadrons_(0), trackIDMainParent_(
-					0), energyMainParent_(0),trackID_(0),parentEng_(0) {
+					0), energyMainParent_(0), trackID_(0), parentEng_(0) {
 
 	}
 	;
@@ -145,14 +145,11 @@ public:
 
 	void Add(const G4SiHit & aSiHit);
 
-
-
 	std::pair<double, double> get_xy(const bool isScintillator,
 			const HGCSSGeometryConversion & aGeom) const;
 
 	ROOT::Math::XYZPoint position(const bool isScintillator,
 			const HGCSSGeometryConversion & aGeom) const;
-
 
 	inline double get_z() const {
 		return zpos_;
