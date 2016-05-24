@@ -56,7 +56,6 @@
 
 std::vector<std::string> split(const std::string &s, char delim) {
 	std::stringstream ss(s);
-
 	std::string item;
 	std::vector<std::string> tokens;
 	while (std::getline(ss, item, delim)) {
@@ -142,17 +141,17 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 			if (i ==anEvent->GetEventID()){
 		        std::vector<std::string> split_ = (split(line, ' '));
 		        //Fetch the components from this line
-		        istringstream os(split_.at(0));
+		        std::istringstream os(split_.at(0));
 		        os >> E;
 		        os.clear();
 
-		        istringstream os(split_.at(1));
+		        std::istringstream os(split_.at(1));
 		        os >> dir_x;
 		        os.clear();
-		        istringstream os(split_.at(2));
+		        std::istringstream os(split_.at(2));
 		        os >> dir_y;
 		        os.clear();
-		        istringstream os(split_.at(3));
+		        std::istringstream os(split_.at(3));
 		        os >> dir_z;
 		        os.clear();
 			}
