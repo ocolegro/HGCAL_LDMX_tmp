@@ -17,7 +17,6 @@ parser.add_option('-r', '--run'         ,    dest='run'                , help='s
 parser.add_option('-v', '--version'     ,    dest='version'            , help='detector version'             , default=1,      type=int)
 parser.add_option('-m', '--model'       ,    dest='model'              , help='detector model'               , default=2,      type=int)
 parser.add_option('-s', '--signal'      ,    dest='signal'             , help='signal flag'                  , default=0,      type=int)
-parser.add_option('-f', '--datafile'    ,    dest='datafile'           , help='full path to HepMC input file', default='data/example_MyPythia.dat')
 parser.add_option('-n', '--nevts'       ,    dest='nevts'              , help='number of events to generate' , default=1000,    type=int)
 parser.add_option('-o', '--out'         ,    dest='out'                , help='output directory'             , default=os.getcwd() )
 parser.add_option('-e', '--eos'         ,    dest='eos'                , help='eos path to save root file to EOS',         default='')
