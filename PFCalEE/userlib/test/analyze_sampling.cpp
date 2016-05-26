@@ -72,9 +72,9 @@ int main(int argc, char** argv) {
 			HGCSSSamplingSection& sec = (*simhits)[j];
 			Full_sen += sec.measuredE();
 			Full_dep += sec.totalE();
-			Hadron_dep += sec.totalE() * sec.hadKin();
-			Neutron_Dep += sec.totalE() * sec.neutronKin();
-			Muon_Dep += sec.totalE() * sec.muKin();
+			Hadron_dep +=sec.hadKin();
+			Neutron_Dep +=  sec.neutronKin();
+			Muon_Dep +=  sec.muKin();
 		}
 
 		t1.Fill();
