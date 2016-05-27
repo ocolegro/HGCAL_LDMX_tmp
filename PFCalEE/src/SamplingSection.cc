@@ -9,6 +9,8 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 		G4int layerId) {
 	std::string lstr = vol->GetName();
 
+	std::cout << "The lstr is " << lstr << std::endl;
+	std::cout << "The value of str.find('W') == std::string::npos is " << (lstr.find("W") == std::string::npos)<<std::endl;
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
 			unsigned idx = getSensitiveLayerIndex(lstr);
