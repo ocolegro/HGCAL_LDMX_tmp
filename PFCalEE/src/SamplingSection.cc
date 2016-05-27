@@ -8,10 +8,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 		const G4ThreeVector & position, G4int trackID, G4int parentID,
 		G4int layerId) {
 	std::string lstr = vol->GetName();
-
-
-	unsigned idx = getSensitiveLayerIndex(lstr);
-	std::cout << "The idx was " << idx << "The lstr was " << lstr << std::endl;
+	//std::cout << "The idx was " << idx << "The lstr was " << lstr << std::endl;
 
 	//add hit
 	G4SiHit lHit;
@@ -28,6 +25,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
+			unsigned idx = getSensitiveLayerIndex(lstr);
 			unsigned eleidx = ie % n_elements;
 			ele_den[eleidx] += den;
 			ele_dl[eleidx] += dl;
