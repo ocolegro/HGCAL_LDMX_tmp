@@ -202,17 +202,17 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				hadCnt_  =  hadCnt_ * (1.0/hadWgtCnt_);
 			}
 			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
-				eleWgt += TMath::Power( (v1 - eleCnt_).Mag() * parentEng,2);
+				eleWgt +=  TMath::Power( (v1 - eleCnt_).Mag() * parentEng,2);
 			}
 			else if (abs(pdgId_) == 13) {
-				muWgt += TMath::Power( (v1 - muCnt_).Mag() * parentEng,2);
+				muWgt +=   TMath::Power( (v1 - muCnt_).Mag() * parentEng,2);
 
 			}
 			else if (pdgId_== 2112) {
 				neutWgt += TMath::Power( (v1 - neutCnt_).Mag() * parentEng,2);
 			}
 			else if ((abs(pdgId_) != 111) && (abs(pdgId_) != 310) && (pdgId_ != -2212)){
-				hadWgt += TMath::Power( (v1  - hadCnt_).Mag() * parentEng,2);
+				hadWgt +=  TMath::Power( (v1  - hadCnt_).Mag() * parentEng,2);
 			}
 		}
 		if (eleWgtCnt_ > 0){
