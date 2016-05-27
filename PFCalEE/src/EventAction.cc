@@ -195,13 +195,13 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			Double_t parentEng = lAbsHit.parentEng;
 			if (jAbsHit == 0){
 				if (eleWgtCnt_ > 0)
-				eleCnt_  =  eleCnt_ * 1.0/eleWgtCnt_;
+				eleCnt_  =  eleCnt_ * (1.0/eleWgtCnt_);
 				if (muWgtCnt_ > 0)
-				muCnt_   =  muCnt_ * 1.0/muWgtCnt_;
+				muCnt_   =  muCnt_ * (1.0/muWgtCnt_);
 				if (neutWgtCnt_ > 0)
-				neutCnt_ =  neutCnt_ * 1.0/neutWgtCnt_;
+				neutCnt_ =  neutCnt_ * (1.0/neutWgtCnt_);
 				if (hadWgtCnt_ > 0)
-				hadCnt_  =  hadCnt_ * 1.0/hadWgtCnt_;
+				hadCnt_  =  hadCnt_ * (1.0/hadWgtCnt_);
 
 			}
 			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
