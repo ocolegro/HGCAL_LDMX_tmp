@@ -194,9 +194,13 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			Int_t pdgId_ = lAbsHit.pdgId;
 			Double_t parentEng = lAbsHit.parentEng;
 			if (jAbsHit == 0){
+				if (eleWgtCnt_ > 0)
 				eleCnt_  =  eleCnt_/eleWgtCnt_;
+				if (muWgtCnt_ > 0)
 				muCnt_   =  muCnt_/muWgtCnt_;
+				if (neutWgtCnt_ > 0)
 				neutCnt_ =  neutCnt_/neutWgtCnt_;
+				if (hadWgtCnt_ > 0)
 				hadCnt_  =  hadCnt_/hadWgtCnt_;
 
 			}
@@ -217,7 +221,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		lSec.eleWgtCnt(TMath::Sqrt(eleWgt)   /  eleWgtCnt_);
 		lSec.muWgtCnt(TMath::Sqrt(muWgt)     /  muWgtCnt_);
 		lSec.hadWgtCnt(TMath::Sqrt(hadWgt)   /  hadWgtCnt_);
-		lSec.neutWgtCnt(TMath::Sqrt(neutWgt) / neutWgtCnt_);
+		lSec.neutWgtCnt(TMath::Sqrt(neutWgt) * 1.0 / neutWgtCnt_);
 
 		if (debug) {
 			(*detector_)[i].report((i == 0));
