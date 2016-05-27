@@ -154,10 +154,9 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			}
 
 		} //loop on sensitive layers
-		double eleWgtCnt_, hadWgtCnt_,neutWgtCnt_,muWgtCnt_;
 
 		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
-		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0;
+		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 
 		unsigned absSize_ = (*detector_)[i].abs_HitVec.size();
 		for (unsigned iAbsHit(0);
