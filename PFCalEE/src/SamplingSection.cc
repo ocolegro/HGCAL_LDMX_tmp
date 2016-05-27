@@ -22,9 +22,11 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 	lHit.trackId = trackID;
 	lHit.parentId = parentID;
 	lHit.parentEng = eng;
+
 	std::cout << "The element was " << lstr << "the layerid was " << layerId << std::endl;
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
+			std::cout << "The matching ele_vol[ie] was " << ele_vol[ie] << std::endl;
 			unsigned idx = getSensitiveLayerIndex(lstr);
 
 			unsigned eleidx = ie % n_elements;
