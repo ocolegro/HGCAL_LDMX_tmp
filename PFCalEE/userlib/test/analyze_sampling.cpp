@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 			neutronSen += sec.neutronKin();
 			muonSen    += sec.muKin();
 			layer[j-firstLayer]   = j-firstLayer;
-			caloLen    += caloLen;
+			caloLen    = caloLen + 1;
 		}
 
 		t1.Fill();
