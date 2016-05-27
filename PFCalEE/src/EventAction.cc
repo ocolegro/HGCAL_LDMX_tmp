@@ -155,7 +155,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			}
 
 		} //loop on sensitive layers
-		TVector3 eleWgtCnt_, hadWgtCnt_,neutWgtCnt_,muWgtCnt_;
+		double eleWgtCnt_, hadWgtCnt_,neutWgtCnt_,muWgtCnt_;
 
 		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
 		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0;
@@ -221,7 +221,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		lSec.eleWgtCnt(TMath::Sqrt(eleWgt)   /  eleWgtCnt_);
 		lSec.muWgtCnt(TMath::Sqrt(muWgt)     /  muWgtCnt_);
 		lSec.hadWgtCnt(TMath::Sqrt(hadWgt)   /  hadWgtCnt_);
-		lSec.neutWgtCnt(TMath::Sqrt(neutWgt) * 1.0 / neutWgtCnt_);
+		lSec.neutWgtCnt(TMath::Sqrt(neutWgt) / neutWgtCnt_);
 
 		if (debug) {
 			(*detector_)[i].report((i == 0));
