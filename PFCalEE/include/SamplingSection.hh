@@ -50,7 +50,6 @@ public:
 						if (isSensitiveElement(n_elements-1)) {
 							G4SiHitVec lVec;
 							sens_HitVec.push_back(lVec);
-							abs_HitVec.push_back(lVec);
 							++n_sens_elements;
 						}
 					}
@@ -155,15 +154,15 @@ public:
 						sens_HitVec_size_max = 2*sens_HitVec[idx].size();
 						G4cout << "-- SamplingSection::resetCounters(), space reserved for HitVec vector increased to " << sens_HitVec_size_max << G4endl;
 					}
-					if (abs_HitVec[idx].size() > abs_HitVec_size_max){
-						abs_HitVec_size_max = 2*abs_HitVec[idx].size();
+					if (abs_HitVec.size() > abs_HitVec_size_max){
+						abs_HitVec_size_max = 2*abs_HitVec.size();
 						G4cout << "-- SamplingSection::resetCounters(), space reserved for absHitVec vector increased to " << abs_HitVec_size_max << G4endl;
 
 					}
 					sens_HitVec[idx].clear();
 					sens_HitVec[idx].reserve(sens_HitVec_size_max);
-					abs_HitVec[idx].clear();
-					abs_HitVec[idx].reserve(abs_HitVec_size_max);
+					abs_HitVec.clear();
+					abs_HitVec.reserve(abs_HitVec_size_max);
 				}
 			}
 
@@ -230,7 +229,7 @@ public:
 			sens_hadFlux, sens_hadKinFlux, sens_time;
 			G4double Total_thick;
 			std::vector<G4SiHitVec> sens_HitVec;
-			std::vector<G4SiHitVec> abs_HitVec;
+			G4SiHitVec abs_HitVec;
 
 			unsigned sens_HitVec_size_max;
 			unsigned abs_HitVec_size_max;

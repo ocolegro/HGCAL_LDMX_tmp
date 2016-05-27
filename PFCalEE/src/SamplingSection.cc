@@ -8,9 +8,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 		const G4ThreeVector & position, G4int trackID, G4int parentID,
 		G4int layerId) {
 	std::string lstr = vol->GetName();
-	unsigned idx = getSensitiveLayerIndex(lstr);
 
-	std::cout << "The idx was " << idx << "The lstr was " << lstr << std::endl;
 
 	//add hit
 	G4SiHit lHit;
@@ -24,9 +22,11 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 	lHit.trackId = trackID;
 	lHit.parentId = parentID;
 	lHit.parentEng = eng;
-
+	std::cout << "The element was " << lstr << "the layerid was " << layerId << std::endl;
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
+			unsigned idx = getSensitiveLayerIndex(lstr);
+
 			unsigned eleidx = ie % n_elements;
 			ele_den[eleidx] += den;
 			ele_dl[eleidx] += dl;
@@ -55,11 +55,10 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 				}
 				sens_HitVec[idx].push_back(lHit);
 			} //if Si
-		else{
-			//abs_HitVec[idx].push_back(lHit);
+			else{
+				abs_HitVec.push_back(lHit);
 			}
 		} //if in right material
-
 	} //loop on available materials
 
 }
