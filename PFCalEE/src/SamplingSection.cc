@@ -55,7 +55,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 				sens_HitVec[idx].push_back(lHit);
 			} //if Si
 		else{
-			abs_HitVec[idx].push_back(lHit);
+			//abs_HitVec[idx].push_back(lHit);
 			}
 		} //if in right material
 
