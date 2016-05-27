@@ -208,6 +208,8 @@ public:
 			G4double getTotalSensE();
 
 			const G4SiHitVec & getSiHitVec(const unsigned & idx) const;
+			const G4SiHitVec & getAbsHits() const;
+
 			void trackParticleHistory(const unsigned & idx,const G4SiHitVec & incoming);
 
 			//

@@ -9,29 +9,25 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 		G4int layerId) {
 	std::string lstr = vol->GetName();
 
-
-	//add hit
-	G4SiHit lHit;
-	lHit.energy = den;
-	lHit.time = globalTime;
-	lHit.pdgId = pdgId;
-	lHit.layer = layerId;
-	lHit.hit_x = position.x();
-	lHit.hit_y = position.y();
-	lHit.hit_z = position.z();
-	lHit.trackId = trackID;
-	lHit.parentId = parentID;
-	lHit.parentEng = eng;
-
-	std::cout << "The element was " << lstr << "the layerid was " << layerId << std::endl;
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
-			std::cout << "The matching ele_vol[ie] was " << ele_vol[ie] << std::endl;
 			unsigned idx = getSensitiveLayerIndex(lstr);
-
 			unsigned eleidx = ie % n_elements;
 			ele_den[eleidx] += den;
 			ele_dl[eleidx] += dl;
+
+			//add hit
+			G4SiHit lHit;
+			lHit.energy = den;
+			lHit.time = globalTime;
+			lHit.pdgId = pdgId;
+			lHit.layer = layerId;
+			lHit.hit_x = position.x();
+			lHit.hit_y = position.y();
+			lHit.hit_z = position.z();
+			lHit.trackId = trackID;
+			lHit.parentId = parentID;
+			lHit.parentEng = eng;
 
 			if (isSensitiveElement(eleidx)) { //if Si || sci
 				sens_time[idx] += den * globalTime;
@@ -215,6 +211,9 @@ const G4SiHitVec & SamplingSection::getSiHitVec(const unsigned & idx) const {
 	return sens_HitVec[idx];
 }
 
+const G4SiHitVec & SamplingSection::getAbsHits() const {
+	return abs_HitVec;
+}
 void SamplingSection::trackParticleHistory(const unsigned & idx,
 		const G4SiHitVec & incoming) {
 	for (unsigned iP(0); iP < sens_HitVec[idx].size(); ++iP) { //loop on g4hits
