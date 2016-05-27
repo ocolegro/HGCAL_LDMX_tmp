@@ -37,44 +37,47 @@
 int main(int argc, char** argv) {
 	std::cout << "Opening the file " << argv[1] << std::endl;
 	TFile *infile = TFile::Open(argv[1]);
-
 	TTree *tree = (TTree*) infile->Get("HGCSSTree");
 
-	std::vector<HGCSSSamplingSection> * simhits = 0;
-	tree->SetBranchAddress("HGCSSSamplingSectionVec", &simhits);
-
+	std::vector<HGCSSSamplingSection> * samplingVec = 0;
+	tree->SetBranchAddress("HGCSSSamplingSectionVec", &samplingVec);
+	Int_t firstLayer = 1;
 	unsigned nEvts = tree->GetEntries();
 
 	TFile hfile("analyzed_tuple.root", "RECREATE");
 	TTree t1("hadrons", "Hadron Study");
 
-	Float_t Full_dep, Full_sen, Hadron_dep, Neutron_Dep, Muon_Dep;
-
-	t1.Branch("Full_dep", &Full_dep, "Full_dep/F");
-	t1.Branch("Full_sen", &Full_sen, "Full_sen/F");
-	t1.Branch("Hadron_dep", &Hadron_dep, "Hadron_dep/F");
-	t1.Branch("Neutron_Dep", &Neutron_Dep, "Neutron_Dep/F");
-	t1.Branch("Muon_Dep", &Muon_Dep, "Muon_Dep/F");
+	Float_t fullDep, fullSen, hadronSen, neutronSen, muonSen;
+	Int_t layer[500],caloLen;
+	t1.Branch("fullDep", &fullDep, "fullDep/F");
+	t1.Branch("fullSen", &fullSen, "fullSen/F");
+	t1.Branch("hadronSen", &hadronSen, "hadronSen/F");
+	t1.Branch("neutronSen", &neutronSen, "neutronSen/F");
+	t1.Branch("muonSen", &muonSen, "muonSen/F");
+	t1.Branch("caloLen", &caloLen, "caloLen/I");
+	t1.Branch("layer", &layer, "layer[caloLen]/I");
 
 	for (unsigned ievt(0); ievt < nEvts; ++ievt) { //loop on entries
 		tree->GetEntry(ievt);
 
-		Full_sen = 0;
-		Full_dep = 0;
-		Hadron_dep = 0;
-		Neutron_Dep = 0;
-		Muon_Dep = 0;
+		fullSen = 0;
+		fullDep = 0;
+		hadronSen = 0;
+		neutronSen = 0;
+		muonSen = 0;
+		caloLen = 0;
 
-		if (ievt > 10000)
-			break;
+		if (ievt > 2500) break;
 
-		for (Int_t j = 0; j < simhits->size(); j++) {
-			HGCSSSamplingSection& sec = (*simhits)[j];
-			Full_sen += sec.measuredE();
-			Full_dep += sec.totalE();
-			Hadron_dep +=sec.hadKin();
-			Neutron_Dep +=  sec.neutronKin();
-			Muon_Dep +=  sec.muKin();
+		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
+			HGCSSSamplingSection& sec = (*samplingVec)[j];
+			fullSen    += sec.measuredE();
+			fullDep    += sec.totalE();
+			hadronSen  += sec.hadKin();
+			neutronSen += sec.neutronKin();
+			muonSen    += sec.muKin();
+			layer[j-firstLayer]   = j-firstLayer;
+			caloLen    += caloLen;
 		}
 
 		t1.Fill();
