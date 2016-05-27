@@ -12,7 +12,8 @@
 
 #include "Randomize.hh"
 #include <iomanip>
-
+#include "TVector3.h"
+#include "TMath.h"
 //
 EventAction::EventAction() {
 	runAct = (RunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
@@ -154,6 +155,69 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			}
 
 		} //loop on sensitive layers
+		TVector3 eleWgtCnt_, hadWgtCnt_,neutWgtCnt_,muWgtCnt_;
+
+		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
+		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0;
+
+		unsigned absSize_ = (*detector_)[i].abs_HitVec.size();
+		for (unsigned iAbsHit(0);
+				iAbsHit < absSize_;
+				++iAbsHit){
+			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[iAbsHit];
+			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
+			Int_t pdgId_ = lAbsHit.pdgId;
+			Double_t parentEng = lAbsHit.parentEng;
+			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
+				eleCnt_ += v1 * parentEng;
+				eleWgtCnt_ += parentEng;
+			}
+			else if (abs(pdgId_) == 13) {
+				muCnt_ += v1 * parentEng;
+				muWgtCnt_ += parentEng;
+
+			}
+			else if (pdgId_== 2112) {
+				neutCnt_ += v1 * parentEng;
+				neutWgtCnt_ += parentEng;
+			}
+			else if ((abs(pdgId_) != 111) && (abs(pdgId_) != 310) && (pdgId_ != -2212)){
+				hadCnt_ += v1 * parentEng;
+				hadWgtCnt_ += parentEng;
+			}
+		}
+		for (unsigned jAbsHit(0);
+				jAbsHit < absSize_;
+				++jAbsHit){
+			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[jAbsHit];
+			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
+			Int_t pdgId_ = lAbsHit.pdgId;
+			Double_t parentEng = lAbsHit.parentEng;
+			if (jAbsHit == 0){
+				eleCnt_  =  eleCnt_/eleWgtCnt_;
+				muCnt_   =  muCnt_/muWgtCnt_;
+				neutCnt_ =  neutCnt_/neutWgtCnt_;
+				hadCnt_  =  hadCnt_/hadWgtCnt_;
+
+			}
+			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
+				eleWgt += TMath::Power( (v1 - eleCnt_).Mag() * parentEng,2);
+			}
+			else if (abs(pdgId_) == 13) {
+				muWgt += TMath::Power( (v1 - muCnt_).Mag() * parentEng,2);
+
+			}
+			else if (pdgId_== 2112) {
+				neutWgt += TMath::Power( (v1 - neutCnt_).Mag() * parentEng,2);
+			}
+			else if ((abs(pdgId_) != 111) && (abs(pdgId_) != 310) && (pdgId_ != -2212)){
+				hadWgt += TMath::Power( (v1  - hadCnt_).Mag() * parentEng,2);
+			}
+		}
+		lSec.eleWgtCnt(TMath::Sqrt(eleWgt)   /  eleWgtCnt_);
+		lSec.muWgtCnt(TMath::Sqrt(muWgt)     /  muWgtCnt_);
+		lSec.hadWgtCnt(TMath::Sqrt(hadWgt)   /  hadWgtCnt_);
+		lSec.neutWgtCnt(TMath::Sqrt(neutWgt) / neutWgtCnt_);
 
 		if (debug) {
 			(*detector_)[i].report((i == 0));

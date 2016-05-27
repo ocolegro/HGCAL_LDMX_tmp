@@ -183,19 +183,19 @@ public:
 	;
 
 	inline void eleWgtCnt(const double & aVal) {
-		muKin_ = aVal;
+		eleWgtCnt_ = aVal;
 	}
 	;
 	inline void hadWgtCnt(const double & aVal) {
-		neutronKin_ = aVal;
+		neutWgtCnt_ = aVal;
 	}
 	;
 	inline void neutWgtCnt(const double & aVal) {
-		hadKin_ = aVal;
+		hadWgtCnt_ = aVal;
 	}
 	;
 	inline void muWgtCnt(const double & aVal) {
-		muKin_ = aVal;
+		muWgtCnt_ = aVal;
 	}
 	;
 private:
