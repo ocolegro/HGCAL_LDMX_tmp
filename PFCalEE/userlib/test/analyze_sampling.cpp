@@ -47,24 +47,34 @@ int main(int argc, char** argv) {
 	TFile hfile("analyzed_tuple.root", "RECREATE");
 	TTree t1("hadrons", "Hadron Study");
 
-	Float_t fullDep, fullSen, hadronSen, neutronSen, muonSen;
+	Float_t fullDep, fullSen, summedHFlux, summedNFlux, summedMFlux;
+	Float_t layerHFlux[500],layerNFlux[500],layerMFlux[500],layerHWgtCnt[500],layerEWgtCnt[500];
 	Int_t layer[500],caloLen;
 	t1.Branch("fullDep", &fullDep, "fullDep/F");
 	t1.Branch("fullSen", &fullSen, "fullSen/F");
-	t1.Branch("hadronSen", &hadronSen, "hadronSen/F");
-	t1.Branch("neutronSen", &neutronSen, "neutronSen/F");
-	t1.Branch("muonSen", &muonSen, "muonSen/F");
-	t1.Branch("caloLen", &caloLen, "caloLen/I");
+
+	t1.Branch("summedHFlux", &summedHFlux, "summedHFlux/F");
+	t1.Branch("summedNFlux", &summedNFlux, "summedNFlux/F");
+	t1.Branch("summedMFlux", &summedMFlux, "summedMFlux/F");
+
+
+	t1.Branch("layerHFlux", &layerHFlux, "layerHFlux[caloLen]/F");
+	t1.Branch("layerNFlux", &layerNFlux, "layerNFlux[caloLen]/F");
+	t1.Branch("layerMFlux", &layerMFlux, "layerMFlux[caloLen]/F");
+	t1.Branch("layerHWgtCnt", &layerHWgtCnt, "layerHWgtCnt[caloLen]/F");
+	t1.Branch("layerEWgtCnt", &layerEWgtCnt, "layerEWgtCnt[caloLen]/F");
+
 	t1.Branch("layer", &layer, "layer[caloLen]/I");
+	t1.Branch("caloLen", &caloLen, "caloLen/I");
 
 	for (unsigned ievt(0); ievt < nEvts; ++ievt) { //loop on entries
 		tree->GetEntry(ievt);
 
 		fullSen = 0;
 		fullDep = 0;
-		hadronSen = 0;
-		neutronSen = 0;
-		muonSen = 0;
+		summedHFlux = 0;
+		summedNFlux = 0;
+		summedMFlux = 0;
 		caloLen = 0;
 
 		if (ievt > 2500) break;
@@ -73,9 +83,18 @@ int main(int argc, char** argv) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
 			fullSen    += sec.measuredE();
 			fullDep    += sec.totalE();
-			hadronSen  += sec.hadKin();
-			neutronSen += sec.neutronKin();
-			muonSen    += sec.muKin();
+			summedHFlux   += sec.hadKin();
+			summedNFlux   += sec.neutronKin();
+			summedMFlux   += sec.muKin();
+
+			layerHFlux[j-firstLayer]   = sec.hadKin();
+			layerNFlux[j-firstLayer]   = sec.neutronKin();
+			layerMFlux[j-firstLayer]   = sec.muKin();
+
+			layerHWgtCnt[j-firstLayer]   = sec.hadWgtCnt();
+			layerEWgtCnt[j-firstLayer]   = sec.eleWgtCnt();
+
+
 			layer[j-firstLayer]   = j-firstLayer;
 			caloLen    = caloLen + 1;
 		}
