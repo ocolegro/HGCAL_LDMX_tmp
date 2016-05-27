@@ -202,7 +202,6 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				neutCnt_ =  neutCnt_ * (1.0/neutWgtCnt_);
 				if (hadWgtCnt_ > 0)
 				hadCnt_  =  hadCnt_ * (1.0/hadWgtCnt_);
-
 			}
 			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
 				eleWgt += TMath::Power( (v1 - eleCnt_).Mag() * parentEng,2);
@@ -218,10 +217,31 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				hadWgt += TMath::Power( (v1  - hadCnt_).Mag() * parentEng,2);
 			}
 		}
-		lSec.eleWgtCnt(TMath::Sqrt(eleWgt)   /  eleWgtCnt_);
-		lSec.muWgtCnt(TMath::Sqrt(muWgt)     /  muWgtCnt_);
-		lSec.hadWgtCnt(TMath::Sqrt(hadWgt)   /  hadWgtCnt_);
-		lSec.neutWgtCnt(TMath::Sqrt(neutWgt) / neutWgtCnt_);
+		if (eleWgtCnt_ > 0){
+			lSec.eleWgtCnt(TMath::Sqrt(eleWgt)   /  eleWgtCnt_);
+		}
+		else{
+			lSec.eleWgtCnt(-1);
+		}
+		if (muWgtCnt_ > 0){
+			lSec.muWgtCnt(TMath::Sqrt(muWgt)     /  muWgtCnt_);
+		}
+		else{
+			lSec.muWgtCnt(-1);
+		}
+		if (hadWgtCnt_ > 0){
+			lSec.hadWgtCnt(TMath::Sqrt(hadWgt)   /  hadWgtCnt_);
+		}
+		else{
+			lSec.hadWgtCnt(-1);
+
+		}
+		if (neutWgtCnt_ > 0){
+			lSec.neutWgtCnt(TMath::Sqrt(neutWgt) / neutWgtCnt_);
+		}
+		else{
+			lSec.neutWgtCnt(-1);
+		}
 
 		if (debug) {
 			(*detector_)[i].report((i == 0));
