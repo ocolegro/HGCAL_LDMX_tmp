@@ -94,15 +94,15 @@ public:
 	}
 	;
 
-	inline double hadWgtCnt(const double & aVal) {
+	inline double hadWgtCnt() {
 		return hadWgtCnt_;
 	}
 	;
-	inline double neutWgtCnt(const double & aVal) {
+	inline double neutWgtCnt() {
 		return neutWgtCnt_;
 	}
 	;
-	inline double muWgtCnt(const double & aVal) {
+	inline double muWgtCnt() {
 		return muWgtCnt_;
 	}
 	;
