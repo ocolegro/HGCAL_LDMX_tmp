@@ -72,12 +72,13 @@ int main(int argc, char** argv) {
 
 		summedSen = 0,summedDep = 0,summedHFlux = 0,summedNFlux = 0,summedMFlux = 0,caloLen = 0;
 
-		if (ievt > 2500) break;
+		if (ievt > 10000) break;
 
 		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
-			summedSen    += sec.measuredE();
-			summedDep    += sec.totalE();
+			summedSen     += sec.measuredE();
+			summedDep     += sec.totalE();
+
 			summedHFlux   += sec.hadKin();
 			summedNFlux   += sec.neutronKin();
 			summedMFlux   += sec.muKin();
@@ -86,8 +87,8 @@ int main(int argc, char** argv) {
 			layerNFlux[j-firstLayer]   = sec.neutronKin();
 			layerMFlux[j-firstLayer]   = sec.muKin();
 
-			layerHWgtCnt[j-firstLayer]   = sec.hadWgtCnt();
-			layerEWgtCnt[j-firstLayer]   = sec.eleWgtCnt();
+			layerHWgtCnt[j-firstLayer] = sec.hadWgtCnt();
+			layerEWgtCnt[j-firstLayer] = sec.eleWgtCnt();
 
 
 			layer[j-firstLayer]   = j-firstLayer;
