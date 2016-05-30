@@ -106,6 +106,65 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		}
 		break;
 	}
+	case v_HGCALSYM_v1:{
+		G4cout << "[DetectorConstruction] starting v_HGCALSYM_v1" << G4endl;
+
+		//Add the target
+		std::vector<std::string> iEle;
+		std::vector<G4double> iThick;
+		if (signal == false) {
+			iThick.push_back(.3504*mm);iEle.push_back("W");
+		}
+		else {
+			iThick.push_back(0.0001*mm);iEle.push_back("W");
+		}
+		iThick.push_back(20*cm);iEle.push_back("G4_Galactic");
+
+		m_caloStruct.push_back( SamplingSection(iThick,iEle) );
+
+		G4double airThick = 2*mm;
+		G4double pcbThick = 2*mm;
+		G4double wThick = 2.*mm;
+		G4double wcuThick = 0.6*mm;
+
+		std::vector<G4double> lThickR;
+		std::vector<std::string> lEleR;
+
+		lThickR.push_back(wcuThick);lEleR.push_back("WCu");
+		lThickR.push_back(6*mm);lEleR.push_back("Cu");
+		lThickR.push_back(wcuThick);lEleR.push_back("WCu");
+		lThickR.push_back(0.*mm);lEleR.push_back("Steel");
+		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
+		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
+		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
+		lThickR.push_back(pcbThick);lEleR.push_back("PCB");
+		lThickR.push_back(airThick);lEleR.push_back("Air");
+
+
+		unsigned Nmodule=4;
+		for(unsigned i=0; i<Nmodule; i++) {
+			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+		}
+
+		Nmodule=5;
+		lThickR[0] = 1.2*mm;
+		lThickR[2] = 1.2*mm;
+
+		for(unsigned i=0; i<Nmodule; i++) {
+			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+		}
+
+		Nmodule=4;
+		lThickR[0] = 2.2*mm;
+		lThickR[2] = 2.2*mm;
+		for(unsigned i=0; i<Nmodule; i++) {
+			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+		}
+		break;
+	}
 }
 
 DefineMaterials();
