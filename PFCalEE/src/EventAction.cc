@@ -163,7 +163,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				iAbsHit < absSize_;
 				++iAbsHit){
 			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[iAbsHit];
-			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
+			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,0);
 			Int_t pdgId_ = lAbsHit.pdgId;
 			Double_t parentEng = lAbsHit.parentEng;
 			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
@@ -188,7 +188,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				jAbsHit < absSize_;
 				++jAbsHit){
 			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[jAbsHit];
-			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
+			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,0);
 			Int_t pdgId_ = lAbsHit.pdgId;
 			Double_t parentEng = lAbsHit.parentEng;
 			if (jAbsHit == 0){
