@@ -173,7 +173,7 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 				lThickR[3] = 20*mm;
 				lThickL[3] = 20*mm;
 			}
-			*
+			*/
 			for(unsigned i=0; i<Nmodule; i++) {
 				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
 				m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
