@@ -57,9 +57,10 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 				}
 				sens_HitVec[idx].push_back(lHit);
 				if (idx == 0)
+				{
 				abs_HitVec.push_back(lHit);
 				std::cout << "lstr is " << lstr << "and the idx is " << idx << std::endl;
-
+				}
 			} //if Si
 
 		} //if in right material
