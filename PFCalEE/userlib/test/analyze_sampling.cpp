@@ -61,8 +61,10 @@ int main(int argc, char** argv) {
 	t1.Branch("layerHFlux", &layerHFlux, "layerHFlux[caloLen]/F");
 	t1.Branch("layerNFlux", &layerNFlux, "layerNFlux[caloLen]/F");
 	t1.Branch("layerMFlux", &layerMFlux, "layerMFlux[caloLen]/F");
+
 	t1.Branch("layerHWgtCnt", &layerHWgtCnt, "layerHWgtCnt[caloLen]/F");
 	t1.Branch("layerEWgtCnt", &layerEWgtCnt, "layerEWgtCnt[caloLen]/F");
+
 	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
 	t1.Branch("layerDep", &layerDep, "layerDep[caloLen]/F");
 
