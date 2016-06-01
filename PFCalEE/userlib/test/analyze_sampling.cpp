@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 	TTree t1("hadrons", "Hadron Study");
 
 	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux;
-	Float_t layerHFlux[500],layerNFlux[500],layerMFlux[500],layerHWgtCnt[500],layerEWgtCnt[500];
+	Float_t layerHFlux[500],layerNFlux[500],layerMFlux[500],layerHWgtCnt[500],layerEWgtCnt[500],layerDep[500],layerSen[500];
 	Int_t layer[500],caloLen;
 	t1.Branch("caloLen", &caloLen, "caloLen/I");
 
@@ -63,6 +63,8 @@ int main(int argc, char** argv) {
 	t1.Branch("layerMFlux", &layerMFlux, "layerMFlux[caloLen]/F");
 	t1.Branch("layerHWgtCnt", &layerHWgtCnt, "layerHWgtCnt[caloLen]/F");
 	t1.Branch("layerEWgtCnt", &layerEWgtCnt, "layerEWgtCnt[caloLen]/F");
+	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
+	t1.Branch("layerDep", &layerDep, "layerDep[caloLen]/F");
 
 	t1.Branch("layer", &layer, "layer[caloLen]/I");
 
@@ -78,6 +80,10 @@ int main(int argc, char** argv) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
 			summedSen     += sec.measuredE();
 			summedDep     += sec.totalE();
+
+			layerSen[j-firstLayer]   = sec.hadKin();
+			layerDep[j-firstLayer]   = sec.neutronKin();
+
 
 			summedHFlux   += sec.hadKin();
 			summedNFlux   += sec.neutronKin();
