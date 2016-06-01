@@ -145,8 +145,13 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
 				m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
 			}
-
-			Nmodule=5;
+			if (version_ == v_HGCALEE_v6)
+			{
+				Nmodule=5;
+			}
+			else{
+				Nmodule = 4;
+			}
 			lThickL[2] = 2.8*mm;
 			lThickR[0] = 1.2*mm;
 			lThickR[2] = 1.2*mm;
@@ -160,20 +165,22 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 			lThickL[2] = 4.2*mm;
 			lThickR[0] = 2.2*mm;
 			lThickR[2] = 2.2*mm;
-			/*
-			if (v_HGCALEE_v6_s05){
+
+			if (version_ == v_HGCALEE_v6_s05){
+				Nmodule=5;
 				lThickR[3] = 5*mm;
 				lThickL[3] = 5*mm;
 			}
-			if (v_HGCALEE_v6_s10){
+			if (version_ == v_HGCALEE_v6_s10){
+				Nmodule=5;
 				lThickR[3] = 10*mm;
 				lThickL[3] = 10*mm;
 			}
-			if (v_HGCALEE_v6_s20){
+			if (version_ == v_HGCALEE_v6_s20){
+				Nmodule=5;
 				lThickR[3] = 20*mm;
 				lThickL[3] = 20*mm;
 			}
-			*/
 			for(unsigned i=0; i<Nmodule; i++) {
 				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
 				m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
