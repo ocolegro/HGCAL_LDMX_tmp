@@ -13,11 +13,11 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
 			unsigned idx = getSensitiveLayerIndex(lstr);
-
 			unsigned eleidx = ie % n_elements;
 			ele_den[eleidx] += den;
-			ele_dl[eleidx]  += dl;
+			ele_dl[eleidx] += dl;
 
+			//add hit
 			G4SiHit lHit;
 			lHit.energy = den;
 			lHit.time = globalTime;
@@ -31,38 +31,34 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 			lHit.parentEng = eng;
 
 			if (isSensitiveElement(eleidx)) { //if Si || sci
-				//add hit
 				sens_time[idx] += den * globalTime;
+
 				//discriminate further by particle type
 				if (abs(pdgId) == 22)
-					sens_gFlux[idx] += den/sens_gFlux.size();
+					sens_gFlux[idx] += den;
 				else if (abs(pdgId) == 11)
-					sens_eFlux[idx] += den/sens_eFlux.size();
+					sens_eFlux[idx] += den;
 
 				else if (abs(pdgId) == 13) {
 					sens_muFlux[idx] += den;
-					sens_muKinFlux[idx] += eng/sens_muKinFlux.size();
-				}
-				else if (abs(pdgId) == 2112) {
+					sens_muKinFlux[idx] += eng;
+				} else if (abs(pdgId) == 2112) {
 					sens_neutronFlux[idx] += den;
 					if (pdgId == 2112)
-					sens_neutronKinFlux[idx] += eng/sens_neutronKinFlux.size();
-				}
-				else {
+						sens_neutronKinFlux[idx] += eng;
+				} else {
 					sens_hadFlux[idx] += den;
 					if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
 							&& (pdgId != -2212))
-						sens_hadKinFlux[idx] += eng/sens_hadKinFlux.size();
+						sens_hadKinFlux[idx] += eng;
 				}
 				sens_HitVec[idx].push_back(lHit);
-
 			} //if Si
 			else{
 				//check for W in layer
 				if ((lstr.find("W") == std::string::npos) == 0)
 				abs_HitVec.push_back(lHit);
 			}
-
 		} //if in right material
 	} //loop on available materials
 

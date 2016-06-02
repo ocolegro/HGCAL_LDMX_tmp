@@ -14,6 +14,7 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	zpos_ = aSiHit.hit_z;
 	setLayer(aSiHit.layer, asilayer);
 	//coordinates in mm
+	//double z = aSiHit.hit_x;
 	double x = aSiHit.hit_x;
 	double y = aSiHit.hit_y;
 
@@ -34,7 +35,9 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 		nMuons_++;
 	else if (abs(aSiHit.pdgId) == 2112)
 		nNeutrons_++;
-	else if ((abs(aSiHit.pdgId) != 111) && (abs(aSiHit.pdgId) != 310) && (aSiHit.pdgId != -2212))
+	else if (abs(aSiHit.pdgId) == 2212)
+		nProtons_++;
+	else
 		nHadrons_++;
 
 	trackIDMainParent_ = aSiHit.parentId;
@@ -57,8 +60,9 @@ void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
 		nMuons_++;
 	else if (abs(aSiHit.pdgId) == 2112)
 		nNeutrons_++;
-
-	else if ((abs(aSiHit.pdgId) != 111) && (abs(aSiHit.pdgId) != 310) && (aSiHit.pdgId != -2212))
+	else if (abs(aSiHit.pdgId) == 2212)
+		nProtons_++;
+	else
 		nHadrons_++;
 
 	energy_ += aSiHit.energy;
@@ -68,6 +72,15 @@ void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
 	}
 
 }
+
+/*double HGCSSSimHit::eta() const {
+ double x = get_x();
+ double y = get_y();
+ double theta = acos(fabs(zpos_)/sqrt(zpos_*zpos_+x*x+y*y));
+ double leta = -log(tan(theta/2.));
+ if (zpos_>0) return leta;
+ else return -leta;
+ }*/
 
 std::pair<double, double> HGCSSSimHit::get_xy(const bool isScintillator,
 		const HGCSSGeometryConversion & aGeom) const {

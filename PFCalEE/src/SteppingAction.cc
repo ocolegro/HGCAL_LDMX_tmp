@@ -61,14 +61,14 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	const G4ThreeVector & position = thePreStepPoint->GetPosition();
 
 	HGCSSGenParticle genPart;
-
-	/*if ((globalTime < timeLimit_)
+	bool targetParticle = false;
+	if ((globalTime < timeLimit_)
 			&& ((thePrePVname == "Wphys" && thePostPVname == "W1phys")
 					|| (thePrePVname == "W1phys"
 							&& thePostPVname == "G4_Galactic1phys")
-					|| (pdgId == 2112 && (kineng > 50)))) {*/
-	Int_t id_ = std::find(trackids.begin(), trackids.end(), trackID)
-			- trackids.begin();
+					|| (pdgId == 2112 && (kineng > 50))))
+		targetParticle = true;
+	int id_ = std::find(trackids.begin(), trackids.end(), trackID) - trackids.begin();
 
 	if (id_ == trackids.size()){
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
@@ -82,7 +82,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.charge(pd->GetPDGCharge());
 		genPart.trackID(trackID);
 		trackids.push_back(trackID);
+
 	}
 	eventAction_->Detect(kineng, edep, stepl, globalTime, pdgId, volume,
-			position, trackID, parentID, genPart);
+			position, trackID, parentID, genPart,targetParticle);
 }
