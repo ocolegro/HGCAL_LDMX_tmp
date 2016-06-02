@@ -61,12 +61,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	const G4ThreeVector & position = thePreStepPoint->GetPosition();
 
 	HGCSSGenParticle genPart;
-	bool targetParticle = false;
+	G4bool targetParticle = false;
 	if ((globalTime < timeLimit_)
 			&& ((thePrePVname == "Wphys" && thePostPVname == "W1phys")
 					|| (thePrePVname == "W1phys"
-							&& thePostPVname == "G4_Galactic1phys")
-					|| (pdgId == 2112 && (kineng > 50))))
+							&& thePostPVname == "G4_Galactic1phys")))
 		targetParticle = true;
 	int id_ = std::find(trackids.begin(), trackids.end(), trackID) - trackids.begin();
 
