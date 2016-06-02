@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
 			for (Int_t j = 0; j < trackVec->size(); j++) {
 				HGCSSGenParticle& parton = (*trackVec)[j];
 				genCounter += 1;
-				Float_t engK = sqrt(parton.px()*parton.px()+parton.py()*parton.py()+parton.pz()*parton.pz() + parton.mass()*parton.mass())-parton.mass();
+				Float_t engK = parton.E() -parton.mass();
 				genKin += engK;
 
 				if (engK> maxTrackKe){
