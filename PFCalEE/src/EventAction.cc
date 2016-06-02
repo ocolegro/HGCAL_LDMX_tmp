@@ -85,9 +85,12 @@ void EventAction::Detect(G4double eng, G4double edep, G4double stepl,
 				position, trackID, parentID, i);
 
 	if (genPart.isIncoming()){
-		if (targetParticle)
+		if (targetParticle){
 			genvec_.push_back(genPart);
+		}
+		else{
 			trackvec_.push_back(genPart);
+		}
 	}
 }
 
