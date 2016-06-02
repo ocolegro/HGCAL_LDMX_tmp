@@ -133,6 +133,9 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			std::cout << "if (layer==" << i << ") return " << lSec.voldEdx()
 					<< ";" << std::endl;
 
+		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
+		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
+
 		bool is_scint = (*detector_)[i].hasScintillator;
 		for (unsigned idx(0); idx < (*detector_)[i].n_sens_elements; ++idx) {
 			std::map<unsigned, HGCSSSimHit> lHitMap;
@@ -151,6 +154,28 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 						std::pair<unsigned, HGCSSSimHit>(lHit.cellid(), lHit));
 				if (!isInserted.second)
 					isInserted.first->second.Add(lSiHit);
+				if (idx == 0){
+					TVector3 v1(lSiHit.hit_x,lSiHit.hit_y,0);
+								Int_t pdgId_ = lSiHit.pdgId;
+								Double_t parentEng = lSiHit.parentEng;
+								if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
+									eleCnt_ += v1 * parentEng;
+									eleWgtCnt_ += parentEng;
+								}
+								else if (abs(pdgId_) == 13) {
+									muCnt_ += v1 * parentEng;
+									muWgtCnt_ += parentEng;
+
+								}
+								else if (pdgId_== 2112) {
+									neutCnt_ += v1 * parentEng;
+									neutWgtCnt_ += parentEng;
+								}
+								else if ((abs(pdgId_) != 111) && (abs(pdgId_) != 310) && (pdgId_ != -2212)){
+									hadCnt_ += v1 * parentEng;
+									hadWgtCnt_ += parentEng;
+								}
+				}
 			}
 			std::map<unsigned, HGCSSSimHit>::iterator lIter = lHitMap.begin();
 			hitvec_.reserve(hitvec_.size() + lHitMap.size());
@@ -161,46 +186,20 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 
 		} //loop on sensitive layers
 
-		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
-		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 
 		std::cout << "c" << std::endl;
-		unsigned idx(0);
-		unsigned absSize_ = (*detector_)[i].getSiHitVec(idx).size();
+		//unsigned idx(0);
+		unsigned absSize_ = (*detector_)[i].getSiHitVec(0).size();
 		std::cout << "absSize_ is " << absSize_ << std::endl;
-		for (unsigned iSiHit(0);
-				iSiHit < absSize_;
-				++iSiHit){
-			G4SiHit lSiHit = (*detector_)[i].getSiHitVec(0)[iSiHit];
-			TVector3 v1(lSiHit.hit_x,lSiHit.hit_y,0);
-			Int_t pdgId_ = lSiHit.pdgId;
-			Double_t parentEng = lSiHit.parentEng;
-			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
-				eleCnt_ += v1 * parentEng;
-				eleWgtCnt_ += parentEng;
-			}
-			else if (abs(pdgId_) == 13) {
-				muCnt_ += v1 * parentEng;
-				muWgtCnt_ += parentEng;
 
-			}
-			else if (pdgId_== 2112) {
-				neutCnt_ += v1 * parentEng;
-				neutWgtCnt_ += parentEng;
-			}
-			else if ((abs(pdgId_) != 111) && (abs(pdgId_) != 310) && (pdgId_ != -2212)){
-				hadCnt_ += v1 * parentEng;
-				hadWgtCnt_ += parentEng;
-			}
-		}
-		for (unsigned iSiHit(0);
-				iSiHit < absSize_;
-				++iSiHit){
-			G4SiHit lSiHit = (*detector_)[i].getSiHitVec(0)[iSiHit];
+		for (unsigned jSiHit(0);
+				jSiHit < absSize_;
+				++jSiHit){
+			G4SiHit lSiHit = (*detector_)[i].getSiHitVec(0)[jSiHit];
 			TVector3 v1(lSiHit.hit_x,lSiHit.hit_y,0);
 			Int_t pdgId_ = lSiHit.pdgId;
 			Double_t parentEng = lSiHit.parentEng;
-			if (iSiHit == 0){
+			if (jSiHit == 0){
 				if (eleWgtCnt_ > 0)
 				eleCnt_  =  eleCnt_ * (1.0/eleWgtCnt_);
 				if (muWgtCnt_ > 0)
