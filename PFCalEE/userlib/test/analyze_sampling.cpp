@@ -149,10 +149,13 @@ int main(int argc, char** argv) {
 				genKin += engK;
 
 				if (engK> maxTrackKe){
-					engK    = maxTrackKe;
-					layMax = parton.layer();
+					maxTrackKe = engK;
+					layMax  = parton.layer();
 				}
 				std::cout << "The track energy is " << engK << std::endl;
+				std::cout << "The track mass is " << parton.mass() << std::endl;
+				std::cout << "The track parton.E() is " << parton.E() << std::endl;
+
 				std::cout << "The parton momenta is " << parton.px()  <<"," << parton.py() << "," << parton.pz() << std::endl;
 				std::cout << "The track pdgid is " << parton.pdgid() << std::endl;
 				std::cout << "The track layer is " << parton.layer() << std::endl;
