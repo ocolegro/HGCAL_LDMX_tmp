@@ -61,8 +61,10 @@ int main(int argc, char** argv) {
 
 	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux,maxTrackKe,genKin;
 	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
-			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500];
-	Int_t layer[500], caloLen, summedNCount,summedHCount,summedMcount,layMax,genCounter;
+			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500],
+			summedNCount,summedHCount,summedMcount,layerHWgtAvg,layerEWgtAvg;
+
+	Int_t layer[500], caloLen, layMax,genCounter;
 	t1.Branch("caloLen", &caloLen, "caloLen/I");
 
 	t1.Branch("summedDep", &summedDep, "summedDep/F");
@@ -73,9 +75,12 @@ int main(int argc, char** argv) {
 	t1.Branch("summedMFlux", &summedMFlux, "summedMFlux/F");
 
 
-	t1.Branch("summedHCount", &summedHCount, "summedHCount/I");
-	t1.Branch("summedNCount", &summedNCount, "summedNCount/I");
-	t1.Branch("summedMcount", &summedMcount, "summedMcount/I");
+	t1.Branch("summedHCount", &summedHCount, "summedHCount/F");
+	t1.Branch("summedNCount", &summedNCount, "summedNCount/F");
+	t1.Branch("summedMcount", &summedMcount, "summedMcount/F");
+
+	t1.Branch("layerHWgtAvg", &layerHWgtAvg, "layerHWgtAvg/F");
+	t1.Branch("layerEWgtAvg", &layerEWgtAvg, "layerEWgtAvg/F");
 
 	t1.Branch("layerHFlux", &layerHFlux, "layerHFlux[caloLen]/F");
 	t1.Branch("layerNFlux", &layerNFlux, "layerNFlux[caloLen]/F");
@@ -116,28 +121,31 @@ int main(int argc, char** argv) {
 			summedSen += sec.measuredE();
 			summedDep += sec.totalE();
 
-			layerSen[j - firstLayer] = sec.hadKin();
-			layerDep[j - firstLayer] = sec.neutronKin();
+			layerSen[j - firstLayer] = sec.hadKin()/3.0;
+			layerDep[j - firstLayer] = sec.neutronKin()/3.0;
 
-			summedHFlux += sec.hadKin();
-			summedNFlux += sec.neutronKin();
-			summedMFlux += sec.muKin();
+			summedHFlux += sec.hadKin()/(3.0 * 26);
+			summedNFlux += sec.neutronKin()/(3.0 * 26);
+			summedMFlux += sec.muKin()/(3.0 * 26);
 
-			summedHCount += sec.hadCount();
-			summedNCount += sec.neutronCount();
-			summedMcount += sec.muCount();
+			summedHCount += sec.hadCount()/(3.0 * 26);
+			summedNCount += sec.neutronCount()/(3.0 * 26);
+			summedMcount += sec.muCount()/(3.0 * 26);
 
-			layerHFlux[j - firstLayer] = sec.hadKin();
-			layerNFlux[j - firstLayer] = sec.neutronKin();
-			layerMFlux[j - firstLayer] = sec.muKin();
+			layerHFlux[j - firstLayer] = sec.hadKin()/3.0;
+			layerNFlux[j - firstLayer] = sec.neutronKin()/3.0;
+			layerMFlux[j - firstLayer] = sec.muKin()/3.0;
 
-			layerHCount[j - firstLayer] = sec.hadCount();
-			layerNCount[j - firstLayer] = sec.neutronCount();
-			layerMCount[j - firstLayer] = sec.muCount();
+			layerHCount[j - firstLayer] = sec.hadCount()/3.0;
+			layerNCount[j - firstLayer] = sec.neutronCount()/3.0;
+			layerMCount[j - firstLayer] = sec.muCount()/3.0;
 
 
 			layerHWgtCnt[j - firstLayer] = sec.hadWgtCnt();
 			layerEWgtCnt[j - firstLayer] = sec.eleWgtCnt();
+
+			layerHWgtAvg += sec.hadWgtCnt()/26.0;
+			layerEWgtAvg += sec.eleWgtCnt()/26.0;
 
 			layer[j - firstLayer] = j - firstLayer;
 			caloLen = caloLen + 1;
