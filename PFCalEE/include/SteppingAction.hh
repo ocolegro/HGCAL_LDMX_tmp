@@ -13,11 +13,11 @@ public:
 
 	void UserSteppingAction(const G4Step*);
 	inline unsigned getLayer(std::string astr) {
-		int num;
-		sscanf( astr, "%*[^_]_%d", &num );
+		int num = 0;
+		std::sscanf( astr, "%*[^_]_%d", &num );
 		G4cout << "The layer is " << astr <<
 				"After stripping we have " << num << G4endl;
-		return 0;
+		return num;
 
 	};
 private:
