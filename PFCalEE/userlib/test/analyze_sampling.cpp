@@ -5,6 +5,7 @@
 #include<sstream>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
+#include "globals.hh"
 
 #include "TFile.h"
 #include "TTree.h"
