@@ -154,7 +154,7 @@ public:
 						sens_HitVec_size_max = 2*sens_HitVec[idx].size();
 						G4cout << "-- SamplingSection::resetCounters(), space reserved for HitVec vector increased to " << sens_HitVec_size_max << G4endl;
 					}
-					if (abs_HitVec.size() > abs_HitVec_size_max){
+					if (abs_HitVec.size() > abs_HitVec_size_max) {
 						abs_HitVec_size_max = 2*abs_HitVec.size();
 						G4cout << "-- SamplingSection::resetCounters(), space reserved for absHitVec vector increased to " << abs_HitVec_size_max << G4endl;
 

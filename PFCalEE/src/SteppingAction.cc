@@ -67,10 +67,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 					|| (thePrePVname == "W1phys"
 							&& thePostPVname == "G4_Galactic1phys")))
 		targetParticle = true;
-	int id_ = std::find(eventAction_->trackids.begin(), eventAction_->trackids.end(), trackID)- eventAction_->trackids.begin();
+	int id_ = std::find(eventAction_->trackids.begin(),
+			eventAction_->trackids.end(), trackID)
+			- eventAction_->trackids.begin();
 
-
-	if (id_ == eventAction_->trackids.size()){
+	if (id_ == eventAction_->trackids.size() && lTrack>10) {
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
@@ -81,7 +82,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.pdgid(pdgId);
 		genPart.charge(pd->GetPDGCharge());
 		genPart.trackID(trackID);
+		eventAction_->trackids.push_back(trackID);
 	}
 	eventAction_->Detect(kineng, edep, stepl, globalTime, pdgId, volume,
-			position, trackID, parentID, genPart,targetParticle);
+			position, trackID, parentID, genPart, targetParticle);
 }

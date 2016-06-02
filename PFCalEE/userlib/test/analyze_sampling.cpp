@@ -52,8 +52,9 @@ int main(int argc, char** argv) {
 	TTree t1("hadrons", "Hadron Study");
 
 	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux;
-	Float_t layerHFlux[500],layerNFlux[500],layerMFlux[500],layerHWgtCnt[500],layerEWgtCnt[500],layerDep[500],layerSen[500];
-	Int_t layer[500],caloLen;
+	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
+			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500];
+	Int_t layer[500], caloLen;
 	t1.Branch("caloLen", &caloLen, "caloLen/I");
 
 	t1.Branch("summedDep", &summedDep, "summedDep/F");
@@ -74,37 +75,36 @@ int main(int argc, char** argv) {
 
 	t1.Branch("layer", &layer, "layer[caloLen]/I");
 
-
 	for (unsigned ievt(0); ievt < nEvts; ++ievt) { //loop on entries
 		tree->GetEntry(ievt);
 
-		summedSen = 0,summedDep = 0,summedHFlux = 0,summedNFlux = 0,summedMFlux = 0,caloLen = 0;
+		summedSen = 0, summedDep = 0, summedHFlux = 0, summedNFlux = 0, summedMFlux =
+				0, caloLen = 0;
 
-		if (ievt > 10000) break;
+		if (ievt > 10000)
+			break;
 
 		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
-			summedSen     += sec.measuredE();
-			summedDep     += sec.totalE();
+			summedSen += sec.measuredE();
+			summedDep += sec.totalE();
 
-			layerSen[j-firstLayer]   = sec.hadKin();
-			layerDep[j-firstLayer]   = sec.neutronKin();
+			layerSen[j - firstLayer] = sec.hadKin();
+			layerDep[j - firstLayer] = sec.neutronKin();
 
+			summedHFlux += sec.hadKin();
+			summedNFlux += sec.neutronKin();
+			summedMFlux += sec.muKin();
 
-			summedHFlux   += sec.hadKin();
-			summedNFlux   += sec.neutronKin();
-			summedMFlux   += sec.muKin();
+			layerHFlux[j - firstLayer] = sec.hadKin();
+			layerNFlux[j - firstLayer] = sec.neutronKin();
+			layerMFlux[j - firstLayer] = sec.muKin();
 
-			layerHFlux[j-firstLayer]   = sec.hadKin();
-			layerNFlux[j-firstLayer]   = sec.neutronKin();
-			layerMFlux[j-firstLayer]   = sec.muKin();
+			layerHWgtCnt[j - firstLayer] = sec.hadWgtCnt();
+			layerEWgtCnt[j - firstLayer] = sec.eleWgtCnt();
 
-			layerHWgtCnt[j-firstLayer] = sec.hadWgtCnt();
-			layerEWgtCnt[j-firstLayer] = sec.eleWgtCnt();
-
-
-			layer[j-firstLayer]   = j-firstLayer;
-			caloLen    = caloLen + 1;
+			layer[j - firstLayer] = j - firstLayer;
+			caloLen = caloLen + 1;
 		}
 
 		t1.Fill();

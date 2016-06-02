@@ -36,92 +36,94 @@
 #include "Math/Point2D.h"
 #include "Math/Point2Dfwd.h"
 
+int main(int argc, char** argv) { //main  
 
+	if (argc < 5) {
+		std::cout << " Usage: " << " <path to input files>"
+				<< " <name of input sim file>" << " <name of input reco file>"
+				<< " <name of input reco PUmix file>" << std::endl;
+		return 1;
+	}
 
-int main(int argc, char** argv){//main  
+	//////////////////////////////////////////////////////////
+	//// End Hardcoded config ////////////////////////////////////
+	//////////////////////////////////////////////////////////
 
-  if (argc < 5) {
-    std::cout << " Usage: " 
-	      << " <path to input files>"
-	      << " <name of input sim file>"
-	      << " <name of input reco file>"
-	      << " <name of input reco PUmix file>"
-	      << std::endl;
-    return 1;
-  }
+	std::string filePath = argv[1];
+	std::string simFileName = argv[2];
+	std::string recoFileName = argv[3];
+	std::string pumixFileName = argv[4];
 
-  //////////////////////////////////////////////////////////
-  //// End Hardcoded config ////////////////////////////////////
-  //////////////////////////////////////////////////////////
+	std::string inFilePath = filePath + simFileName;
 
-  std::string filePath = argv[1];
-  std::string simFileName = argv[2];
-  std::string recoFileName = argv[3];
-  std::string pumixFileName = argv[4];
+	/////////////////////////////////////////////////////////////
+	//input
+	/////////////////////////////////////////////////////////////
 
-  std::string inFilePath = filePath+simFileName;
+	std::ostringstream input;
+	input << filePath << "/" << simFileName;
 
-  /////////////////////////////////////////////////////////////
-  //input
-  /////////////////////////////////////////////////////////////
+	TFile *simFile = TFile::Open(input.str().c_str());
 
-  std::ostringstream input;
-  input << filePath << "/" << simFileName;
+	if (!simFile) {
+		std::cout << " -- Error, input file " << input.str()
+				<< " cannot be opened. Exiting..." << std::endl;
+		return 1;
+	} else
+		std::cout << " -- input file " << simFile->GetName()
+				<< " successfully opened." << std::endl;
 
-  TFile *simFile = TFile::Open(input.str().c_str());
+	TTree *lSimTree = (TTree*) simFile->Get("HGCSSTree");
+	if (!lSimTree) {
+		std::cout << " -- Error, tree HGCSSTree cannot be opened. Exiting..."
+				<< std::endl;
+		return 1;
+	}
 
-  if (!simFile) {
-    std::cout << " -- Error, input file " << input.str() << " cannot be opened. Exiting..." << std::endl;
-    return 1;
-  }
-  else std::cout << " -- input file " << simFile->GetName() << " successfully opened." << std::endl;
-  
-  TTree *lSimTree = (TTree*)simFile->Get("HGCSSTree");
-  if (!lSimTree){
-    std::cout << " -- Error, tree HGCSSTree cannot be opened. Exiting..." << std::endl;
-    return 1;
-  }
+	input.str("");
+	input << filePath << "/" << recoFileName;
 
-  input.str("");
-  input << filePath << "/" << recoFileName;
-  
-  TFile *recFile = TFile::Open(input.str().c_str());
+	TFile *recFile = TFile::Open(input.str().c_str());
 
-  if (!recFile) {
-    std::cout << " -- Error, input file " << input.str() << " cannot be opened. Exiting..." << std::endl;
-    return 1;
-  }
-  else std::cout << " -- input file " << recFile->GetName() << " successfully opened." << std::endl;
+	if (!recFile) {
+		std::cout << " -- Error, input file " << input.str()
+				<< " cannot be opened. Exiting..." << std::endl;
+		return 1;
+	} else
+		std::cout << " -- input file " << recFile->GetName()
+				<< " successfully opened." << std::endl;
 
-  TTree *lRecTree = (TTree*)recFile->Get("RecoTree");
-  if (!lRecTree){
-    std::cout << " -- Error, tree RecoTree cannot be opened. Exiting..." << std::endl;
-    return 1;
-  }
+	TTree *lRecTree = (TTree*) recFile->Get("RecoTree");
+	if (!lRecTree) {
+		std::cout << " -- Error, tree RecoTree cannot be opened. Exiting..."
+				<< std::endl;
+		return 1;
+	}
 
-  input.str("");
-  input << filePath << "/" << pumixFileName;
-  
-  TFile *pumixFile = TFile::Open(input.str().c_str());
+	input.str("");
+	input << filePath << "/" << pumixFileName;
 
-  if (!pumixFile) {
-    std::cout << " -- Error, input file " << input.str() << " cannot be opened. Exiting..." << std::endl;
-    return 1;
-  }
-  else std::cout << " -- input file " << pumixFile->GetName() << " successfully opened." << std::endl;
+	TFile *pumixFile = TFile::Open(input.str().c_str());
 
-  TTree *lPumixTree = (TTree*)pumixFile->Get("PUTree");
-  if (!lPumixTree){
-    std::cout << " -- Error, tree PumixoTree cannot be opened. Exiting..." << std::endl;
-    return 1;
-  }
+	if (!pumixFile) {
+		std::cout << " -- Error, input file " << input.str()
+				<< " cannot be opened. Exiting..." << std::endl;
+		return 1;
+	} else
+		std::cout << " -- input file " << pumixFile->GetName()
+				<< " successfully opened." << std::endl;
 
-  std::cout << "--- Sim evts: " << lSimTree->GetEntries()  
-	    << " reco evts: " << lRecTree->GetEntries()
-	    << " pumix evts: " << lPumixTree->GetEntries() << std::endl;
+	TTree *lPumixTree = (TTree*) pumixFile->Get("PUTree");
+	if (!lPumixTree) {
+		std::cout << " -- Error, tree PumixoTree cannot be opened. Exiting..."
+				<< std::endl;
+		return 1;
+	}
 
-  
-  return 0;
-  
+	std::cout << "--- Sim evts: " << lSimTree->GetEntries() << " reco evts: "
+			<< lRecTree->GetEntries() << " pumix evts: "
+			<< lPumixTree->GetEntries() << std::endl;
 
-}//main
+	return 0;
+
+}  //main

@@ -9,7 +9,6 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 		G4int layerId) {
 	std::string lstr = vol->GetName();
 
-
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
 			unsigned idx = getSensitiveLayerIndex(lstr);
@@ -54,10 +53,10 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 				}
 				sens_HitVec[idx].push_back(lHit);
 			} //if Si
-			else{
+			else {
 				//check for W in layer
 				if ((lstr.find("W") == std::string::npos) == 0)
-				abs_HitVec.push_back(lHit);
+					abs_HitVec.push_back(lHit);
 			}
 		} //if in right material
 	} //loop on available materials

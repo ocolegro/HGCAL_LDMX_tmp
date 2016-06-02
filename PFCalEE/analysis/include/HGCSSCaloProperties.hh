@@ -31,87 +31,95 @@
 #include "Math/WrappedTF1.h"
 #include "Math/BrentMinimizer1D.h"
 
-
 #include "HGCSSParameters.hh"
 
-typedef std::pair<Float_t,Float_t> Measurement_t;
+typedef std::pair<Float_t, Float_t> Measurement_t;
 
 /**
-   @class GraphToTF1
-   @short a wrapper to use a graph as a TF1 through the TSplines
+ @class GraphToTF1
+ @short a wrapper to use a graph as a TF1 through the TSplines
  */
-class GraphToTF1{
+class GraphToTF1 {
 public:
-  GraphToTF1(TString name, TGraph *g);
-  ~GraphToTF1(){};
+	GraphToTF1(TString name, TGraph *g);
+	~GraphToTF1() {
+	}
+	;
 
-  double operator()(double *x,double *p);
-  TSpline *sp_;
+	double operator()(double *x, double *p);
+	TSpline *sp_;
 };
 
 /**
-   @class ShowerProfile
-   @short store histograms and graphs regarding a given shower profile
+ @class ShowerProfile
+ @short store histograms and graphs regarding a given shower profile
  */
-class ShowerProfile
-{
+class ShowerProfile {
 public:
-  ShowerProfile();
-  ~ShowerProfile(){};
+	ShowerProfile();
+	~ShowerProfile() {
+	}
+	;
 
-  void writeTo(TDirectory *dir);
-  bool buildShowerProfile(Float_t eElec, TString version,TNtuple *tuple);
-  
-  typedef  std::pair<Int_t,Int_t> LocalCoord_t;
-  std::map<Int_t, std::map<LocalCoord_t,Float_t> > edeps_xy;
-  void resetEdeps() { edeps_xy.clear(); }
+	void writeTo(TDirectory *dir);
+	bool buildShowerProfile(Float_t eElec, TString version, TNtuple *tuple);
 
-  TH1F         *h_rawEn,          *h_en,    *h_enFit, *h_showerMax;
-  TH2F         *h_enVsOverburden, *h_enVsDistToShowerMax, *h_enfracVsOverburden;
-  TGraphErrors *gr_raw,            *gr_centered, *gr_frac;
-  TGraphErrors *gr_unc,            *gr_relUnc;
-  RooRealVar *rooRawEn,*rooEn;
-  RooDataSet *data;
+	typedef std::pair<Int_t, Int_t> LocalCoord_t;
+	std::map<Int_t, std::map<LocalCoord_t, Float_t> > edeps_xy;
+	void resetEdeps() {
+		edeps_xy.clear();
+	}
+
+	TH1F *h_rawEn, *h_en, *h_enFit, *h_showerMax;
+	TH2F *h_enVsOverburden, *h_enVsDistToShowerMax, *h_enfracVsOverburden;
+	TGraphErrors *gr_raw, *gr_centered, *gr_frac;
+	TGraphErrors *gr_unc, *gr_relUnc;
+	RooRealVar *rooRawEn, *rooEn;
+	RooDataSet *data;
 };
 
 /**
-   @class ShowerProfile
-   @short store histograms and graphs regarding a given shower profile
+ @class ShowerProfile
+ @short store histograms and graphs regarding a given shower profile
  */
-class DigiShowerProfile
-{
+class DigiShowerProfile {
 public:
-  DigiShowerProfile();
-  ~DigiShowerProfile(){};
+	DigiShowerProfile();
+	~DigiShowerProfile() {
+	}
+	;
 
-  void writeTo(TDirectory *dir);
-  bool buildShowerProfile(Float_t eElec, TString version);
+	void writeTo(TDirectory *dir);
+	bool buildShowerProfile(Float_t eElec, TString version);
 
-  TH1F         *h_energy;
+	TH1F *h_energy;
 };
 
 /**
-   @class CaloProperties
-   @short stores all shower properties built and the fits to the calibration and performance
+ @class CaloProperties
+ @short stores all shower properties built and the fits to the calibration and performance
  */
 
-class CaloProperties
-{
+class CaloProperties {
 public:
-  CaloProperties(TString tag);
-  void setEnergiesToScan(std::vector<Float_t> &enList) { genEn_=enList; }
-  ~CaloProperties(){};
+	CaloProperties(TString tag);
+	void setEnergiesToScan(std::vector<Float_t> &enList) {
+		genEn_ = enList;
+	}
+	~CaloProperties() {
+	}
+	;
 
-  void writeTo(TDirectoryFile *dir);
+	void writeTo(TDirectoryFile *dir);
 
-  void characterizeCalo();
+	void characterizeCalo();
 
-  TString tag_;
-  TGraph *gr_showerMax, *gr_centeredShowerMax;
-  std::vector<TGraphErrors *> calibCurve_,resCurve_;
-  std::vector<Measurement_t> stochTerms_, constTerms_;
-  std::map<Float_t,ShowerProfile> showerProfiles_;
-  std::vector<Float_t> genEn_;
+	TString tag_;
+	TGraph *gr_showerMax, *gr_centeredShowerMax;
+	std::vector<TGraphErrors *> calibCurve_, resCurve_;
+	std::vector<Measurement_t> stochTerms_, constTerms_;
+	std::map<Float_t, ShowerProfile> showerProfiles_;
+	std::vector<Float_t> genEn_;
 };
 
 void drawHeader();
