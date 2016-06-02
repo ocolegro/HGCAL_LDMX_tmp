@@ -263,5 +263,5 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	genvec_.clear();
 	hitvec_.clear();
 	ssvec_.clear();
-	trackvec_.clear()
+	trackvec_.clear();
 }
