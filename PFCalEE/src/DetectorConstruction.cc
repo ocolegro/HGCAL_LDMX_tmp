@@ -55,11 +55,9 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 
 		std::vector<G4double> lThickR;
 		std::vector<std::string> lEleR;
-
 		lThickR.push_back(wcuThick);lEleR.push_back("WCu");
 		lThickR.push_back(6*mm);lEleR.push_back("Cu");
 		lThickR.push_back(wcuThick);lEleR.push_back("WCu");
-		lThickR.push_back(0.*mm);lEleR.push_back("Steel");
 		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
 		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
 		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
@@ -117,21 +115,21 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 			std::vector<G4double> lThickR;
 			std::vector<std::string> lEleR;
 
+			lThickR.push_back(0.*mm);lEleR.push_back("Steel");
 			lThickR.push_back(wcuThick);lEleR.push_back("WCu");
 			lThickR.push_back(6*mm);lEleR.push_back("Cu");
 			lThickR.push_back(wcuThick);lEleR.push_back("WCu");
-			lThickR.push_back(0.*mm);lEleR.push_back("Steel");
 			lThickR.push_back(0.1*mm);lEleR.push_back("Si");
 			lThickR.push_back(0.1*mm);lEleR.push_back("Si");
 			lThickR.push_back(0.1*mm);lEleR.push_back("Si");
 			lThickR.push_back(pcbThick);lEleR.push_back("PCB");
 			lThickR.push_back(airThick);lEleR.push_back("Air");
 
+			lThickL.push_back(0.*mm);lEleL.push_back("Steel");
 			lThickL.push_back(0.5*mm);lEleL.push_back("Cu");
 			lThickL.push_back(0.5*mm);lEleL.push_back("CFMix");
 			lThickL.push_back(wThick);lEleL.push_back("W");
 			//Try adding steel, it greatly improves neutron detection
-			lThickL.push_back(0.*mm);lEleL.push_back("Steel");
 			lThickL.push_back(0.5*mm);lEleL.push_back("CFMix");
 			lThickL.push_back(0.5*mm);lEleL.push_back("Cu");
 			lThickL.push_back(airThick);lEleL.push_back("Air");
@@ -152,9 +150,9 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 			else{
 				Nmodule = 4;
 			}
-			lThickL[2] = 2.8*mm;
-			lThickR[0] = 1.2*mm;
-			lThickR[2] = 1.2*mm;
+			lThickL[3] = 2.8*mm;
+			lThickR[1] = 1.2*mm;
+			lThickR[3] = 1.2*mm;
 
 			for(unsigned i=0; i<Nmodule; i++) {
 				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
@@ -162,24 +160,24 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 			}
 
 			Nmodule=4;
-			lThickL[2] = 4.2*mm;
-			lThickR[0] = 2.2*mm;
-			lThickR[2] = 2.2*mm;
+			lThickL[3] = 4.2*mm;
+			lThickR[1] = 2.2*mm;
+			lThickR[3] = 2.2*mm;
 
 			if (version_ == v_HGCALEE_v6_s05){
 				Nmodule=5;
-				lThickR[3] = 5*mm;
-				lThickL[3] = 5*mm;
+				lThickR[0] = 5*mm;
+				lThickL[0] = 5*mm;
 			}
 			if (version_ == v_HGCALEE_v6_s10){
 				Nmodule=5;
-				lThickR[3] = 10*mm;
-				lThickL[3] = 10*mm;
+				lThickR[0] = 10*mm;
+				lThickL[0] = 10*mm;
 			}
 			if (version_ == v_HGCALEE_v6_s20){
 				Nmodule=5;
-				lThickR[3] = 20*mm;
-				lThickL[3] = 20*mm;
+				lThickR[0] = 20*mm;
+				lThickL[0] = 20*mm;
 			}
 			for(unsigned i=0; i<Nmodule; i++) {
 				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
