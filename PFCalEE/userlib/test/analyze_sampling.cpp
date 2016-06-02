@@ -45,6 +45,13 @@ int main(int argc, char** argv) {
 	std::vector<HGCSSSimHit> * hitVec = 0;
 	tree->SetBranchAddress("HGCSSSimHitVec", &hitVec);
 
+
+	std::vector<HGCSSGenParticle> * trackVec = 0;
+	tree->SetBranchAddress("HGCSSTrackVec", &trackVec);
+
+	std::vector<HGCSSGenParticle> * genVec = 0;
+	tree->SetBranchAddress("HGCSSGenParticleVec", &genVec);
+
 	Int_t firstLayer = 1;
 	unsigned nEvts = tree->GetEntries();
 
@@ -53,19 +60,31 @@ int main(int argc, char** argv) {
 
 	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux;
 	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
-			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500];
+			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500];
 	Int_t layer[500], caloLen;
+	Int_t summedNCount,summedHCount,summedMcount;
 	t1.Branch("caloLen", &caloLen, "caloLen/I");
 
 	t1.Branch("summedDep", &summedDep, "summedDep/F");
 	t1.Branch("summedSen", &summedSen, "summedSen/F");
+
 	t1.Branch("summedHFlux", &summedHFlux, "summedHFlux/F");
 	t1.Branch("summedNFlux", &summedNFlux, "summedNFlux/F");
 	t1.Branch("summedMFlux", &summedMFlux, "summedMFlux/F");
 
+
+	t1.Branch("summedHCount", &summedHCount, "summedHCount/I");
+	t1.Branch("summedNCount", &summedNCount, "summedNCount/I");
+	t1.Branch("summedMcount", &summedMcount, "summedMcount/I");
+
 	t1.Branch("layerHFlux", &layerHFlux, "layerHFlux[caloLen]/F");
 	t1.Branch("layerNFlux", &layerNFlux, "layerNFlux[caloLen]/F");
 	t1.Branch("layerMFlux", &layerMFlux, "layerMFlux[caloLen]/F");
+
+
+	t1.Branch("layerHCount", &layerHCount, "layerHCount/F");
+	t1.Branch("layerNCount", &layerNCount, "layerNCount/F");
+	t1.Branch("layerMCount", &layerMCount, "layerMCount/F");
 
 	t1.Branch("layerHWgtCnt", &layerHWgtCnt, "layerHWgtCnt[caloLen]/F");
 	t1.Branch("layerEWgtCnt", &layerEWgtCnt, "layerEWgtCnt[caloLen]/F");
@@ -96,15 +115,29 @@ int main(int argc, char** argv) {
 			summedNFlux += sec.neutronKin();
 			summedMFlux += sec.muKin();
 
+			summedHCount += sec.hadCount();
+			summedNCount += sec.neutronCount();
+			summedMcount += sec.muCount();
+
 			layerHFlux[j - firstLayer] = sec.hadKin();
 			layerNFlux[j - firstLayer] = sec.neutronKin();
 			layerMFlux[j - firstLayer] = sec.muKin();
+
+			layerHCount[j - firstLayer] = sec.hadCount();
+			layerNCount[j - firstLayer] = sec.neutronCount();
+			layerMCount[j - firstLayer] = sec.muCount();
+
+
+
 
 			layerHWgtCnt[j - firstLayer] = sec.hadWgtCnt();
 			layerEWgtCnt[j - firstLayer] = sec.eleWgtCnt();
 
 			layer[j - firstLayer] = j - firstLayer;
 			caloLen = caloLen + 1;
+			for (Int_t j = 0; j < genVec->size(); j++) {
+				HGCSSGenParticle& parton = (*genVec)[j];
+				std::cout << "The gen parton had energy " << parton.pz() << "The pdgid is " << parton.pdgid() << std::endl;
 		}
 
 		t1.Fill();
