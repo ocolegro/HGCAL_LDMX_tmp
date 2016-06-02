@@ -145,6 +145,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 					iSiHit < (*detector_)[i].getSiHitVec(idx).size();
 					++iSiHit) {
 				G4SiHit lSiHit = (*detector_)[i].getSiHitVec(idx)[iSiHit];
+				std::cout << "THe detector size for idx = " << idx << " is " << (*detector_)[i].getSiHitVec(idx).size() << std::endl;
 				HGCSSSimHit lHit(lSiHit, idx,
 						is_scint ?
 								geomConv_->squareMap() :
