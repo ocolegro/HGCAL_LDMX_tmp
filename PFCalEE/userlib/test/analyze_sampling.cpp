@@ -94,6 +94,7 @@ int main(int argc, char** argv) {
 	t1.Branch("genKin", &genKin, "genKin/F");
 
 	t1.Branch("genCounter", &genCounter, "genCounter/I");
+	t1.Branch("layMax", &layMax, "layMax/I");
 
 	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
 	t1.Branch("layerDep", &layerDep, "layerDep[caloLen]/F");
