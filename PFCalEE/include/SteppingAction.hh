@@ -12,7 +12,12 @@ public:
 	virtual ~SteppingAction();
 
 	void UserSteppingAction(const G4Step*);
+	inline unsigned getLayer(std::string astr) {
 
+		std::cout << "The layer is " << astr << "After stripping we have " << astr.erase( std::remove_if(astr.begin(), astr.end(), &ispunct), astr.end()) << std::endl;
+		return 0;
+
+	};
 private:
 	EventAction *eventAction_;
 	//to correct the energy in the scintillator

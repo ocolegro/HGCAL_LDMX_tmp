@@ -89,7 +89,8 @@ public:
 			};
 
 			inline unsigned getSensitiveLayerIndex(std::string astr) {
-				if (astr.find("_")== astr.npos) return 0;
+				if (astr.find("_")== astr.npos)
+					return 0;
 				size_t pos = astr.find("phys");
 				if (pos != astr.npos && pos>1) {
 					unsigned idx = 0;
@@ -98,7 +99,12 @@ public:
 				}
 				return 0;
 			};
+			inline unsigned getLayer(std::string astr) {
 
+				std::cout << "The layer is " << astr << "After stripping we have " << astr.erase( std::remove_if(astr.begin(), astr.end(), &ispunct), astr.end()) << std::endl;
+
+
+			};
 			inline G4Colour g4Colour(const unsigned & aEle) {
 				if (isSensitiveElement(aEle)) return G4Colour::Red();
 				if (ele_name[aEle] == "Cu") return G4Colour::Black();

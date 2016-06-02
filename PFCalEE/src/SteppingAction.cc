@@ -84,7 +84,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			- eventAction_->trackids.begin();
 
 	if ((id_ == eventAction_->trackids.size()) && (kineng>10)) {
-		std::cout << "The pdgid is " << pdgId << "The post volume is " << thePostPVname << std::endl;
+		std::cout << "The pdgid is " << pdgId << std::endl;
+		getLayer(thePostPVname);
 		if ((abs(pdgId) != 11) && (abs(pdgId) != 22 ) && (pdgId != -2112) && (pdgId != -2212)  && (abs(pdgId) != 310) && (abs(pdgId) != 111)){
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		std::cout << "The pdgid is " << pdgId << "The post volume is " << thePostPVname << std::endl;
