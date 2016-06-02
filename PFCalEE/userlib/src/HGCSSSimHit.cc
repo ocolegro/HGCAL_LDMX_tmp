@@ -14,7 +14,6 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	zpos_ = aSiHit.hit_z;
 	setLayer(aSiHit.layer, asilayer);
 	//coordinates in mm
-	//double z = aSiHit.hit_x;
 	double x = aSiHit.hit_x;
 	double y = aSiHit.hit_y;
 
@@ -35,15 +34,14 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 		nMuons_++;
 	else if (abs(aSiHit.pdgId) == 2112)
 		nNeutrons_++;
-	else if (abs(aSiHit.pdgId) == 2212)
-		nProtons_++;
-	else
+	else if ((abs(aSiHit.pdgId) != 111) && (abs(aSiHit.pdgId) != 310) && (aSiHit.pdgId != -2212))
 		nHadrons_++;
 
 	trackIDMainParent_ = aSiHit.parentId;
 	energyMainParent_ = aSiHit.energy;
 	trackID_ = aSiHit.trackId;
 	parentEng_ = aSiHit.parentEng;
+	fluxVec->push_back(std::pair<std::vector<double> ,std::vector<double>>(aSiHit.pdgId,aSiHit.parentEng));
 }
 
 void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
@@ -60,9 +58,8 @@ void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
 		nMuons_++;
 	else if (abs(aSiHit.pdgId) == 2112)
 		nNeutrons_++;
-	else if (abs(aSiHit.pdgId) == 2212)
-		nProtons_++;
-	else
+
+	else if ((abs(aSiHit.pdgId) != 111) && (abs(aSiHit.pdgId) != 310) && (aSiHit.pdgId != -2212))
 		nHadrons_++;
 
 	energy_ += aSiHit.energy;
@@ -70,17 +67,9 @@ void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
 		trackIDMainParent_ = aSiHit.parentId;
 		energyMainParent_ = aSiHit.energy;
 	}
+	fluxVec->push_back(std::pair<std::vector<double> ,std::vector<double>>(aSiHit.pdgId,aSiHit.parentEng));
 
 }
-
-/*double HGCSSSimHit::eta() const {
- double x = get_x();
- double y = get_y();
- double theta = acos(fabs(zpos_)/sqrt(zpos_*zpos_+x*x+y*y));
- double leta = -log(tan(theta/2.));
- if (zpos_>0) return leta;
- else return -leta;
- }*/
 
 std::pair<double, double> HGCSSSimHit::get_xy(const bool isScintillator,
 		const HGCSSGeometryConversion & aGeom) const {

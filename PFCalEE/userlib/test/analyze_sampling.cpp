@@ -41,6 +41,10 @@ int main(int argc, char** argv) {
 
 	std::vector<HGCSSSamplingSection> * samplingVec = 0;
 	tree->SetBranchAddress("HGCSSSamplingSectionVec", &samplingVec);
+
+	std::vector<HGCSSSimHit> * hitVec = 0;
+	tree->SetBranchAddress("HGCSSSimHitVec", &hitVec);
+
 	Int_t firstLayer = 1;
 	unsigned nEvts = tree->GetEntries();
 

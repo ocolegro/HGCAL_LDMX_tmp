@@ -25,7 +25,7 @@ public:
 	HGCSSSimHit() :
 			energy_(0), time_(0), zpos_(0), layer_(0), cellid_(0), nGammas_(0), nElectrons_(
 					0), nMuons_(0), nNeutrons_(0), nProtons_(0), nHadrons_(0), trackIDMainParent_(
-					0), energyMainParent_(0), trackID_(0), parentEng_(0) {
+					0), energyMainParent_(0), trackID_(0), parentEng_(0),fluxVec(0) {
 
 	}
 	;
@@ -179,7 +179,10 @@ public:
 	;
 
 	void Print(std::ostream & aOs) const;
-
+	inline std::pair<std::vector<double> ,std::vector<double>> getFluxVec() const{
+		return fluxVec;
+	}
+	;
 private:
 
 	double energy_;
@@ -195,6 +198,7 @@ private:
 	unsigned nNeutrons_;
 	unsigned nProtons_;
 	unsigned nHadrons_;
+	std::vector<std::pair<std::vector<double> ,std::vector<double>>>* fluxVec;
 	int trackIDMainParent_;
 	double energyMainParent_;
 

@@ -16,7 +16,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 
 			unsigned eleidx = ie % n_elements;
 			ele_den[eleidx] += den;
-			ele_dl[eleidx] += dl;
+			ele_dl[eleidx]  += dl;
 
 			G4SiHit lHit;
 			lHit.energy = den;
@@ -33,7 +33,6 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 			if (isSensitiveElement(eleidx)) { //if Si || sci
 				//add hit
 				sens_time[idx] += den * globalTime;
-				std::cout << "The size of sens_gFlux is " << sens_gFlux.size() << std::endl;
 				//discriminate further by particle type
 				if (abs(pdgId) == 22)
 					sens_gFlux[idx] += den/sens_gFlux.size();
@@ -47,7 +46,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 				else if (abs(pdgId) == 2112) {
 					sens_neutronFlux[idx] += den;
 					if (pdgId == 2112)
-						sens_neutronKinFlux[idx] += eng/sens_neutronKinFlux.size();
+					sens_neutronKinFlux[idx] += eng/sens_neutronKinFlux.size();
 				}
 				else {
 					sens_hadFlux[idx] += den;
