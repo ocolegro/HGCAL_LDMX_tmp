@@ -18,7 +18,6 @@ private:
 	//to correct the energy in the scintillator
 	G4EmSaturation* saturationEngine;
 	G4double timeLimit_;
-	std::vector<G4int> trackids;
 };
 
 #endif

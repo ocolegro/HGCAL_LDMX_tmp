@@ -60,6 +60,8 @@ private:
 	HGCSSGenParticleVec genvec_;
 	HGCSSGenParticleVec trackvec_;
 	EventActionMessenger* eventMessenger;
+	std::vector<G4int> trackids;
+
 	//std::ofstream fout_;
 
 };
