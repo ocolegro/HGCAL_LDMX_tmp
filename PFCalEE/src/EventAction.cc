@@ -191,7 +191,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			TVector3 v1(lSiHit.hit_x,lSiHit.hit_y,0);
 			Int_t pdgId_ = lSiHit.pdgId;
 			Double_t parentEng = lSiHit.parentEng;
-			if (lSiHit == 0){
+			if (iSiHit == 0){
 				if (eleWgtCnt_ > 0)
 				eleCnt_  =  eleCnt_ * (1.0/eleWgtCnt_);
 				if (muWgtCnt_ > 0)
