@@ -18,14 +18,14 @@ public:
 		if (astr.find("_")== astr.npos) {
 			std::string truncated = astr.substr(0,pos);
 			size_t last_index = truncated.find_last_not_of("0123456789");
-			num = std::atoi(truncated.substr(last_index+1,last_index).c_str());
+			num = std::atoi(truncated.substr(last_index+1).c_str());
 
 		}
 		else{
 			pos = astr.find("_");
 			std::string truncated = astr.substr(0,pos);
 			size_t last_index = truncated.find_last_not_of("0123456789");
-			num = std::atoi(truncated.substr(last_index+1,last_index).c_str());
+			num = std::atoi(truncated.substr(last_index+1).c_str());
 		}
 		G4cout << "The layer is " << astr <<
 				"After stripping we have " << num << G4endl;
