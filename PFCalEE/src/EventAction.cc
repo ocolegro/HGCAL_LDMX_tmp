@@ -51,6 +51,8 @@ EventAction::EventAction() {
 	tree_->Branch("HGCSSSimHitVec", "std::vector<HGCSSSimHit>", &hitvec_);
 	tree_->Branch("HGCSSGenParticleVec", "std::vector<HGCSSGenParticle>",
 			&genvec_);
+	tree_->Branch("HGCSSTrackVec", "std::vector<HGCSSGenParticle>",
+			&trackvec_);
 
 	// }
 }
@@ -79,13 +81,17 @@ void EventAction::BeginOfEventAction(const G4Event* evt) {
 void EventAction::Detect(G4double eng, G4double edep, G4double stepl,
 		G4double globalTime, G4int pdgId, G4VPhysicalVolume *volume,
 		const G4ThreeVector & position, G4int trackID, G4int parentID,
-		const HGCSSGenParticle & genPart) {
+		const HGCSSGenParticle & genPart, G4bool targetParticle) {
 	for (size_t i = 0; i < detector_->size(); i++)
 		(*detector_)[i].add(eng, edep, stepl, globalTime, pdgId, volume,
 				position, trackID, parentID, i);
 
-	if (genPart.isIncoming())
+	if (genPart.isIncoming()){
+		if (targetParticle)
 		genvec_.push_back(genPart);
+		trackvec_.push_back(genPart);
+	}
+
 }
 
 //
@@ -158,14 +164,14 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
 		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 
-		unsigned absSize_ = (*detector_)[i].abs_HitVec.size();
-		for (unsigned iAbsHit(0);
-				iAbsHit < absSize_;
-				++iAbsHit){
-			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[iAbsHit];
-			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
-			Int_t pdgId_ = lAbsHit.pdgId;
-			Double_t parentEng = lAbsHit.parentEng;
+		unsigned absSize_ = (*detector_)[i].getSiHitVec(0).size();
+		for (unsigned iSiHit(0);
+				iSiHit < absSize_;
+				++iSiHit){
+			G4SiHit lSiHit = (*detector_)[i].getSiHitVec(0)[iSiHit];
+			TVector3 v1(lSiHit.hit_x,lSiHit.hit_y,0);
+			Int_t pdgId_ = lSiHit.pdgId;
+			Double_t parentEng = lSiHit.parentEng;
 			if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
 				eleCnt_ += v1 * parentEng;
 				eleWgtCnt_ += parentEng;
@@ -184,14 +190,14 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 				hadWgtCnt_ += parentEng;
 			}
 		}
-		for (unsigned jAbsHit(0);
-				jAbsHit < absSize_;
-				++jAbsHit){
-			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[jAbsHit];
-			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
-			Int_t pdgId_ = lAbsHit.pdgId;
-			Double_t parentEng = lAbsHit.parentEng;
-			if (jAbsHit == 0){
+		for (unsigned iSiHit(0);
+				iSiHit < absSize_;
+				++iSiHit){
+			G4SiHit lSiHit = (*detector_)[i].getSiHitVec(0)[iSiHit];
+			TVector3 v1(lSiHit.hit_x,lSiHit.hit_y,0);
+			Int_t pdgId_ = lSiHit.pdgId;
+			Double_t parentEng = lSiHit.parentEng;
+			if (iSiHit == 0){
 				if (eleWgtCnt_ > 0)
 				eleCnt_  =  eleCnt_ * (1.0/eleWgtCnt_);
 				if (muWgtCnt_ > 0)
@@ -260,4 +266,5 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	genvec_.clear();
 	hitvec_.clear();
 	ssvec_.clear();
+	trackvec_.clear();
 }
