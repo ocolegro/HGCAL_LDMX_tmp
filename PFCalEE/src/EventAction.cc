@@ -166,6 +166,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 
 		std::cout << "c" << std::endl;
 		unsigned absSize_ = (*detector_)[i].getSiHitVec(0).size();
+		std::cout << "absSize_ is " << absSize_ << std::endl;
 		for (unsigned iSiHit(0);
 				iSiHit < absSize_;
 				++iSiHit){
