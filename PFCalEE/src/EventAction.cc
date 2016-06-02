@@ -125,6 +125,9 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		lSec.hadKin((*detector_)[i].getKinHadron());
 		lSec.muKin((*detector_)[i].getKinMuon());
 
+		lSec.neutronCount((*detector_)[i].getNeutronCount());
+		lSec.hadCount((*detector_)[i].getHadronCount());
+		lSec.muCount((*detector_)[i].getMuonCount());
 		if (evtNb_ == 1)
 			std::cout << "if (layer==" << i << ") return " << lSec.voldEdx()
 					<< ";" << std::endl;

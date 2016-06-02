@@ -191,6 +191,30 @@ public:
 			}
 			;
 
+			inline unsigned getMuonCount() {
+				double val = 0;
+				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
+					val += sens_muCounter[ie];
+				}
+				return val;
+			}
+			;
+			inline unsigned getHadronCount() {
+				double val = 0;
+				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
+					val += sens_hadCounter[ie];
+				}
+				return val;
+			}
+			;
+			inline unsigned getNeutronCount() {
+				double val = 0;
+				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
+					val += sens_neutronCounter[ie];
+				}
+				return val;
+			}
+			;
 			//
 			G4double getMeasuredEnergy(bool weighted=true);
 			G4double getAbsorbedEnergy();
@@ -228,7 +252,7 @@ public:
 			std::vector<G4double> ele_dl;
 			std::vector<G4VPhysicalVolume*> ele_vol;
 			std::vector<G4double> sens_gFlux, sens_eFlux, sens_muFlux, sens_muKinFlux,sens_neutronFlux, sens_neutronKinFlux,
-			sens_hadFlux, sens_hadKinFlux, sens_time;
+			sens_hadFlux, sens_hadKinFlux, sens_time,sens_neutronCounter,sens_hadCounter,sens_muCounter;
 			G4double Total_thick;
 			std::vector<G4SiHitVec> sens_HitVec;
 			G4SiHitVec abs_HitVec;

@@ -41,15 +41,18 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 				else if (abs(pdgId) == 13) {
 					sens_muFlux[idx] += den;
 					sens_muKinFlux[idx] += eng;
+					sens_muCounter[idx] += 1;
 				} else if (abs(pdgId) == 2112) {
 					sens_neutronFlux[idx] += den;
 					if (pdgId == 2112)
 						sens_neutronKinFlux[idx] += eng;
+						sens_neutronCounter[idx] += 1;
 				} else {
 					sens_hadFlux[idx] += den;
 					if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
 							&& (pdgId != -2212))
 						sens_hadKinFlux[idx] += eng;
+						sens_hadCounter[idx] += 1;
 				}
 				sens_HitVec[idx].push_back(lHit);
 			} //if Si
