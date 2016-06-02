@@ -130,6 +130,8 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 			std::cout << "if (layer==" << i << ") return " << lSec.voldEdx()
 					<< ";" << std::endl;
 
+		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
+		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 		bool is_scint = (*detector_)[i].hasScintillator;
 		for (unsigned idx(0); idx < (*detector_)[i].n_sens_elements; ++idx) {
 			std::map<unsigned, HGCSSSimHit> lHitMap;
@@ -148,7 +150,31 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 						std::pair<unsigned, HGCSSSimHit>(lHit.cellid(), lHit));
 				if (!isInserted.second)
 					isInserted.first->second.Add(lSiHit);
-			}
+				if (idx == 0)
+				{
+					TVector3 v1(lSiHit.hit_x,lSiHit.hit_y,lSiHit.hit_z);
+					Int_t pdgId_ = lSiHit.pdgId;
+					Double_t parentEng = lSiHit.parentEng;
+					if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
+						eleCnt_ += v1 * parentEng;
+						eleWgtCnt_ += parentEng;
+					}
+					else if (abs(pdgId_) == 13) {
+						muCnt_ += v1 * parentEng;
+						muWgtCnt_ += parentEng;
+
+					}
+					else if (pdgId_== 2112) {
+						neutCnt_ += v1 * parentEng;
+						neutWgtCnt_ += parentEng;
+					}
+					else if ((abs(pdgId_) != 111) && (abs(pdgId_) != 310) && (pdgId_ != -2212)){
+						hadCnt_ += v1 * parentEng;
+						hadWgtCnt_ += parentEng;
+					}
+				}
+				}
+
 			std::map<unsigned, HGCSSSimHit>::iterator lIter = lHitMap.begin();
 			hitvec_.reserve(hitvec_.size() + lHitMap.size());
 			for (; lIter != lHitMap.end(); ++lIter) {
@@ -158,37 +184,11 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 
 		} //loop on sensitive layers
 
-		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
-		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 		if ((*detector_)[i].n_sens_elements > 0){
 
 
 			unsigned absSize_ = (*detector_)[i].getSiHitVec(0).size();
-			for (unsigned iAbsHit(0);
-					iAbsHit < absSize_;
-					++iAbsHit){
-				G4SiHit lAbsHit = (*detector_)[i].getSiHitVec(0)[iAbsHit];
-				TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
-				Int_t pdgId_ = lAbsHit.pdgId;
-				Double_t parentEng = lAbsHit.parentEng;
-				if ((abs(pdgId_) == 11) || (abs(pdgId_) == 22)){
-					eleCnt_ += v1 * parentEng;
-					eleWgtCnt_ += parentEng;
-				}
-				else if (abs(pdgId_) == 13) {
-					muCnt_ += v1 * parentEng;
-					muWgtCnt_ += parentEng;
 
-				}
-				else if (pdgId_== 2112) {
-					neutCnt_ += v1 * parentEng;
-					neutWgtCnt_ += parentEng;
-				}
-				else if ((abs(pdgId_) != 111) && (abs(pdgId_) != 310) && (pdgId_ != -2212)){
-					hadCnt_ += v1 * parentEng;
-					hadWgtCnt_ += parentEng;
-				}
-			}
 			for (unsigned jAbsHit(0);
 					jAbsHit < absSize_;
 					++jAbsHit){
@@ -220,31 +220,11 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 					hadWgt +=  TMath::Power( (v1  - hadCnt_).Mag() * parentEng,2);
 				}
 			}
-			if (eleWgtCnt_ > 0){
-				lSec.eleWgtCnt(TMath::Sqrt(eleWgt)   /  eleWgtCnt_);
-			}
-			else{
-				lSec.eleWgtCnt(-1);
-			}
-			if (muWgtCnt_ > 0){
-				lSec.muWgtCnt(TMath::Sqrt(muWgt)     /  muWgtCnt_);
-			}
-			else{
-				lSec.muWgtCnt(-1);
-			}
-			if (hadWgtCnt_ > 0){
-				lSec.hadWgtCnt(TMath::Sqrt(hadWgt)   /  hadWgtCnt_);
-			}
-			else{
-				lSec.hadWgtCnt(-1);
+			(eleWgtCnt_ > 0) ? lSec.eleWgtCnt(TMath::Sqrt(eleWgt)   /  eleWgtCnt_) : lSec.eleWgtCnt(-1);
+			(muWgtCnt_ > 0)  ? lSec.muWgtCnt(TMath::Sqrt(muWgt)     /  muWgtCnt_) : lSec.muWgtCnt(-1);
+			(hadWgtCnt_ > 0) ? lSec.hadWgtCnt(TMath::Sqrt(hadWgt)   /  hadWgtCnt_) : lSec.hadWgtCnt(0);
+			(neutWgtCnt_ > 0) ? lSec.neutWgtCnt(TMath::Sqrt(neutWgt) / neutWgtCnt_) : lSec.neutWgtCnt(0);
 
-			}
-			if (neutWgtCnt_ > 0){
-				lSec.neutWgtCnt(TMath::Sqrt(neutWgt) / neutWgtCnt_);
-			}
-			else{
-				lSec.neutWgtCnt(-1);
-			}
 		}
 		ssvec_.push_back(lSec);
 
