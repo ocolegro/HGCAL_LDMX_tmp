@@ -110,7 +110,6 @@ int main(int argc, char** argv) {
 
 		if (ievt > 10000)
 			break;
-		std::cout <<"THe event is " << ievt << std::endl;
 
 		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
