@@ -179,7 +179,7 @@ public:
 	;
 
 	void Print(std::ostream & aOs) const;
-	inline std::pair<std::vector<double> ,std::vector<double>> getFluxVec() const{
+	inline std::vector<std::pair<std::vector<double> ,std::vector<double>>> getFluxVec() const{
 		return fluxVec;
 	}
 	;
