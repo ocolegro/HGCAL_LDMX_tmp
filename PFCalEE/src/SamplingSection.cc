@@ -33,7 +33,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 			if (isSensitiveElement(eleidx)) { //if Si || sci
 				//add hit
 				sens_time[idx] += den * globalTime;
-				std::cout << "The size of sens_gFlux is " << sens_gFlux << std::endl;
+				std::cout << "The size of sens_gFlux is " << sens_gFlux.size() << std::endl;
 				//discriminate further by particle type
 				if (abs(pdgId) == 22)
 					sens_gFlux[idx] += den/sens_gFlux.size();
