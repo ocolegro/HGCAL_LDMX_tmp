@@ -59,10 +59,10 @@ int main(int argc, char** argv) {
 	TFile hfile("analyzed_tuple.root", "RECREATE");
 	TTree t1("hadrons", "Hadron Study");
 
-	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux;
+	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux,maxTrackKe;
 	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
 			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500];
-	Int_t layer[500], caloLen, summedNCount,summedHCount,summedMcount;
+	Int_t layer[500], caloLen, summedNCount,summedHCount,summedMcount,layMax,genCounter;
 	t1.Branch("caloLen", &caloLen, "caloLen/I");
 
 	t1.Branch("summedDep", &summedDep, "summedDep/F");
@@ -82,15 +82,20 @@ int main(int argc, char** argv) {
 	t1.Branch("layerMFlux", &layerMFlux, "layerMFlux[caloLen]/F");
 
 
-	t1.Branch("layerHCount", &layerHCount, "layerHCount/F");
-	t1.Branch("layerNCount", &layerNCount, "layerNCount/F");
-	t1.Branch("layerMCount", &layerMCount, "layerMCount/F");
+	t1.Branch("layerHCount", &layerHCount, "layerHCount[caloLen]/F");
+	t1.Branch("layerNCount", &layerNCount, "layerNCount[caloLen]/F");
+	t1.Branch("layerMCount", &layerMCount, "layerMCount[caloLen]/F");
 
 	t1.Branch("layerHWgtCnt", &layerHWgtCnt, "layerHWgtCnt[caloLen]/F");
 	t1.Branch("layerEWgtCnt", &layerEWgtCnt, "layerEWgtCnt[caloLen]/F");
 
+
+	t1.Branch("maxTrackKe", &maxTrackKe, "maxTrackKe/F");
+	t1.Branch("genCounter", &genCounter, "genCounter/I");
+
 	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
 	t1.Branch("layerDep", &layerDep, "layerDep[caloLen]/F");
+
 
 	t1.Branch("layer", &layer, "layer[caloLen]/I");
 
@@ -98,10 +103,11 @@ int main(int argc, char** argv) {
 		tree->GetEntry(ievt);
 
 		summedSen = 0, summedDep = 0, summedHFlux = 0, summedNFlux = 0, summedMFlux =
-				0, caloLen = 0;
+				0, caloLen = 0,summedHCount=0,summedNCount=0,summedMcount=0,maxTrackKe=0,genCounter = 0;
 
 		if (ievt > 10000)
 			break;
+		std::cout <<"THe event is " << ievt << std::endl;
 
 		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
@@ -133,14 +139,22 @@ int main(int argc, char** argv) {
 
 			layer[j - firstLayer] = j - firstLayer;
 			caloLen = caloLen + 1;
+		}
 			for (Int_t j = 0; j < trackVec->size(); j++) {
 				HGCSSGenParticle& parton = (*trackVec)[j];
-				std::cout << "The gen parton had energy " << parton.pz() << "The pdgid is " << parton.pdgid() << std::endl;
+				genCounter += 1;
+
+				Float_t eng = sqrt(parton.px()*parton.px()+parton.py()*parton.py()+parton.pz()*parton.pz() + parton.mass()*parton.mass())-parton.mass();
+				if (eng> maxTrackKe){
+					eng    = maxTrackKe;
+					layMax = parton.layer();
+				}
+				std::cout << "The track energy is " << eng << std::endl;
+				std::cout << "The track pdgid is " << parton.trackID();
 		}
 
 		t1.Fill();
 	}
 	t1.Write();
-	}
 	return 1;
 }
