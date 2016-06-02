@@ -137,6 +137,11 @@ public:
 				sens_neutronKinFlux.clear();
 				sens_hadKinFlux.clear();
 
+				sens_muCounter.clear();
+				sens_neutronCounter.clear();
+				sens_hadCounter.clear();
+
+
 				ele_den.resize(n_elements,0);
 				ele_dl.resize(n_elements,0);
 				sens_time.resize(n_sens_elements,0);
@@ -145,9 +150,14 @@ public:
 				sens_muFlux.resize(n_sens_elements,0);
 				sens_neutronFlux.resize(n_sens_elements,0);
 				sens_hadFlux.resize(n_sens_elements,0);
+
 				sens_muKinFlux.resize(n_sens_elements,0);
 				sens_neutronKinFlux.resize(n_sens_elements,0);
 				sens_hadKinFlux.resize(n_sens_elements,0);
+
+				sens_muCounter.resize(n_sens_elements,0);
+				sens_neutronCounter.resize(n_sens_elements,0);
+				sens_hadCounter.resize(n_sens_elements,0);
 				//reserve some space based on first event....
 				for (unsigned idx(0); idx<n_sens_elements; ++idx) {
 					if (sens_HitVec[idx].size() > sens_HitVec_size_max) {
