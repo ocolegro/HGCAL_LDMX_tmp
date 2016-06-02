@@ -115,37 +115,38 @@ int main(int argc, char** argv) {
 
 		if (ievt > 10000)
 			break;
-
+		Float_t nSens = 3.0;
+		Float_t nLayers = 26.0;
 		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
 			summedSen += sec.measuredE();
 			summedDep += sec.totalE();
 
-			layerSen[j - firstLayer] = sec.hadKin()/3.0;
-			layerDep[j - firstLayer] = sec.neutronKin()/3.0;
+			layerSen[j - firstLayer] = sec.measuredE()/nSens;
+			layerDep[j - firstLayer] = sec.totalE()/nSens;
 
-			summedHFlux += sec.hadKin()/(3.0 * 26);
-			summedNFlux += sec.neutronKin()/(3.0 * 26);
-			summedMFlux += sec.muKin()/(3.0 * 26);
+			summedHFlux += sec.hadKin()/(nSens * nLayers);
+			summedNFlux += sec.neutronKin()/(nSens * nLayers);
+			summedMFlux += sec.muKin()/(nSens * nLayers);
 
-			summedHCount += sec.hadCount()/(3.0 * 26);
-			summedNCount += sec.neutronCount()/(3.0 * 26);
-			summedMcount += sec.muCount()/(3.0 * 26);
+			summedHCount += sec.hadCount()/(nSens * nLayers);
+			summedNCount += sec.neutronCount()/(nSens * nLayers);
+			summedMcount += sec.muCount()/(nSens * nLayers);
 
-			layerHFlux[j - firstLayer] = sec.hadKin()/3.0;
-			layerNFlux[j - firstLayer] = sec.neutronKin()/3.0;
-			layerMFlux[j - firstLayer] = sec.muKin()/3.0;
+			layerHFlux[j - firstLayer] = sec.hadKin()/nSens;
+			layerNFlux[j - firstLayer] = sec.neutronKin()/nSens;
+			layerMFlux[j - firstLayer] = sec.muKin()/nSens;
 
-			layerHCount[j - firstLayer] = sec.hadCount()/3.0;
-			layerNCount[j - firstLayer] = sec.neutronCount()/3.0;
-			layerMCount[j - firstLayer] = sec.muCount()/3.0;
+			layerHCount[j - firstLayer] = sec.hadCount()/nSens;
+			layerNCount[j - firstLayer] = sec.neutronCount()/nSens;
+			layerMCount[j - firstLayer] = sec.muCount()/nSens;
 
 
 			layerHWgtCnt[j - firstLayer] = sec.hadWgtCnt();
 			layerEWgtCnt[j - firstLayer] = sec.eleWgtCnt();
 
-			layerHWgtAvg += sec.hadWgtCnt()/26.0;
-			layerEWgtAvg += sec.eleWgtCnt()/26.0;
+			layerHWgtAvg += sec.hadWgtCnt()/nLayers;
+			layerEWgtAvg += sec.eleWgtCnt()/nLayers;
 
 			layer[j - firstLayer] = j - firstLayer;
 			caloLen = caloLen + 1;
