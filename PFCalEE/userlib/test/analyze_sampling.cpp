@@ -5,7 +5,6 @@
 #include<sstream>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
-#include "globals.hh"
 
 #include "TFile.h"
 #include "TTree.h"
@@ -37,6 +36,7 @@
 
 int main(int argc, char** argv) {
 	std::cout << "Opening the file " << argv[1] << std::endl;
+	freopen("test_log.txt", "w", stdout);
 	TFile *infile = TFile::Open(argv[1]);
 	TTree *tree = (TTree*) infile->Get("HGCSSTree");
 
@@ -62,8 +62,7 @@ int main(int argc, char** argv) {
 	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux;
 	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
 			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500];
-	Int_t layer[500], caloLen;
-	Int_t summedNCount,summedHCount,summedMcount;
+	Int_t layer[500], caloLen, summedNCount,summedHCount,summedMcount;
 	t1.Branch("caloLen", &caloLen, "caloLen/I");
 
 	t1.Branch("summedDep", &summedDep, "summedDep/F");
@@ -127,8 +126,6 @@ int main(int argc, char** argv) {
 			layerHCount[j - firstLayer] = sec.hadCount();
 			layerNCount[j - firstLayer] = sec.neutronCount();
 			layerMCount[j - firstLayer] = sec.muCount();
-
-
 
 
 			layerHWgtCnt[j - firstLayer] = sec.hadWgtCnt();
