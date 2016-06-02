@@ -133,8 +133,8 @@ int main(int argc, char** argv) {
 
 			layer[j - firstLayer] = j - firstLayer;
 			caloLen = caloLen + 1;
-			for (Int_t j = 0; j < genVec->size(); j++) {
-				HGCSSGenParticle& parton = (*genVec)[j];
+			for (Int_t j = 0; j < trackVec->size(); j++) {
+				HGCSSGenParticle& parton = (*trackVec)[j];
 				std::cout << "The gen parton had energy " << parton.pz() << "The pdgid is " << parton.pdgid() << std::endl;
 		}
 
