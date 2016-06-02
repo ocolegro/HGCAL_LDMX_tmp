@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 	TFile hfile("analyzed_tuple.root", "RECREATE");
 	TTree t1("hadrons", "Hadron Study");
 
-	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux,maxTrackKe;
+	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux,maxTrackKe,genKin;
 	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
 			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500];
 	Int_t layer[500], caloLen, summedNCount,summedHCount,summedMcount,layMax,genCounter;
@@ -91,6 +91,8 @@ int main(int argc, char** argv) {
 
 
 	t1.Branch("maxTrackKe", &maxTrackKe, "maxTrackKe/F");
+	t1.Branch("genKin", &genKin, "genKin/F");
+
 	t1.Branch("genCounter", &genCounter, "genCounter/I");
 
 	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
@@ -143,14 +145,19 @@ int main(int argc, char** argv) {
 			for (Int_t j = 0; j < trackVec->size(); j++) {
 				HGCSSGenParticle& parton = (*trackVec)[j];
 				genCounter += 1;
+				Float_t engK = sqrt(parton.px()*parton.px()+parton.py()*parton.py()+parton.pz()*parton.pz() + parton.mass()*parton.mass())-parton.mass();
+				genKin += engK;
 
-				Float_t eng = sqrt(parton.px()*parton.px()+parton.py()*parton.py()+parton.pz()*parton.pz() + parton.mass()*parton.mass())-parton.mass();
-				if (eng> maxTrackKe){
-					eng    = maxTrackKe;
+				if (engK> maxTrackKe){
+					engK    = maxTrackKe;
 					layMax = parton.layer();
 				}
-				std::cout << "The track energy is " << eng << std::endl;
-				std::cout << "The track pdgid is " << parton.trackID();
+				std::cout << "The track energy is " << engK << std::endl;
+				std::cout << "The parton momenta is " << parton.px()  <<"," << parton.py() << "," << parton.pz() << std::endl;
+				std::cout << "The track pdgid is " << parton.pdgid() << std::endl;
+				std::cout << "The track layer is " << parton.layer() << std::endl;
+
+				std::cout << "The track id is " << parton.trackID() << std::endl;
 		}
 
 		t1.Fill();
