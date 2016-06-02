@@ -44,6 +44,7 @@ public:
 	void Add(std::vector<SamplingSection> *newDetector) {
 		detector_ = newDetector;
 	}
+	std::vector<G4int> trackids;
 
 private:
 	RunAction* runAct;
@@ -60,7 +61,6 @@ private:
 	HGCSSGenParticleVec genvec_;
 	HGCSSGenParticleVec trackvec_;
 	EventActionMessenger* eventMessenger;
-	std::vector<G4int> trackids;
 
 	//std::ofstream fout_;
 
