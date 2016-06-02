@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
 		tree->GetEntry(ievt);
 
 		summedSen = 0, summedDep = 0, summedHFlux = 0, summedNFlux = 0, summedMFlux =
-				0, caloLen = 0,summedHCount=0,summedNCount=0,summedMcount=0,maxTrackKe=0,genCounter = 0,genKin=0;
+				0, caloLen = 0,summedHCount=0,summedNCount=0,summedMcount=0,maxTrackKe=0,genCounter = 0,genKin=0,layerHWgtAvg=0,layerEWgtAvg=0;
 
 		if (ievt > 10000)
 			break;
