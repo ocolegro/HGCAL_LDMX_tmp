@@ -71,7 +71,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			eventAction_->trackids.end(), trackID)
 			- eventAction_->trackids.begin();
 
-	if (id_ == eventAction_->trackids.size() && lTrack>10) {
+	if ((id_ == eventAction_->trackids.size()) && lTrack>10) {
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
