@@ -72,6 +72,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			- eventAction_->trackids.begin();
 
 	if ((id_ == eventAction_->trackids.size()) && (kineng>10)) {
+		if ((abs(pdgId) != 11) && (abs(pdgId) != 22 ) && (pdgId != -2112) && (pdgId != -2212)  && (abs(pdgId) != 310) && (abs(pdgId) != 111)){
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
@@ -83,6 +84,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.charge(pd->GetPDGCharge());
 		genPart.trackID(trackID);
 		eventAction_->trackids.push_back(trackID);
+		}
 	}
 	eventAction_->Detect(kineng, edep, stepl, globalTime, pdgId, volume,
 			position, trackID, parentID, genPart, targetParticle);

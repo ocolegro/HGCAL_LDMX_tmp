@@ -50,7 +50,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 				} else {
 					sens_hadFlux[idx] += den;
 					if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
-							&& (pdgId != -2212))
+							&& (pdgId != -2212) )
 						sens_hadKinFlux[idx] += eng;
 						sens_hadCounter[idx] += 1;
 				}
