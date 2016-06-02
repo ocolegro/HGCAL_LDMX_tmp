@@ -164,6 +164,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
 		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 
+		std::cout << "c" << std::endl;
 		unsigned absSize_ = (*detector_)[i].getSiHitVec(0).size();
 		for (unsigned iSiHit(0);
 				iSiHit < absSize_;
@@ -246,6 +247,8 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		else{
 			lSec.neutWgtCnt(-1);
 		}
+		std::cout << "d" << std::endl;
+
 		ssvec_.push_back(lSec);
 
 		if (debug) {
