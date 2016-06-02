@@ -67,11 +67,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 					|| (thePrePVname == "W1phys"
 							&& thePostPVname == "G4_Galactic1phys")))
 		targetParticle = true;
-	int id_ = std::find(eventAction_->trackids.begin(),
+	unsigned int id_ = std::find(eventAction_->trackids.begin(),
 			eventAction_->trackids.end(), trackID)
 			- eventAction_->trackids.begin();
 
-	if ((id_ == eventAction_->trackids.size()) && (lTrack>10)) {
+	if ((id_ == eventAction_->trackids.size()) && (kineng>10)) {
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
