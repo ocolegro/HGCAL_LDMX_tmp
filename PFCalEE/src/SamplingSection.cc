@@ -18,49 +18,53 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 			ele_den[eleidx] += den;
 			ele_dl[eleidx] += dl;
 
-
+			G4SiHit lHit;
+			lHit.energy = den;
+			lHit.time = globalTime;
+			lHit.pdgId = pdgId;
+			lHit.layer = layerId;
+			lHit.hit_x = position.x();
+			lHit.hit_y = position.y();
+			lHit.hit_z = position.z();
+			lHit.trackId = trackID;
+			lHit.parentId = parentID;
+			lHit.parentEng = eng;
 
 			if (isSensitiveElement(eleidx)) { //if Si || sci
 				//add hit
-				G4SiHit lHit;
-				lHit.energy = den;
-				lHit.time = globalTime;
-				lHit.pdgId = pdgId;
-				lHit.layer = layerId;
-				lHit.hit_x = position.x();
-				lHit.hit_y = position.y();
-				lHit.hit_z = position.z();
-				lHit.trackId = trackID;
-				lHit.parentId = parentID;
-				lHit.parentEng = eng;
-
 				sens_time[idx] += den * globalTime;
-
+				std::cout << "The size of sens_gFlux is " << sens_gFlux << std::endl;
 				//discriminate further by particle type
 				if (abs(pdgId) == 22)
-					sens_gFlux[idx] += den;
+					sens_gFlux[idx] += den/sens_gFlux.size();
 				else if (abs(pdgId) == 11)
-					sens_eFlux[idx] += den;
+					sens_eFlux[idx] += den/sens_eFlux.size();
 
 				else if (abs(pdgId) == 13) {
 					sens_muFlux[idx] += den;
-					sens_muKinFlux[idx] += eng;
-				} else if (abs(pdgId) == 2112) {
+					sens_muKinFlux[idx] += eng/sens_muKinFlux.size();
+				}
+				else if (abs(pdgId) == 2112) {
 					sens_neutronFlux[idx] += den;
 					if (pdgId == 2112)
-						sens_neutronKinFlux[idx] += eng;
-				} else {
+						sens_neutronKinFlux[idx] += eng/sens_neutronKinFlux.size();
+				}
+				else {
 					sens_hadFlux[idx] += den;
 					if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
 							&& (pdgId != -2212))
-						sens_hadKinFlux[idx] += eng;
+						sens_hadKinFlux[idx] += eng/sens_hadKinFlux.size();
 				}
-				sens_HitVec[idx].push_back(lHit);
 				if (idx == 0)
 				{
-				abs_HitVec.push_back(lHit);
+				sens_HitVec[idx].push_back(lHit);
 				}
 			} //if Si
+			else{
+				//check for W in layer
+				if ((lstr.find("W") == std::string::npos) == 0)
+				abs_HitVec.push_back(lHit);
+			}
 
 		} //if in right material
 	} //loop on available materials
