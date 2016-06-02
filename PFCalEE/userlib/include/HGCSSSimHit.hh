@@ -179,10 +179,7 @@ public:
 	;
 
 	void Print(std::ostream & aOs) const;
-	inline std::vector<std::pair<std::vector<int> ,std::vector<double>>>* getFluxVec() const{
-		return fluxVec;
-	}
-	;
+
 private:
 
 	double energy_;
@@ -198,7 +195,6 @@ private:
 	unsigned nNeutrons_;
 	unsigned nProtons_;
 	unsigned nHadrons_;
-	std::vector<std::pair<std::vector<int> ,std::vector<double>>>* fluxVec;
 	int trackIDMainParent_;
 	double energyMainParent_;
 

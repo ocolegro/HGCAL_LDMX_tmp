@@ -54,10 +54,8 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 							&& (pdgId != -2212))
 						sens_hadKinFlux[idx] += eng/sens_hadKinFlux.size();
 				}
-				if (idx == 0)
-				{
 				sens_HitVec[idx].push_back(lHit);
-				}
+
 			} //if Si
 			else{
 				//check for W in layer
