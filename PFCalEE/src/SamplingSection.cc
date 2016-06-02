@@ -13,6 +13,8 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
 			unsigned idx = getSensitiveLayerIndex(lstr);
+			std::cout << "lstr is " << lstr << "and the idx is " << idx << std::endl;
+
 			unsigned eleidx = ie % n_elements;
 			ele_den[eleidx] += den;
 			ele_dl[eleidx] += dl;
