@@ -41,7 +41,7 @@ HGCSSSimHit::HGCSSSimHit(const G4SiHit & aSiHit, const unsigned & asilayer,
 	energyMainParent_ = aSiHit.energy;
 	trackID_ = aSiHit.trackId;
 	parentEng_ = aSiHit.parentEng;
-	fluxVec->push_back(std::pair<std::vector<double> ,std::vector<double>>(aSiHit.pdgId,aSiHit.parentEng));
+	fluxVec->push_back(std::pair<std::vector<int> ,std::vector<double>>(aSiHit.pdgId,aSiHit.parentEng));
 }
 
 void HGCSSSimHit::Add(const G4SiHit & aSiHit) {
