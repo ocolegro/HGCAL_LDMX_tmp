@@ -85,10 +85,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	if ((id_ == eventAction_->trackids.size()) && (kineng>10)) {
 		G4cout << "The pdgid is " << pdgId << "The post volume is " << thePostPVname << G4endl;
-		getLayer(thePostPVname);
 		if ((abs(pdgId) != 11) && (abs(pdgId) != 22 ) && (pdgId != -2112) && (pdgId != -2212)  && (abs(pdgId) != 310) && (abs(pdgId) != 111)){
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
-		G4cout << "The pdgid is " << pdgId << "The post volume is " << thePostPVname << G4endl;
 
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
@@ -99,6 +97,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.pdgid(pdgId);
 		genPart.charge(pd->GetPDGCharge());
 		genPart.trackID(trackID);
+		genPart.layer(getLayer(thePostPVname));
 		eventAction_->trackids.push_back(trackID);
 		}
 	}

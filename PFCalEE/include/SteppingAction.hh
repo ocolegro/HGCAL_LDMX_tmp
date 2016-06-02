@@ -27,8 +27,7 @@ public:
 			size_t last_index = truncated.find_last_not_of("0123456789");
 			num = std::atoi(truncated.substr(last_index+1).c_str());
 		}
-		G4cout << "The layer is " << astr <<
-				"After stripping we have " << num << G4endl;
+
 		return num;
 
 	};
