@@ -51,7 +51,8 @@ EventAction::EventAction() {
 	tree_->Branch("HGCSSSimHitVec", "std::vector<HGCSSSimHit>", &hitvec_);
 	tree_->Branch("HGCSSGenParticleVec", "std::vector<HGCSSGenParticle>",
 			&genvec_);
-
+	tree_->Branch("HGCSSTrackVec", "std::vector<HGCSSGenParticle>",
+			&trackvec_);
 	// }
 }
 
@@ -79,13 +80,15 @@ void EventAction::BeginOfEventAction(const G4Event* evt) {
 void EventAction::Detect(G4double eng, G4double edep, G4double stepl,
 		G4double globalTime, G4int pdgId, G4VPhysicalVolume *volume,
 		const G4ThreeVector & position, G4int trackID, G4int parentID,
-		const HGCSSGenParticle & genPart) {
+		const HGCSSGenParticle & genPart, G4bool targetParticle) {
 	for (size_t i = 0; i < detector_->size(); i++)
 		(*detector_)[i].add(eng, edep, stepl, globalTime, pdgId, volume,
 				position, trackID, parentID, i);
 
 	if (genPart.isIncoming())
+		if (targetParticle)
 		genvec_.push_back(genPart);
+		trackvec_.push_back(genPart);
 }
 
 //
@@ -260,4 +263,5 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	genvec_.clear();
 	hitvec_.clear();
 	ssvec_.clear();
+	trackvec_.clear()
 }
