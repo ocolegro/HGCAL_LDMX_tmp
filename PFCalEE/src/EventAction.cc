@@ -161,11 +161,11 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		TVector3 eleCnt_, hadCnt_,neutCnt_,muCnt_;
 		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 
-		unsigned absSize_ = (*detector_)[i].abs_HitVec.size();
+		unsigned absSize_ = (*detector_)[i].getSiHitVec(0).size();
 		for (unsigned iAbsHit(0);
 				iAbsHit < absSize_;
 				++iAbsHit){
-			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[iAbsHit];
+			G4SiHit lAbsHit = (*detector_)[i].getSiHitVec(0)[iAbsHit];
 			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
 			Int_t pdgId_ = lAbsHit.pdgId;
 			Double_t parentEng = lAbsHit.parentEng;
@@ -190,7 +190,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		for (unsigned jAbsHit(0);
 				jAbsHit < absSize_;
 				++jAbsHit){
-			G4SiHit lAbsHit = (*detector_)[i].abs_HitVec[jAbsHit];
+			G4SiHit lAbsHit = (*detector_)[i].getSiHitVec(0)[jAbsHit];
 			TVector3 v1(lAbsHit.hit_x,lAbsHit.hit_y,lAbsHit.hit_z);
 			Int_t pdgId_ = lAbsHit.pdgId;
 			Double_t parentEng = lAbsHit.parentEng;
