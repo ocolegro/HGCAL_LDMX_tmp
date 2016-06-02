@@ -165,7 +165,8 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		double   eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0, hadWgtCnt_ = 0,neutWgtCnt_ = 0,muWgtCnt_ = 0;
 
 		std::cout << "c" << std::endl;
-		unsigned absSize_ = (*detector_)[i].getSiHitVec(0).size();
+		unsigned idx(0);
+		unsigned absSize_ = (*detector_)[i].getSiHitVec(idx).size();
 		std::cout << "absSize_ is " << absSize_ << std::endl;
 		for (unsigned iSiHit(0);
 				iSiHit < absSize_;
