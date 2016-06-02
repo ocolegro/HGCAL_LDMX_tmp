@@ -137,7 +137,7 @@ int main(int argc, char** argv) {
 			caloLen = caloLen + 1;
 			for (Int_t j = 0; j < genVec->size(); j++) {
 				HGCSSGenParticle& parton = (*genVec)[j];
-				std::cout << "The gen parton had energy " << parton.pz() << "The pdgid is " << parton.pdgid() << std::endl;
+				G4cout << "The gen parton had energy " << parton.pz() << "The pdgid is " << parton.pdgid() << G4endl;
 		}
 
 		t1.Fill();
