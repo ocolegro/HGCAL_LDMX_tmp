@@ -66,7 +66,19 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 			&& ((thePrePVname == "Wphys" && thePostPVname == "W1phys")
 					|| (thePrePVname == "W1phys"
 							&& thePostPVname == "G4_Galactic1phys")))
+	{
 		targetParticle = true;
+		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
+		const G4ThreeVector &p = lTrack->GetMomentum();
+		G4ParticleDefinition *pd = lTrack->GetDefinition();
+		genPart.setPosition(postposition[0], postposition[1], postposition[2]);
+		genPart.setMomentum(p[0], p[1], p[2]);
+		genPart.mass(pd->GetPDGMass());
+		genPart.time(globalTime);
+		genPart.pdgid(pdgId);
+		genPart.charge(pd->GetPDGCharge());
+		genPart.trackID(trackID);
+	}
 	unsigned int id_ = std::find(eventAction_->trackids.begin(),
 			eventAction_->trackids.end(), trackID)
 			- eventAction_->trackids.begin();
@@ -74,6 +86,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	if ((id_ == eventAction_->trackids.size()) && (kineng>10)) {
 		if ((abs(pdgId) != 11) && (abs(pdgId) != 22 ) && (pdgId != -2112) && (pdgId != -2212)  && (abs(pdgId) != 310) && (abs(pdgId) != 111)){
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
+		std::cout << "The pdgid is " << pdgId << "The post volume is " << thePostPVname << std::endl;
+
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
 		genPart.setPosition(postposition[0], postposition[1], postposition[2]);
