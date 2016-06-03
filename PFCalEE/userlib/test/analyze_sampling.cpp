@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
 	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux,maxTrackKe,genKin;
 	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
 			layerHWgtCnt[500], layerEWgtCnt[500], layerDep[500], layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500],
-			summedNCount,summedHCount,summedMcount,layerHWgtAvg,layerEWgtAvg;
+			summedNCount,summedHCount,summedMcount,layerHWgtAvg,layerEWgtAvg,hardestFirst;
 
 	Int_t layer[500], caloLen, layMax,genCounter;
 	t1.Branch("caloLen", &caloLen, "caloLen/I");
@@ -107,12 +107,16 @@ int main(int argc, char** argv) {
 
 	t1.Branch("layer", &layer, "layer[caloLen]/I");
 
+
+	t1.Branch("hardestFirst", &hardestFirst, "hardestFirst/F");
+
 	for (unsigned ievt(0); ievt < nEvts; ++ievt) { //loop on entries
 		tree->GetEntry(ievt);
 
 		summedSen = 0, summedDep = 0, summedHFlux = 0, summedNFlux = 0, summedMFlux =
 				0, caloLen = 0,summedHCount=0,summedNCount=0,summedMcount=0,maxTrackKe=0,genCounter = 0,genKin=0,layerHWgtAvg=0,layerEWgtAvg=0;
 
+		hardestFirst = 0;
 		if (ievt > 10000)
 			break;
 		Float_t nSens = 3.0;
@@ -156,7 +160,10 @@ int main(int argc, char** argv) {
 				genCounter += 1;
 				Float_t engK = parton.E() -parton.mass();
 				genKin += engK;
-
+				if (parton.layer() < 12){
+					if (engK > hardestFirst)
+						hardestFirst = engK;
+				}
 				if (engK> maxTrackKe){
 					maxTrackKe = engK;
 					layMax  = parton.layer();
