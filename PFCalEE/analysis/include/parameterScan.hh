@@ -12,57 +12,55 @@ class parameterScan {
 
 public:
 
-	parameterScan() {
-	}
-	;
-	~parameterScan() {
-	}
-	;
+  parameterScan(){};
+  ~parameterScan(){};
 
-	unsigned nLayers;
-	double maxThick;
-	double minX0;
-	double maxLambda;
+  unsigned nLayers;
+  double maxThick;
+  double minX0;
+  double maxLambda;
+  
+  double stepSizeW;
+  double stepSizePb;
+  
+  unsigned nSteps;
+  
+  double length;
+  double X0tot;
+  double L0tot;
 
-	double stepSizeW;
-	double stepSizePb;
+  std::vector<unsigned> iS ;
+  unsigned validModels;
+  unsigned totModels;
 
-	unsigned nSteps;
 
-	double length;
-	double X0tot;
-	double L0tot;
+  std::map<double,unsigned> modelMap;
+  std::pair<std::map<double,unsigned>::iterator,bool> isInserted;
 
-	std::vector<unsigned> iS;
-	unsigned validModels;
-	unsigned totModels;
+  unsigned nC;
+  std::vector<TCanvas *> myc;
+  std::vector<bool> first;
+  std::vector<unsigned> counter;
 
-	std::map<double, unsigned> modelMap;
-	std::pair<std::map<double, unsigned>::iterator, bool> isInserted;
+  double x0w;
+  double x0pb;
+  double l0w;
+  double l0pb;
 
-	unsigned nC;
-	std::vector<TCanvas *> myc;
-	std::vector<bool> first;
-	std::vector<unsigned> counter;
 
-	double x0w;
-	double x0pb;
-	double l0w;
-	double l0pb;
+  void process30layers();
+  void process28layers();
+  void process26layers();
+  void process24layers();
+  void process22layers();
+  void process20layers();
 
-	void process30layers();
-	void process28layers();
-	void process26layers();
-	void process24layers();
-	void process22layers();
-	void process20layers();
+  bool processModel(const unsigned nBlocks,
+		    const std::vector<unsigned> & idx);
 
-	bool processModel(const unsigned nBlocks,
-			const std::vector<unsigned> & idx);
+  void print();
 
-	void print();
+};//class
 
-};
-//class
 
 #endif

@@ -39,6 +39,7 @@ int main(int argc, char** argv) {
 	std::cout << "Opening the file " << argv[1] << std::endl;
 	TFile *infile = TFile::Open(argv[1]);
 
+
 	TTree *tree = (TTree*) infile->Get("HGCSSTree");
 
 	std::vector<HGCSSSamplingSection> * simhits = 0;
