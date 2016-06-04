@@ -482,7 +482,6 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 				<<",zOffset+zOverburden="<<zOffset+zOverburden
 				<<",width="<<width<<");"<<endl;
 #endif
-				std::cout << "Calling constructSolid with the z-position " << zOffset + zOverburden << std::endl;
 				solid = constructSolid(baseName, thick, zOffset + zOverburden,
 						minL, width, i);
 				G4LogicalVolume *logi = new G4LogicalVolume(solid,
@@ -499,7 +498,7 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 							<< m_caloStruct[i].ele_dEdx[ie] << " X0="
 							<< m_caloStruct[i].ele_X0[ie] << " L0="
 							<< m_caloStruct[i].ele_L0[ie] << " zpos="
-							<< m_z0pos + zOverburden << "mm w="
+							<< zOffset + zOverburden << "mm w="
 							<< m_caloStruct[i].ele_thick[ie] << "mm";
 
 					totalLengthX0 += m_caloStruct[i].ele_thick[ie]
