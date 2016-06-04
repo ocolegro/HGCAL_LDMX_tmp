@@ -627,9 +627,6 @@ G4VSolid *DetectorConstruction::constructSolid(std::string baseName,
 	} else {
 		if (model_ == DetectorConstruction::m_FULLSECTION) {
 			double maxR = tan(m_maxTheta) * (zpos - m_z0pos);
-			G4cout << "Building a layer with radius " << maxR << G4endl;
-			G4cout << "The position is " << zpos << G4endl;
-			G4cout << "The position offset is " << m_z0pos << G4endl;
 
 			solid = new G4Tubs(baseName + "box", 0, maxR, thick / 2, minL,
 					width);
