@@ -34,7 +34,6 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 
 	case v_HGCALEE_Tv6:{
 		G4cout << "[DetectorConstruction] starting v_HGCALSYM_v1" << G4endl;
-
 		//Add the target
 		std::vector<std::string> iEle;
 		std::vector<G4double> iThick;

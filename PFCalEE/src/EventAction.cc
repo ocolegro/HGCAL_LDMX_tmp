@@ -37,7 +37,7 @@ EventAction::EventAction() {
 	std::cout << " -- check Info: version = " << info->version() << " model = "
 			<< info->model() << std::endl;
 	outF_->WriteObjectAny(info, "HGCSSInfo", "Info");
-
+	initLayer = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer();
 	//honeycomb
 	geomConv_ = new HGCSSGeometryConversion(info->model(), CELL_SIZE_X);
 	geomConv_->initialiseHoneyComb(xysize, CELL_SIZE_X);
@@ -108,7 +108,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	ssvec_.clear();
 	ssvec_.reserve(detector_->size());
 
-	for (size_t i = 1; i < detector_->size(); i++) {
+	for (size_t i = initLayer; i < detector_->size(); i++) {
 		HGCSSSamplingSection lSec;
 		lSec.volNb(i);
 		lSec.volX0trans((*detector_)[i].getAbsorberX0());

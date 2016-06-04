@@ -38,6 +38,7 @@ public:
 		m_SIMPLE_20 = 0, m_SIMPLE_50 = 1, m_FULLSECTION = 2, m_SIMPLE_100 = 3,
 	};
 
+
 	/**
 	 @short CTOR
 	 */
@@ -105,6 +106,12 @@ public:
 		return m_WorldSizeZ;
 	}
 
+	unsigned initLayer() {
+		unsigned retLayer = 0;
+		if (model_ < 6)
+			retLayer = 1;
+		return retLayer;
+	}
 	/**
 	 @short build the detector
 	 */
