@@ -30,6 +30,7 @@ using namespace std;
 //
 DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		version_(ver), model_(mod) {
+	initLayer(0);
 	switch (version_) {
 
 	case v_HGCALEE_Tv6:{
@@ -37,6 +38,7 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		//Add the target
 		std::vector<std::string> iEle;
 		std::vector<G4double> iThick;
+		initLayer(1);
 
 		for (int i = 0; i < 6; i ++){
 		iThick.push_back(.7*mm);iEle.push_back("Si");
@@ -112,6 +114,7 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		break;
 	}
 	default: {
+			initLayer(1);
 			G4cout << "[DetectorConstruction] starting v_HGCALEE_v6" << G4endl;
 
 			//Add the target

@@ -107,10 +107,10 @@ public:
 	}
 
 	unsigned initLayer() {
-		unsigned retLayer = 0;
-		if (model_ < 6)
-			retLayer = 1;
-		return retLayer;
+		return initLayer_;
+	}
+	unsigned initLayer(int aVal) {
+		 initLayer_ = aVal;
 	}
 	/**
 	 @short build the detector
@@ -146,7 +146,7 @@ private:
 			const size_t which_ele);
 
 	std::vector<G4Material*> m_SensitiveMaterial;
-
+	G4int initLayer_;
 	G4double m_CalorSizeXY, m_CalorSizeZ;
 	G4double m_minRadius, m_maxRadius;
 	G4double m_maxTheta;
