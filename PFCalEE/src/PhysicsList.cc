@@ -43,7 +43,7 @@
 
 //PhysicsList::PhysicsList():  QGSP_FTFP_BERT() //G4VUserPhysicsList()
 PhysicsList::PhysicsList() :
-QGSP_BERT()
+QGSP_BIC()
 {
 	defaultCutValue = 0.03 * mm;
 	SetVerboseLevel(1);
