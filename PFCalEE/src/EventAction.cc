@@ -140,7 +140,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		double eleWgt = 0, muWgt = 0, neutWgt = 0, hadWgt = 0, eleWgtCnt_ = 0,
 				hadWgtCnt_ = 0, neutWgtCnt_ = 0, muWgtCnt_ = 0;
 		bool is_scint = (*detector_)[i].hasScintillator;
-		for (unsigned idx(0); idx < (*detector_)[i].n_sens_elements; ++idx) {
+		for (unsigned idx(1); idx < (*detector_)[i].n_sens_elements; ++idx) {
 			std::map<unsigned, HGCSSSimHit> lHitMap;
 			std::pair<std::map<unsigned, HGCSSSimHit>::iterator, bool> isInserted;
 
