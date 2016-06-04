@@ -620,6 +620,7 @@ G4VSolid *DetectorConstruction::constructSolid(std::string baseName,
 	if (which_ele == 0) {
 		solid = new G4Box(baseName + "box", width / 2, m_CalorSizeXY / 2,
 				thick / 2);
+		std::cout << "The base name is " << baseName << "and the zpos is " << zpos << std::endl;
 	} else {
 		if (model_ == DetectorConstruction::m_FULLSECTION) {
 			double maxR = tan(m_maxTheta) * (zpos + m_z0pos + m_CalorSizeZ / 2);
