@@ -482,6 +482,7 @@ void DetectorConstruction::buildSectorStack(const unsigned sectorNum,
 				<<",zOffset+zOverburden="<<zOffset+zOverburden
 				<<",width="<<width<<");"<<endl;
 #endif
+				std::cout << "Calling constructSolid with the z-position " << zOffset + zOverburden << std::endl;
 				solid = constructSolid(baseName, thick, zOffset + zOverburden,
 						minL, width, i);
 				G4LogicalVolume *logi = new G4LogicalVolume(solid,
