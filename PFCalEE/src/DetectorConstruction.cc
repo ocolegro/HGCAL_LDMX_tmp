@@ -32,15 +32,40 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		version_(ver), model_(mod) {
 	switch (version_) {
 
-	case v_HGCALSYM_v1:{
+	case v_HGCALEE_Tv6:{
 		G4cout << "[DetectorConstruction] starting v_HGCALSYM_v1" << G4endl;
 
 		//Add the target
 		std::vector<std::string> iEle;
 		std::vector<G4double> iThick;
-			iThick.push_back(.3504*mm);iEle.push_back("W");
 
-		iThick.push_back(20*cm);iEle.push_back("G4_Galactic");
+		for (int i = 0; i < 6; i ++){
+		iThick.push_back(.7*mm);iEle.push_back("Si");
+		iThick.push_back(99.3*mm);iEle.push_back("G4_Galactic");
+		}
+
+		iThick.push_back(.7*mm);iEle.push_back("Si");
+		iThick.push_back(6.8*mm);iEle.push_back("G4_Galactic");
+
+		iThick.push_back(.3504*mm);iEle.push_back("W");
+		iThick.push_back(6.8*mm);iEle.push_back("G4_Galactic");
+
+
+		for (int i = 0; i < 3; i ++){
+			iThick.push_back(.7*mm);iEle.push_back("Si");
+			if (i < 3){
+				iThick.push_back(15*mm);iEle.push_back("G4_Galactic");
+
+			}
+		}
+
+		iThick.push_back(.7*mm);iEle.push_back("Si");
+		iThick.push_back(44.8*mm);iEle.push_back("G4_Galactic");
+		iThick.push_back(.7*mm);iEle.push_back("Si");
+		iThick.push_back(84.3*mm);iEle.push_back("G4_Galactic");
+		iThick.push_back(.7*mm);iEle.push_back("Si");
+		iThick.push_back(14.3*mm);iEle.push_back("G4_Galactic");
+
 
 		m_caloStruct.push_back( SamplingSection(iThick,iEle) );
 
