@@ -49,8 +49,7 @@ void SamplingSection::add(G4double eng, G4double den, G4double dl,
 						sens_neutronCounter[idx] += 1;
 				} else {
 					sens_hadFlux[idx] += den;
-					if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
-							&& (pdgId != -2212) )
+					if( (abs(pdgId) != 111) && (pdgId != -2212) )
 						sens_hadKinFlux[idx] += eng;
 						sens_hadCounter[idx] += 1;
 				}
