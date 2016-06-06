@@ -74,6 +74,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		std::cout << "The thePrePVname is : " << thePrePVname << std::endl;
 		std::cout << "The thePostPVname is : " << thePostPVname << std::endl;
 		std::cout << "The zposition is : " << position.z() << std::endl;
+		std::cout << "The kineng is : " << kineng << std::endl;
+		std::cout << "The pdgId is : " << pdgId << std::endl;
 
 		targetParticle = true;
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
