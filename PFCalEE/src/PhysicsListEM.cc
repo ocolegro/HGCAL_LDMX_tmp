@@ -35,7 +35,6 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "PhysicsList.hh"
-#include "PhysicsListMessenger.hh"
 
 
 #include "G4EmStandardPhysics_option2.hh"
@@ -62,8 +61,6 @@ PhysicsListEM::PhysicsListEM() : G4VModularPhysicsList(),
   G4LossTableManager::Instance();
   SetDefaultCutValue(.1*mm);
 
-  fMessenger = new PhysicsListMessenger(this);
-  SetVerboseLevel(1);
 
   // EM physics
   fEmPhysicsList = new G4EmStandardPhysics_option2();
@@ -74,7 +71,6 @@ PhysicsListEM::PhysicsListEM() : G4VModularPhysicsList(),
 
 PhysicsListEM::~PhysicsListEM()
 {
-  delete fMessenger;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
