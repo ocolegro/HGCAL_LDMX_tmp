@@ -36,7 +36,6 @@
 
 int main(int argc, char** argv) {
 	std::cout << "Opening the file " << argv[1] << std::endl;
-	//freopen("test_log.txt", "w", stdout);
 	TFile *infile = TFile::Open(argv[1]);
 	TTree *tree = (TTree*) infile->Get("HGCSSTree");
 
@@ -47,10 +46,10 @@ int main(int argc, char** argv) {
 	tree->SetBranchAddress("HGCSSSimHitVec", &hitVec);
 
 	std::vector<HGCSSGenParticle> * hadronVec = 0;
-	tree->SetBranchAddress("HGCSShadronVec", &hadronVec);
+	tree->SetBranchAddress("HGCSSHadronVec", &hadronVec);
 
 	std::vector<HGCSSGenParticle> * targetVec = 0;
-	tree->SetBranchAddress("HGCSSGenParticleVec", &targetVec);
+	tree->SetBranchAddress("HGCSSTargetVec", &targetVec);
 	Int_t firstLayer = 0;
 	unsigned nEvts = tree->GetEntries();
 
@@ -124,9 +123,6 @@ int main(int argc, char** argv) {
 			summedSen += sec.measuredE();
 			summedDep += sec.totalE();
 
-			layerSen[j - firstLayer] = sec.measuredE()/nSens;
-			layerDep[j - firstLayer] = sec.totalE()/nSens;
-
 			summedHFlux += sec.hadKin()/(nSens * nLayers);
 			summedNFlux += sec.neutronKin()/(nSens * nLayers);
 			summedMFlux += sec.muKin()/(nSens * nLayers);
@@ -135,6 +131,9 @@ int main(int argc, char** argv) {
 			summedNCount += sec.neutronCount()/(nSens * nLayers);
 			summedMcount += sec.muCount()/(nSens * nLayers);
 
+			layerSen[j - firstLayer] = sec.measuredE()/nSens;
+			layerDep[j - firstLayer] = sec.totalE()/nSens;
+
 			layerHFlux[j - firstLayer] = sec.hadKin()/nSens;
 			layerNFlux[j - firstLayer] = sec.neutronKin()/nSens;
 			layerMFlux[j - firstLayer] = sec.muKin()/nSens;
@@ -142,7 +141,6 @@ int main(int argc, char** argv) {
 			layerHCount[j - firstLayer] = sec.hadCount()/nSens;
 			layerNCount[j - firstLayer] = sec.neutronCount()/nSens;
 			layerMCount[j - firstLayer] = sec.muCount()/nSens;
-
 
 			layerHWgtCnt[j - firstLayer] = sec.hadWgtCnt();
 			layerEWgtCnt[j - firstLayer] = sec.eleWgtCnt();
