@@ -69,7 +69,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	}
 	*/
 	if ((globalTime < timeLimit_)
-			&& ((thePrePVname == "Wphys" && thePostPVname == "Si1_0phys") || (thePrePVname == "Wphys" && thePostPVname == "W1phys") || (thePrePVname == "W1phys" && thePostPVname == "G4_Galactic1phys")))
+			&& ((thePrePVname == "Wphys" && thePostPVname == "Wphys") || (thePrePVname == "Wphys" && thePostPVname == "W1phys") || (thePrePVname == "W1phys" && thePostPVname == "G4_Galactic1phys")))
 	{
 		std::cout << "The thePrePVname is : " << thePrePVname << std::endl;
 		std::cout << "The thePostPVname is : " << thePostPVname << std::endl;
