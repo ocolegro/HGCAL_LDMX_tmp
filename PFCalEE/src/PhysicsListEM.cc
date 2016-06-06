@@ -72,14 +72,14 @@ PhysicsListEM::PhysicsListEM() : G4VModularPhysicsList(),
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PhysicsList::~PhysicsList()
+PhysicsListEM::~PhysicsListEM()
 {
   delete fMessenger;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PhysicsList::ConstructParticle()
+void PhysicsListEM::ConstructParticle()
 {
     G4BosonConstructor  pBosonConstructor;
     pBosonConstructor.ConstructParticle();
@@ -105,7 +105,7 @@ void PhysicsList::ConstructParticle()
 #include "G4ProcessManager.hh"
 #include "G4Decay.hh"
 
-void PhysicsList::ConstructProcess()
+void PhysicsListEM::ConstructProcess()
 {
   AddTransportation();
 
@@ -142,7 +142,7 @@ void PhysicsList::ConstructProcess()
 
 #include "StepMax.hh"
 
-void PhysicsList::AddStepMax()
+void PhysicsListEM::AddStepMax()
 {
   // Step limitation seen as a process
   fStepMaxProcess = new StepMax();
