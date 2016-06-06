@@ -341,7 +341,7 @@ void DetectorConstruction::UpdateCalorSize() {
 		if (i != 0)
 			maxRadLen = maxRadLen + m_caloStruct[i].Total_thick;
 	}
-
+	maxRadLen = maxRadLen + 200;
 	m_nSectors = 1;
 	if (model_ == DetectorConstruction::m_SIMPLE_20) {
 		m_CalorSizeXY = 200;
