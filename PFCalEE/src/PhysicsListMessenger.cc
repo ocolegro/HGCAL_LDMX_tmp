@@ -33,7 +33,7 @@
 
 #include "PhysicsListMessenger.hh"
 
-#include "PhysicsList.hh"
+#include "PhysicsListEM.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4UIcmdWithAString.hh"
