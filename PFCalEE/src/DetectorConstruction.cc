@@ -358,7 +358,7 @@ void DetectorConstruction::UpdateCalorSize() {
 
 		cout << "The m_CalorSizeZ " << m_CalorSizeZ << endl;
 
-		m_maxRadius = m_CalorSizeZ * tan(m_maxTheta);
+		m_maxRadius = (m_CalorSizeZ - m_z0pos) * tan(m_maxTheta);
 		cout << "The maximum radius is " << m_maxRadius << endl;
 		m_CalorSizeXY = m_maxRadius * 2; //use full length for making hexagon map
 		m_sectorWidth = m_CalorSizeXY;
