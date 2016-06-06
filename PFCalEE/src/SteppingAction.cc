@@ -61,13 +61,13 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	const G4ThreeVector & position = thePreStepPoint->GetPosition();
 	HGCSSGenParticle genPart;
 	G4bool targetParticle = false;
-	/*
+
 	if (trackID == 1){
 		std::cout << "The main particle is now at thePrePVname " << thePrePVname  << std::endl;
 		std::cout << "The main particle is now at thePostPVname " << thePostPVname  << std::endl;
 
 	}
-	*/
+
 	if ((globalTime < timeLimit_)
 			&& ((thePrePVname == "Wphys" && thePostPVname != "Wphys") || (thePrePVname == "W1phys" && thePostPVname == "G4_Galactic1phys")))
 	{
