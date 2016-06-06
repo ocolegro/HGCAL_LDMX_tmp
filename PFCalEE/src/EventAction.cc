@@ -18,7 +18,7 @@
 EventAction::EventAction() {
 	runAct = (RunAction*) G4RunManager::GetRunManager()->GetUserRunAction();
 	eventMessenger = new EventActionMessenger(this);
-	printModulo = 1;
+	printModulo = 100;
 	outF_ = TFile::Open("PFcal.root", "RECREATE");
 	outF_->cd();
 
