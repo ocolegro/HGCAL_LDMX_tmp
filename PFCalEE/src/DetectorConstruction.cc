@@ -70,30 +70,16 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		std::vector<G4double> iThickL;std::vector<std::string> iMatL;
 		for (unsigned i = 0; i < iEleL.size(); i++)
 		{
-			iThickL.push_back(iEleL.at(i).first());
-			iMatL.push_back(iEleL.at(i).second());
+			iThickL.push_back(iEleL.at(i).first);
+			iMatL.push_back(iEleL.at(i).second);
 
 		}
 		m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
 
-		G4double airThick = 2*mm;
-		G4double pcbThick = 2*mm;
-		G4double wThick = 2.*mm;
-		G4double wcuThick = 0.6*mm;
+		G4double airThick = 2*mm,pcbThick = 2*mm,wThick = 2.*mm,wcuThick = 0.6*mm;
+
+
 		iEleL.clear();
-		std::vector<std::pair <G4double,std::string>> iEleR;
-
-		iEleR.push_back(make_pair(wcuThick,"WCu"));
-		iEleR.push_back(make_pair(6*mm,"Cu"));
-		iEleR.push_back(make_pair(wcuThick,"WCu"));
-		iEleR.push_back(make_pair(0.*mm,"Steel"));
-		iEleR.push_back(make_pair(0.1*mm,"Si"));
-		iEleR.push_back(make_pair(0.1*mm,"Si"));
-		iEleR.push_back(make_pair(0.1*mm,"Si"));
-		iEleR.push_back(make_pair(pcbThick,"PCB"));
-		iEleR.push_back(make_pair(airThick,"Air"));
-
-
 		iEleL.push_back(make_pair(0.5*mm,"Cu"));
 		iEleL.push_back(make_pair(0.5*mm,"CFMix"));
 		iEleL.push_back(make_pair(wThick,"W"));
@@ -107,19 +93,32 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		iEleL.push_back(make_pair(0.1*mm,"Si"));
 		iEleL.push_back(make_pair(0.1*mm,"Si"));
 
+		std::vector<std::pair <G4double,std::string>> iEleR;
+		iEleR.push_back(make_pair(wcuThick,"WCu"));
+		iEleR.push_back(make_pair(6*mm,"Cu"));
+		iEleR.push_back(make_pair(wcuThick,"WCu"));
+		iEleR.push_back(make_pair(0.*mm,"Steel"));
+		iEleR.push_back(make_pair(0.1*mm,"Si"));
+		iEleR.push_back(make_pair(0.1*mm,"Si"));
+		iEleR.push_back(make_pair(0.1*mm,"Si"));
+		iEleR.push_back(make_pair(pcbThick,"PCB"));
+		iEleR.push_back(make_pair(airThick,"Air"));
+
+
+
 		iThickL.clear(); iMatL.clear();
 		for (unsigned i = 0; i < iEleL.size(); i++)
 		{
-			iThickL.push_back(iEleL.at(i).first());
-			iMatL.push_back(iEleL.at(i).second());
+			iThickL.push_back(iEleL.at(i).first);
+			iMatL.push_back(iEleL.at(i).second);
 
 		}
 		std::vector<G4double> iThickR;std::vector<std::string> iMatR;
 
 		for (unsigned i = 0; i < iEleR.size(); i++)
 		{
-			iThickR.push_back(iEleR.at(i).first());
-			iMatR.push_back(iEleR.at(i).second());
+			iThickR.push_back(iEleR.at(i).first);
+			iMatR.push_back(iEleR.at(i).second);
 
 		}
 		unsigned Nmodule=4;
