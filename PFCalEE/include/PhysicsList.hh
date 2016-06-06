@@ -49,10 +49,11 @@ public:
 	void SetCuts();
 
 	G4VPhysicsConstructor* fEmPhysicsList;
-	G4VPhysicsConstructor* fDecay;
+	//G4VPhysicsConstructor* fDecay;
 
 
 	void AddStepMax();
+	void AddDecay();
 	virtual void ConstructProcess();
 	virtual void ConstructParticle();
 
