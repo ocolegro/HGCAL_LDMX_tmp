@@ -54,6 +54,7 @@ public:
 
 	void AddStepMax();
 	virtual void ConstructProcess();
+	virtual void ConstructParticle();
 
 
 };
