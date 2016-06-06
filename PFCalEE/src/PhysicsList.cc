@@ -38,15 +38,21 @@
 
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
-
+#include "G4EmStandardPhysics.hh"
+#include "G4EmStandardPhysics_option2.hh"
+#include "StepMax.hh"
+#include "G4DecayPhysics.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 //PhysicsList::PhysicsList():  QGSP_FTFP_BERT() //G4VUserPhysicsList()
 PhysicsList::PhysicsList() :
-FTFP_BERT()
+G4VModularPhysicsList(),fEmPhysicsList(0) //G4VUserPhysicsList()
 {
 	defaultCutValue = 0.03 * mm;
 	SetVerboseLevel(1);
+	fEmPhysicsList = new G4EmStandardPhysics_option2();
+	fDecay = new G4DecayPhysics();
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -70,7 +76,6 @@ void PhysicsList::SetCuts() {
 			SetCutValue(.7*mm, "gamma");
 			SetCutValue(.7*mm, "e-");
 			SetCutValue(.7*mm, "e+");
-			//SetCutValue(.7*mm, "proton");
 
 			//set smaller cut for Si
 			const std::vector<G4LogicalVolume*> & logSi = ((DetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction())->getSiLogVol();
@@ -85,5 +90,42 @@ void PhysicsList::SetCuts() {
 			if (verboseLevel>0) DumpCutValuesTable();
 		}
 
+void PhysicsList::ConstructProcess()
+{
+  if (verboseLevel > -1) {
+    G4cout << "PhysicsList::ConstructProcess start" << G4endl;
+  }
+  // transportation
+  //
+  AddTransportation();
+
+  // electromagnetic physics list
+  //
+  fEmPhysicsList->ConstructProcess();
+
+  // decay process
+  //
+  fDecay->ConstructProcess();
+
+  // step limitation (as a full process)
+  //
+  AddStepMax();
+}
+void PhysicsList::AddStepMax()
+{
+  // Step limitation seen as a process
+  StepMax* stepMaxProcess = new StepMax();
+
+  theParticleIterator->reset();
+  while ((*theParticleIterator)()){
+      G4ParticleDefinition* particle = theParticleIterator->value();
+      G4ProcessManager* pmanager = particle->GetProcessManager();
+
+      if (stepMaxProcess->IsApplicable(*particle))
+        {
+          pmanager ->AddDiscreteProcess(stepMaxProcess);
+        }
+  }
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
