@@ -171,9 +171,6 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 			 wThick = 2.*mm,
 			 wcuThick = 0.6*mm;
 
-			std::vector<G4double> iThickR;std::vector<std::string> iMatR;
-
-
 			iEleR.push_back(make_pair(wcuThick,"WCu"));
 			iEleR.push_back(make_pair(6*mm,"Cu"));
 			iEleR.push_back(make_pair(wcuThick,"WCu"));
@@ -205,7 +202,6 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 
 			}
 			std::vector<G4double> iThickR;std::vector<std::string> iMatR;
-
 			for (unsigned i = 0; i < iEleR.size(); i++)
 			{
 				iThickR.push_back(iEleR.at(i).first);
