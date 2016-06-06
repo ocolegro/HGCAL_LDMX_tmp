@@ -338,7 +338,7 @@ void DetectorConstruction::UpdateCalorSize() {
 	G4double maxRadLen = 0;
 	for (size_t i = 0; i < m_caloStruct.size(); i++) {
 		m_CalorSizeZ = m_CalorSizeZ + m_caloStruct[i].Total_thick;
-		if (i > 0)
+		if (i != 0)
 			maxRadLen += maxRadLen + m_caloStruct[i].Total_thick;
 	}
 
