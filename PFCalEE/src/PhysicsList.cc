@@ -52,7 +52,7 @@ G4VModularPhysicsList(),fEmPhysicsList(0) //G4VUserPhysicsList()
 	SetVerboseLevel(1);
 	fEmPhysicsList = new G4EmStandardPhysics_option2();
 	fDecay = new G4DecayPhysics();
-
+	theParticleIterator = theParticleTable-> GetIterator();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
