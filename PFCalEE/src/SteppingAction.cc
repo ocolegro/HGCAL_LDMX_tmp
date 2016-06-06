@@ -71,8 +71,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	if ((globalTime < timeLimit_)
 			&& ((thePrePVname == "Wphys" && thePostPVname != "Wphys") || (thePrePVname == "W1phys" && thePostPVname == "G4_Galactic1phys")))
 	{
-		//std::cout << "The thePrePVname is : " << thePrePVname << std::endl;
-		//std::cout << "The thePostPVname is : " << thePostPVname << std::endl;
+		std::cout << "The thePrePVname is : " << thePrePVname << std::endl;
+		std::cout << "The thePostPVname is : " << thePostPVname << std::endl;
+		std::cout << "The zposition is : " << position.z() << std::endl;
+
 		targetParticle = true;
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
