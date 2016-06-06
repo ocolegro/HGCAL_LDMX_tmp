@@ -38,29 +38,15 @@
 
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
-#include "G4EmStandardPhysics.hh"
-#include "G4EmStandardPhysics_option2.hh"
-//#include "G4VUserPhysicsList.hh"
-
-#include "StepMax.hh"
-#include "G4DecayPhysics.hh"
-
-#include "G4BosonConstructor.hh"
-#include "G4LeptonConstructor.hh"
-#include "G4MesonConstructor.hh"
-#include "G4BosonConstructor.hh"
-#include "G4BaryonConstructor.hh"
-#include "G4IonConstructor.hh"
-#include "G4ShortLivedConstructor.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+//PhysicsList::PhysicsList():  QGSP_FTFP_BERT() //G4VUserPhysicsList()
 PhysicsList::PhysicsList() :
-G4VModularPhysicsList(),fEmPhysicsList(0) //G4VUserPhysicsList()
+		QGSP_BERT() //G4VUserPhysicsList()
 {
 	defaultCutValue = 0.03 * mm;
 	SetVerboseLevel(1);
-	fEmPhysicsList = new G4EmStandardPhysics_option2();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -84,6 +70,7 @@ void PhysicsList::SetCuts() {
 			SetCutValue(.7*mm, "gamma");
 			SetCutValue(.7*mm, "e-");
 			SetCutValue(.7*mm, "e+");
+			SetCutValue(.7*mm, "proton");
 
 			//set smaller cut for Si
 			const std::vector<G4LogicalVolume*> & logSi = ((DetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction())->getSiLogVol();
@@ -98,99 +85,5 @@ void PhysicsList::SetCuts() {
 			if (verboseLevel>0) DumpCutValuesTable();
 		}
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//Construct processes:
-
-void PhysicsList::ConstructProcess()
-{
-  if (verboseLevel > -1) {
-    G4cout << "PhysicsList::ConstructProcess start" << G4endl;
-  }
-  // transportation
-  //
-  AddTransportation();
-
-  // electromagnetic physics list
-  //
-  fEmPhysicsList->ConstructProcess();
-
-  // decay process
-  //
-  //fDecay->ConstructProcess();
-  AddDecay();
-  // step limitation (as a full process)
-  //
-  AddStepMax();
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//Construct particles:
-
-void PhysicsList::ConstructParticle()
-{
-    G4BosonConstructor  pBosonConstructor;
-    pBosonConstructor.ConstructParticle();
-
-    G4LeptonConstructor pLeptonConstructor;
-    pLeptonConstructor.ConstructParticle();
-
-    G4MesonConstructor pMesonConstructor;
-    pMesonConstructor.ConstructParticle();
-
-    G4BaryonConstructor pBaryonConstructor;
-    pBaryonConstructor.ConstructParticle();
-
-    G4IonConstructor pIonConstructor;
-    pIonConstructor.ConstructParticle();
-
-    G4ShortLivedConstructor pShortLivedConstructor;
-    pShortLivedConstructor.ConstructParticle();
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//Add stepping action:
-
-void PhysicsList::AddStepMax()
-{
-  // Step limitation seen as a process
-  StepMax* stepMaxProcess = new StepMax();
-
-  theParticleIterator->reset();
-  while ((*theParticleIterator)()){
-      G4ParticleDefinition* particle = theParticleIterator->value();
-      G4ProcessManager* pmanager = particle->GetProcessManager();
-
-      if (stepMaxProcess->IsApplicable(*particle))
-        {
-          pmanager ->AddDiscreteProcess(stepMaxProcess);
-        }
-  }
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-// particles
-
-void PhysicsList::AddDecay()
-{
-  // Add Decay Process
-
-  G4Decay* fDecayProcess = new G4Decay();
-
-  theParticleIterator->reset();
-  while( (*theParticleIterator)() ){
-    G4ParticleDefinition* particle = theParticleIterator->value();
-    G4ProcessManager* pmanager = particle->GetProcessManager();
-
-    if (fDecayProcess->IsApplicable(*particle) && !particle->IsShortLived()) {
-
-      pmanager ->AddProcess(fDecayProcess);
-
-      // set ordering for PostStepDoIt and AtRestDoIt
-      pmanager ->SetProcessOrdering(fDecayProcess, idxPostStep);
-      pmanager ->SetProcessOrdering(fDecayProcess, idxAtRest);
-
-    }
-  }
-}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

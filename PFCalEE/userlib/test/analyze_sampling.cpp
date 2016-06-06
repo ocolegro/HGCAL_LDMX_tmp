@@ -46,18 +46,16 @@ int main(int argc, char** argv) {
 	std::vector<HGCSSSimHit> * hitVec = 0;
 	tree->SetBranchAddress("HGCSSSimHitVec", &hitVec);
 
+	std::vector<HGCSSGenParticle> * hadronVec = 0;
+	tree->SetBranchAddress("HGCSShadronVec", &hadronVec);
 
-	std::vector<HGCSSGenParticle> * trackVec = 0;
-	tree->SetBranchAddress("HGCSSTrackVec", &trackVec);
-
-	std::vector<HGCSSGenParticle> * genVec = 0;
-	tree->SetBranchAddress("HGCSSGenParticleVec", &genVec);
-
-	Int_t firstLayer = 1;
+	std::vector<HGCSSGenParticle> * targetVec = 0;
+	tree->SetBranchAddress("HGCSSGenParticleVec", &targetVec);
+	Int_t firstLayer = 0;
 	unsigned nEvts = tree->GetEntries();
 
 	TFile hfile("analyzed_tuple.root", "RECREATE");
-	TTree t1("hadrons", "Hadron Study");
+	TTree t1("sampling", "Sampling Study");
 
 	Float_t summedDep, summedSen, summedHFlux, summedNFlux, summedMFlux,maxTrackKe,genKin;
 	Float_t layerHFlux[500], layerNFlux[500], layerMFlux[500],
@@ -155,8 +153,8 @@ int main(int argc, char** argv) {
 			layer[j - firstLayer] = j - firstLayer;
 			caloLen = caloLen + 1;
 		}
-			for (Int_t j = 0; j < trackVec->size(); j++) {
-				HGCSSGenParticle& parton = (*trackVec)[j];
+			for (Int_t j = 0; j < hadronVec->size(); j++) {
+				HGCSSGenParticle& parton = (*hadronVec)[j];
 				genCounter += 1;
 				Float_t engK = parton.E() -parton.mass();
 				genKin += engK;

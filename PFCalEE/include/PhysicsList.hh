@@ -29,28 +29,26 @@
 // 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #ifndef PhysicsList_h
 #define PhysicsList_h 1
 
 #include "G4VUserPhysicsList.hh"
+//for hadronic processes
+//#include "QGSP_FTFP_BERT.hh"
+#include "QGSP_BERT.hh"
 #include "globals.hh"
-#include "G4VModularPhysicsList.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PhysicsList: public G4VModularPhysicsList{
+//class PhysicsList: public QGSP_FTFP_BERT //G4VUserPhysicsList
+class PhysicsList: public QGSP_BERT //G4VUserPhysicsList
+{
 public:
 	PhysicsList();
 	virtual ~PhysicsList();
 	void SetCuts();
-
-	G4VPhysicsConstructor* fEmPhysicsList;
-
-	void AddStepMax();
-	void AddDecay();
-	virtual void ConstructProcess();
-	virtual void ConstructParticle();
-
 
 };
 

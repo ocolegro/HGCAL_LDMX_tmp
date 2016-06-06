@@ -35,49 +35,49 @@
 #endif
 
 int main(int argc, char** argv) {
-	freopen("hadron_log.txt", "w", stdout);
 	std::cout << "Opening the file " << argv[1] << std::endl;
+	//freopen("test_log.txt", "w", stdout);
 	TFile *infile = TFile::Open(argv[1]);
-
-
 	TTree *tree = (TTree*) infile->Get("HGCSSTree");
 
-	std::vector<HGCSSSamplingSection> * simhits = 0;
-	tree->SetBranchAddress("HGCSSSamplingSectionVec", &simhits);
+	std::vector<HGCSSSamplingSection> * samplingVec = 0;
+	tree->SetBranchAddress("HGCSSSamplingSectionVec", &samplingVec);
 
-	unsigned nEvts = tree->GetEntries();
+	std::vector<HGCSSSimHit> * hitVec = 0;
+	tree->SetBranchAddress("HGCSSSimHitVec", &hitVec);
+
+	std::vector<HGCSSGenParticle> * hadronVec = 0;
+	tree->SetBranchAddress("HGCSSTrackVec", &hadronVec);
+
+	std::vector<HGCSSGenParticle> * targetVec = 0;
+	tree->SetBranchAddress("HGCSSGenParticleVec", &targetVec);
 
 	TFile hfile("analyzed_tuple.root", "RECREATE");
 	TTree t1("hadrons", "Hadron Study");
 
-	Float_t Full_dep, Full_sen, Hadron_dep, Neutron_Dep, Muon_Dep;
+	Int_t nHadrons,pdgid[500];
 
-	t1.Branch("Full_dep", &Full_dep, "Full_dep/F");
-	t1.Branch("Full_sen", &Full_sen, "Full_sen/F");
-	t1.Branch("Hadron_dep", &Hadron_dep, "Hadron_dep/F");
-	t1.Branch("Neutron_Dep", &Neutron_Dep, "Neutron_Dep/F");
-	t1.Branch("Muon_Dep", &Muon_Dep, "Muon_Dep/F");
+	t1.Branch("nHadrons", &nHadrons, "nHadrons/I");
+	t1.Branch("pdgid", &pdgid, "pdgid[500]/I");
+
+	unsigned nEvts = tree->GetEntries();
 
 	for (unsigned ievt(0); ievt < nEvts; ++ievt) { //loop on entries
 		tree->GetEntry(ievt);
 
-		Full_sen = 0;
-		Full_dep = 0;
-		Hadron_dep = 0;
-		Neutron_Dep = 0;
-		Muon_Dep = 0;
-
 		if (ievt > 10000)
 			break;
+		for (Int_t j = 0; j < targetVec->size(); j++) {
+			HGCSSGenParticle& target = (*targetVec)[j];
 
-		for (Int_t j = 0; j < simhits->size(); j++) {
-			HGCSSSamplingSection& sec = (*simhits)[j];
-			Full_sen += sec.measuredE();
-			Full_dep += sec.totalE();
-			Hadron_dep += sec.totalE() * sec.hadFrac();
-			Neutron_Dep += sec.totalE() * sec.neutronFrac();
-			Muon_Dep += sec.totalE() * sec.muFrac();
-		}
+			}
+
+		for (Int_t j = 0; j < hadronVec->size(); j++) {
+			HGCSSGenParticle& hadron = (*hadronVec)[j];
+
+			}
+
+
 
 		t1.Fill();
 	}

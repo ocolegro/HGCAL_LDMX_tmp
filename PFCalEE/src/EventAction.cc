@@ -49,9 +49,9 @@ EventAction::EventAction() {
 	tree_->Branch("HGCSSSamplingSectionVec",
 			"std::vector<HGCSSSamplingSection>", &ssvec_);
 	tree_->Branch("HGCSSSimHitVec", "std::vector<HGCSSSimHit>", &hitvec_);
-	tree_->Branch("HGCSSGenParticleVec", "std::vector<HGCSSGenParticle>",
-			&genvec_);
-	tree_->Branch("HGCSSTrackVec", "std::vector<HGCSSGenParticle>", &trackvec_);
+	tree_->Branch("HGCSSTargetVec", "std::vector<HGCSSGenParticle>",
+			&targetvec_);
+	tree_->Branch("HGCSSHadronVec", "std::vector<HGCSSGenParticle>", &hadronvec_);
 	// }
 }
 
@@ -87,10 +87,10 @@ void EventAction::Detect(G4double eng, G4double edep, G4double stepl,
 
 	if (inc_){
 		if (targetParticle){
-			genvec_.push_back(genPart);
+			targetvec_.push_back(genPart);
 		}
 		else{
-			trackvec_.push_back(genPart);
+			hadronvec_.push_back(genPart);
 		}
 	}
 }
@@ -243,7 +243,7 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 		(*detector_)[i].resetCounters();
 	}
 	if (debug) {
-		G4cout << " -- Number of truth particles = " << genvec_.size() << G4endl<< " -- Number of simhits = " << hitvec_.size() << G4endl
+		G4cout << " -- Number of truth particles = " << targetvec_.size() << G4endl<< " -- Number of simhits = " << hitvec_.size() << G4endl
 		<< " -- Number of sampling sections = " << ssvec_.size() << G4endl;
 
 	}
@@ -251,9 +251,9 @@ void EventAction::EndOfEventAction(const G4Event* g4evt) {
 	tree_->Fill();
 
 	//reset vectors
-	genvec_.clear();
+	targetvec_.clear();
 	hitvec_.clear();
 	ssvec_.clear();
-	trackvec_.clear();
+	hadronvec_.clear();
 	trackids.clear();
 }

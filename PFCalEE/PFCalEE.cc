@@ -4,7 +4,7 @@
 #include "Randomize.hh"
 
 #include "DetectorConstruction.hh"
-#include "PhysicsList.hh"
+#include "PhysicsListEM.hh"
 
 #include "PrimaryGeneratorAction.hh"
 #include "LHEPrimaryGeneratorAction.hh"
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 
 	runManager->SetUserInitialization(
 			new DetectorConstruction(version, model, signal));
-	runManager->SetUserInitialization(new PhysicsList);
+	runManager->SetUserInitialization(new PhysicsListEM);
 
 	// Set user action classes
         runManager->SetUserAction(new RunAction);
