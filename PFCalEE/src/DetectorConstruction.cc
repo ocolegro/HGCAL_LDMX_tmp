@@ -335,9 +335,11 @@ void DetectorConstruction::DefineMaterials() {
 void DetectorConstruction::UpdateCalorSize() {
 
 	m_CalorSizeZ = 0;
-
-	for (size_t i = 1; i < m_caloStruct.size(); i++) {
+	Double_t maxRadLen = 0;
+	for (size_t i = 0; i < m_caloStruct.size(); i++) {
 		m_CalorSizeZ = m_CalorSizeZ + m_caloStruct[i].Total_thick;
+		if (i > 0)
+			maxRadLen += maxRadLen + m_caloStruct[i].Total_thick;
 	}
 
 	m_nSectors = 1;
@@ -357,8 +359,9 @@ void DetectorConstruction::UpdateCalorSize() {
 		cout << "Constructing the model = " << model_ << "Calo." << endl;
 
 		cout << "The m_CalorSizeZ " << m_CalorSizeZ << endl;
-		std::cout << "The offset has been set to " << m_z0pos << std::endl;
-		m_maxRadius = (m_CalorSizeZ - m_z0pos) * tan(m_maxTheta);
+		cout << "The maxRadLen " << maxRadLen << endl;
+
+		m_maxRadius = (maxRadLen ) * tan(m_maxTheta);
 		cout << "The maximum radius is " << m_maxRadius << endl;
 		m_CalorSizeXY = m_maxRadius * 2; //use full length for making hexagon map
 		m_sectorWidth = m_CalorSizeXY;
