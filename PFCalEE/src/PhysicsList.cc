@@ -55,14 +55,12 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-//PhysicsList::PhysicsList():  QGSP_FTFP_BERT() //G4VUserPhysicsList()
 PhysicsList::PhysicsList() :
 G4VModularPhysicsList(),fEmPhysicsList(0) //G4VUserPhysicsList()
 {
 	defaultCutValue = 0.03 * mm;
 	SetVerboseLevel(1);
 	fEmPhysicsList = new G4EmStandardPhysics_option2();
-	//theParticleIterator = theParticleTable-> GetIterator();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -100,6 +98,7 @@ void PhysicsList::SetCuts() {
 			if (verboseLevel>0) DumpCutValuesTable();
 		}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //Construct processes:
 
 void PhysicsList::ConstructProcess()
@@ -124,7 +123,7 @@ void PhysicsList::ConstructProcess()
   AddStepMax();
 }
 
-
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //Construct particles:
 
 void PhysicsList::ConstructParticle()
@@ -147,6 +146,10 @@ void PhysicsList::ConstructParticle()
     G4ShortLivedConstructor pShortLivedConstructor;
     pShortLivedConstructor.ConstructParticle();
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//Add stepping action:
+
 void PhysicsList::AddStepMax()
 {
   // Step limitation seen as a process

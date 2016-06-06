@@ -36,80 +36,114 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 	case v_HGCALEE_Tv6:{
 		G4cout << "[DetectorConstruction] starting v_HGCALSYM_v1" << G4endl;
 		//Add the target
-		std::vector<std::string> iEle;
-		std::vector<G4double> iThick;
+		std::vector<std::pair <G4double,std::string>> iEleL;
+
 		initLayer(1);
 
 		for (int i = 0; i < 6; i ++){
-		iThick.push_back(.7*mm);iEle.push_back("Si");
-		iThick.push_back(99.3*mm);iEle.push_back("G4_Galactic");
+			iEleL.push_back(make_pair(.7*mm,"Si"));
+			iEleL.push_back(make_pair(99.3*mm,"G4_Galactic"));
 		}
 
-		iThick.push_back(.7*mm);iEle.push_back("Si");
-		iThick.push_back(6.8*mm);iEle.push_back("G4_Galactic");
+		iEleL.push_back(make_pair(.7*mm,"Si"));
+		iEleL.push_back(make_pair(6.8*mm,"G4_Galactic"));
 
-		iThick.push_back(.3504*mm);iEle.push_back("W");
-		iThick.push_back(6.8*mm);iEle.push_back("G4_Galactic");
+		iEleL.push_back(make_pair(.3504*mm,"W"));
+		iEleL.push_back(make_pair(6.8*mm,"G4_Galactic"));
 
 
 		for (int i = 0; i < 3; i ++){
-			iThick.push_back(.7*mm);iEle.push_back("Si");
+			iEleL.push_back(make_pair(.7*mm,"Si"));
 			if (i < 3){
-				iThick.push_back(15*mm);iEle.push_back("G4_Galactic");
+				iEleL.push_back(make_pair(15*mm,"G4_Galactic"));
 
 			}
 		}
 
-		iThick.push_back(.7*mm);iEle.push_back("Si");
-		iThick.push_back(44.8*mm);iEle.push_back("G4_Galactic");
-		iThick.push_back(.7*mm);iEle.push_back("Si");
-		iThick.push_back(84.3*mm);iEle.push_back("G4_Galactic");
-		iThick.push_back(.7*mm);iEle.push_back("Si");
-		iThick.push_back(14.3*mm);iEle.push_back("G4_Galactic");
+		iEleL.push_back(make_pair(.7*mm,"Si"));
+		iEleL.push_back(make_pair(44.8*mm,"G4_Galactic"));
+		iEleL.push_back(make_pair(.7*mm,"Si"));
+		iEleL.push_back(make_pair(84.3*mm,"G4_Galactic"));
+		iEleL.push_back(make_pair(.7*mm,"Si"));
+		iEleL.push_back(make_pair(14.3*mm,"G4_Galactic"));
 
+		std::vector<G4double> iThickL;std::vector<std::string> iMatL;
+		for (unsigned i = 0; i < iEleL.size(); i++)
+		{
+			iThickL.push_back(iEleL.at(i).first());
+			iMatL.push_back(iEleL.at(i).second());
 
-		m_caloStruct.push_back( SamplingSection(iThick,iEle) );
+		}
+		m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
 
 		G4double airThick = 2*mm;
 		G4double pcbThick = 2*mm;
 		G4double wThick = 2.*mm;
 		G4double wcuThick = 0.6*mm;
+		iEleL.clear();
+		std::vector<std::pair <G4double,std::string>> iEleR;
 
-		std::vector<G4double> lThickR;
-		std::vector<std::string> lEleR;
-
-		lThickR.push_back(wcuThick);lEleR.push_back("WCu");
-		lThickR.push_back(6*mm);lEleR.push_back("Cu");
-		lThickR.push_back(wcuThick);lEleR.push_back("WCu");
-		lThickR.push_back(0.*mm);lEleR.push_back("Steel");
-		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
-		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
-		lThickR.push_back(0.1*mm);lEleR.push_back("Si");
-		lThickR.push_back(pcbThick);lEleR.push_back("PCB");
-		lThickR.push_back(airThick);lEleR.push_back("Air");
+		iEleR.push_back(make_pair(wcuThick,"WCu"));
+		iEleR.push_back(make_pair(6*mm,"Cu"));
+		iEleR.push_back(make_pair(wcuThick,"WCu"));
+		iEleR.push_back(make_pair(0.*mm,"Steel"));
+		iEleR.push_back(make_pair(0.1*mm,"Si"));
+		iEleR.push_back(make_pair(0.1*mm,"Si"));
+		iEleR.push_back(make_pair(0.1*mm,"Si"));
+		iEleR.push_back(make_pair(pcbThick,"PCB"));
+		iEleR.push_back(make_pair(airThick,"Air"));
 
 
+		iEleL.push_back(make_pair(0.5*mm,"Cu"));
+		iEleL.push_back(make_pair(0.5*mm,"CFMix"));
+		iEleL.push_back(make_pair(wThick,"W"));
+		//Try adding steel, it greatly improves neutron detection
+		iEleL.push_back(make_pair(0.*mm,"Steel"));
+		iEleL.push_back(make_pair(0.5*mm,"CFMix"));
+		iEleL.push_back(make_pair(0.5*mm,"Cu"));
+		iEleL.push_back(make_pair(airThick,"Air"));
+		iEleL.push_back(make_pair(pcbThick,"PCB"));
+		iEleL.push_back(make_pair(0.1*mm,"Si"));
+		iEleL.push_back(make_pair(0.1*mm,"Si"));
+		iEleL.push_back(make_pair(0.1*mm,"Si"));
+
+		iThickL.clear(); iMatL.clear();
+		for (unsigned i = 0; i < iEleL.size(); i++)
+		{
+			iThickL.push_back(iEleL.at(i).first());
+			iMatL.push_back(iEleL.at(i).second());
+
+		}
+		std::vector<G4double> iThickR;std::vector<std::string> iMatR;
+
+		for (unsigned i = 0; i < iEleR.size(); i++)
+		{
+			iThickR.push_back(iEleR.at(i).first());
+			iMatR.push_back(iEleR.at(i).second());
+
+		}
 		unsigned Nmodule=4;
 		for(unsigned i=0; i<Nmodule; i++) {
-			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
-			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+			m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
+			m_caloStruct.push_back( SamplingSection(iThickR,iMatR) );
 		}
 
 		Nmodule=5;
-		lThickR[0] = 1.2*mm;
-		lThickR[2] = 1.2*mm;
-
+		iThickL[2] = 2.8*mm;
+		iThickR[0] = 1.2*mm;
+		iThickR[2] = 1.2*mm;
 		for(unsigned i=0; i<Nmodule; i++) {
-			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
-			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+			m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
+			m_caloStruct.push_back( SamplingSection(iThickR,iMatR) );
 		}
 
 		Nmodule=4;
-		lThickR[0] = 2.2*mm;
-		lThickR[2] = 2.2*mm;
+		iThickL[2] = 4.2*mm;
+		iThickR[0] = 2.2*mm;
+		iThickR[2] = 2.2*mm;
 		for(unsigned i=0; i<Nmodule; i++) {
-			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
-			m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+			m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
+			m_caloStruct.push_back( SamplingSection(iThickR,iMatR) );
 		}
 		break;
 	}

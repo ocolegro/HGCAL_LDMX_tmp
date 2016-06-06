@@ -29,15 +29,11 @@
 // 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #ifndef PhysicsList_h
 #define PhysicsList_h 1
 
 #include "G4VUserPhysicsList.hh"
-//for hadronic processes
-//#include "QGSP_FTFP_BERT.hh"
-//#include "QGSP_BERT.hh"
 #include "globals.hh"
 #include "G4VModularPhysicsList.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -49,8 +45,6 @@ public:
 	void SetCuts();
 
 	G4VPhysicsConstructor* fEmPhysicsList;
-	//G4VPhysicsConstructor* fDecay;
-
 
 	void AddStepMax();
 	void AddDecay();
