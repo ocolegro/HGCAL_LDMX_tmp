@@ -40,6 +40,8 @@
 #include "G4UnitsTable.hh"
 #include "G4EmStandardPhysics.hh"
 #include "G4EmStandardPhysics_option2.hh"
+#include "G4VUserPhysicsList.hh"
+
 #include "StepMax.hh"
 #include "G4DecayPhysics.hh"
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
