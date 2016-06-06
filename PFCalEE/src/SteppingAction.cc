@@ -64,6 +64,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	if ((globalTime < timeLimit_)
 			&& ((thePrePVname == "W1phys") || (thePrePVname == "Wphys")))
 	{
+		std::cout << "The thePrePVname is : " << thePrePVname << std::endl;
+		std::cout << "The thePostPVname is : " << thePostPVname << std::endl;
+		std::cout << "The time is " << timeLimit_ << std::endl;
 		targetParticle = true;
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
@@ -95,6 +98,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.trackID(trackID);
 		genPart.layer(getLayer(thePostPVname));
 		eventAction_->trackids.push_back(trackID);
+
+		if(targetParticle == true)
+			eventAction_->Detect(kineng, edep, stepl, globalTime, pdgId, volume,
+					position, trackID, parentID, genPart, false);
 		}
 	}
 	eventAction_->Detect(kineng, edep, stepl, globalTime, pdgId, volume,
