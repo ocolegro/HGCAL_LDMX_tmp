@@ -38,6 +38,7 @@
 
 
 #include "G4EmStandardPhysics_option2.hh"
+#include "G4EmExtraPhysics.hh"
 
 #include "G4LossTableManager.hh"
 #include "G4UnitsTable.hh"
@@ -63,7 +64,7 @@ PhysicsListEM::PhysicsListEM() : G4VModularPhysicsList(),
 
 
   // EM physics
-  fEmPhysicsList = new G4EmStandardPhysics_option2();
+  fEmPhysicsList = new G4EmExtraPhysics();
 
 }
 
