@@ -52,9 +52,10 @@ public:
 
 	G4VPhysicsConstructor* fEmPhysicsList;
 	G4VPhysicsConstructor* fDecay;
+
+
 	void AddStepMax();
 	virtual void ConstructProcess();
-	G4ParticleTable::G4PTblDicIterator* theParticleIterator;
 
 
 };
