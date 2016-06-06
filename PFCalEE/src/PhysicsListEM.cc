@@ -34,7 +34,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#include "PhysicsList.hh"
+#include "PhysicsListEM.hh"
 
 
 #include "G4EmStandardPhysics_option2.hh"
