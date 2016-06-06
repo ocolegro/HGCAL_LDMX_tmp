@@ -28,6 +28,7 @@
 using namespace std;
 
 //
+
 DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		version_(ver), model_(mod) {
 	initLayer(0);
@@ -39,7 +40,6 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 		std::vector<std::pair <G4double,std::string>> iEleL;
 
 		initLayer(1);
-
 		for (int i = 0; i < 6; i ++){
 			iEleL.push_back(make_pair(.7*mm,"Si"));
 			iEleL.push_back(make_pair(99.3*mm,"G4_Galactic"));
@@ -151,55 +151,72 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 			G4cout << "[DetectorConstruction] starting v_HGCALEE_v6" << G4endl;
 
 			//Add the target
-			std::vector<std::string> iEle;
-			std::vector<G4double> iThick;
-			if (signal == false) {
-				iThick.push_back(.3504*mm);iEle.push_back("W");
+			std::vector<std::pair <G4double,std::string>> iEleL;
+			std::vector<std::pair <G4double,std::string>> iEleR;
+
+			iEleL.push_back(make_pair(.3504*mm,"W"));
+			iEleL.push_back(make_pair(20*cm,"G4_Galactic"));
+
+			std::vector<G4double> iThickL;std::vector<std::string> iMatL;
+			for (unsigned i = 0; i < iEleL.size(); i++)
+			{
+				iThickL.push_back(iEleL.at(i).first);
+				iMatL.push_back(iEleL.at(i).second);
+
 			}
-			else {
-				iThick.push_back(0.0001*mm);iEle.push_back("W");
-			}
-			iThick.push_back(20*cm);iEle.push_back("G4_Galactic");
+			m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
 
-			m_caloStruct.push_back( SamplingSection(iThick,iEle) );
+			G4double airThick = 2*mm,
+			 pcbThick = 2*mm,
+			 wThick = 2.*mm,
+			 wcuThick = 0.6*mm;
 
-			G4double airThick = 2*mm;
-			G4double pcbThick = 2*mm;
-			G4double wThick = 2.*mm;
-			G4double wcuThick = 0.6*mm;
+			std::vector<G4double> iThickR;std::vector<std::string> iMatR;
 
-			std::vector<G4double> lThickL;
-			std::vector<std::string> lEleL;
-			std::vector<G4double> lThickR;
-			std::vector<std::string> lEleR;
 
-			lThickR.push_back(wcuThick);lEleR.push_back("WCu");
-			lThickR.push_back(6*mm);lEleR.push_back("Cu");
-			lThickR.push_back(wcuThick);lEleR.push_back("WCu");
-			lThickR.push_back(0.*mm);lEleR.push_back("Steel");
-			lThickR.push_back(0.1*mm);lEleR.push_back("Si");
-			lThickR.push_back(0.1*mm);lEleR.push_back("Si");
-			lThickR.push_back(0.1*mm);lEleR.push_back("Si");
-			lThickR.push_back(pcbThick);lEleR.push_back("PCB");
-			lThickR.push_back(airThick);lEleR.push_back("Air");
+			iEleR.push_back(make_pair(wcuThick,"WCu"));
+			iEleR.push_back(make_pair(6*mm,"Cu"));
+			iEleR.push_back(make_pair(wcuThick,"WCu"));
+			iEleR.push_back(make_pair(0.*mm,"Steel"));
+			iEleR.push_back(make_pair(0.1*mm,"Si"));
+			iEleR.push_back(make_pair(0.1*mm,"Si"));
+			iEleR.push_back(make_pair(0.1*mm,"Si"));
+			iEleR.push_back(make_pair(pcbThick,"PCB"));
+			iEleR.push_back(make_pair(airThick,"Air"));
 
-			lThickL.push_back(0.5*mm);lEleL.push_back("Cu");
-			lThickL.push_back(0.5*mm);lEleL.push_back("CFMix");
-			lThickL.push_back(wThick);lEleL.push_back("W");
+			iEleL.push_back(make_pair(0.5*mm,"Cu"));
+			iEleL.push_back(make_pair(0.5*mm,"CFMix"));
+			iEleL.push_back(make_pair(wThick,"W"));
 			//Try adding steel, it greatly improves neutron detection
-			lThickL.push_back(0.*mm);lEleL.push_back("Steel");
-			lThickL.push_back(0.5*mm);lEleL.push_back("CFMix");
-			lThickL.push_back(0.5*mm);lEleL.push_back("Cu");
-			lThickL.push_back(airThick);lEleL.push_back("Air");
-			lThickL.push_back(pcbThick);lEleL.push_back("PCB");
-			lThickL.push_back(0.1*mm);lEleL.push_back("Si");
-			lThickL.push_back(0.1*mm);lEleL.push_back("Si");
-			lThickL.push_back(0.1*mm);lEleL.push_back("Si");
+			iEleL.push_back(make_pair(0.*mm,"Steel"));
+			iEleL.push_back(make_pair(0.5*mm,"CFMix"));
+			iEleL.push_back(make_pair(0.5*mm,"Cu"));
+			iEleL.push_back(make_pair(airThick,"Air"));
+			iEleL.push_back(make_pair(pcbThick,"PCB"));
+			iEleL.push_back(make_pair(0.1*mm,"Si"));
+			iEleL.push_back(make_pair(0.1*mm,"Si"));
+			iEleL.push_back(make_pair(0.1*mm,"Si"));
+
+			iThickL.clear(); iMatL.clear();
+			for (unsigned i = 0; i < iEleL.size(); i++)
+			{
+				iThickL.push_back(iEleL.at(i).first);
+				iMatL.push_back(iEleL.at(i).second);
+
+			}
+			std::vector<G4double> iThickR;std::vector<std::string> iMatR;
+
+			for (unsigned i = 0; i < iEleR.size(); i++)
+			{
+				iThickR.push_back(iEleR.at(i).first);
+				iMatR.push_back(iEleR.at(i).second);
+
+			}
 
 			unsigned Nmodule=4;
 			for(unsigned i=0; i<Nmodule; i++) {
-				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
-				m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+				m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
+				m_caloStruct.push_back( SamplingSection(iThickR,iMatR) );
 			}
 			if (version_ == v_HGCALEE_v6)
 			{
@@ -208,38 +225,38 @@ DetectorConstruction::DetectorConstruction(G4int ver, G4int mod, bool signal) :
 			else{
 				Nmodule = 4;
 			}
-			lThickL[2] = 2.8*mm;
-			lThickR[0] = 1.2*mm;
-			lThickR[2] = 1.2*mm;
+			iThickL[2] = 2.8*mm;
+			iThickR[0] = 1.2*mm;
+			iThickR[2] = 1.2*mm;
 
 			for(unsigned i=0; i<Nmodule; i++) {
-				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
-				m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+				m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
+				m_caloStruct.push_back( SamplingSection(iThickR,iMatR) );
 			}
 
 			Nmodule=4;
-			lThickL[2] = 4.2*mm;
-			lThickR[0] = 2.2*mm;
-			lThickR[2] = 2.2*mm;
+			iThickL[2] = 4.2*mm;
+			iThickR[0] = 2.2*mm;
+			iThickR[2] = 2.2*mm;
 
 			if (version_ == v_HGCALEE_v6_s05){
 				Nmodule=5;
-				lThickR[3] = 5*mm;
-				lThickL[3] = 5*mm;
+				iThickL[3] = 5*mm;
+				iThickR[3] = 5*mm;
 			}
 			if (version_ == v_HGCALEE_v6_s10){
 				Nmodule=5;
-				lThickR[3] = 10*mm;
-				lThickL[3] = 10*mm;
+				iThickL[3] = 10*mm;
+				iThickR[3] = 10*mm;
 			}
 			if (version_ == v_HGCALEE_v6_s20){
 				Nmodule=5;
-				lThickR[3] = 20*mm;
-				lThickL[3] = 20*mm;
+				iThickL[3] = 20*mm;
+				iThickR[3] = 20*mm;
 			}
 			for(unsigned i=0; i<Nmodule; i++) {
-				m_caloStruct.push_back( SamplingSection(lThickL,lEleL) );
-				m_caloStruct.push_back( SamplingSection(lThickR,lEleR) );
+				m_caloStruct.push_back( SamplingSection(iThickL,iMatL) );
+				m_caloStruct.push_back( SamplingSection(iThickR,iMatR) );
 			}
 			break;
 		}
