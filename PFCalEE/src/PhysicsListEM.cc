@@ -29,7 +29,15 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "PhysicsListEM.hh"
+
 #include "PhysListEmStandard.hh"
+
+#include "G4EmStandardPhysics.hh"
+#include "G4LossTableManager.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4UnitsTable.hh"
+#include "G4PhysicsListHelper.hh"
+#include "G4Decay.hh"
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -86,10 +94,6 @@ void PhysicsListEM::ConstructParticle()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
-#include "G4EmStandardPhysics.hh"
-#include "G4LossTableManager.hh"
-#include "G4SystemOfUnits.hh"
-#include "G4UnitsTable.hh"
 #include "G4PhysicsListHelper.hh"
 #include "G4Decay.hh"
 
