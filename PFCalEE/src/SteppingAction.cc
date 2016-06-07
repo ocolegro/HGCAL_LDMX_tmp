@@ -15,7 +15,7 @@ SteppingAction::SteppingAction() {
 			(EventAction*) G4RunManager::GetRunManager()->GetUserEventAction();
 	eventAction_->Add(
 			((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->getStructure());
-	saturationEngine = new G4EmSaturation();
+	saturationEngine = new G4EmSaturation(0);
 	timeLimit_ = 20000000000; //ns
 	version_ = ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->getVersion();
 }
