@@ -23,10 +23,7 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file electromagnetic/TestEm3/include/PhysicsList.hh
-/// \brief Definition of the PhysicsList class
-//
-// $Id: PhysicsList.hh 82333 2014-06-16 09:57:47Z gcosmo $
+// $Id: PhysicsList.hh 83010 2014-07-24 14:53:07Z gcosmo $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -37,7 +34,6 @@
 #include "G4VModularPhysicsList.hh"
 #include "globals.hh"
 
-class StepMax;
 class PhysicsListMessenger;
 class G4VPhysicsConstructor;
 
@@ -45,25 +41,20 @@ class G4VPhysicsConstructor;
 
 class PhysicsListEM: public G4VModularPhysicsList
 {
-public:
-
+  public:
 	PhysicsListEM();
    ~PhysicsListEM();
 
-    virtual void ConstructParticle();
-    virtual void ConstructProcess();
+    void ConstructParticle();
+    void ConstructProcess();
 
     void AddPhysicsList(const G4String& name);
-    void AddStepMax();
 
-private:
+  private:
+    G4VPhysicsConstructor*  emPhysicsList;
+    G4String emName;
 
-    G4VPhysicsConstructor*  fEmPhysicsList;
-    G4String fEmName;
-
-    StepMax* fStepMaxProcess;
-
-    PhysicsListMessenger* fMessenger;
+    PhysicsListMessenger* pMessenger;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

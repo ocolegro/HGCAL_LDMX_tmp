@@ -1,6 +1,3 @@
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-
 //
 // ********************************************************************
 // * License and Disclaimer                                           *
@@ -26,25 +23,43 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file electromagnetic/TestEm3/src/PhysicsList.cc
-/// \brief Implementation of the PhysicsList class
-//
-// $Id: PhysicsList.cc 90969 2015-06-12 08:12:57Z gcosmo $
+// $Id: PhysicsList.cc 83010 2014-07-24 14:53:07Z gcosmo $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "PhysicsListEM.hh"
 
+#include "PhysListEmStandard.hh"
 
-#include "G4EmStandardPhysics_option2.hh"
-#include "G4EmExtraPhysics.hh"
+#include "G4EmStandardPhysics.hh"
+
 
 #include "G4LossTableManager.hh"
-#include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4UnitsTable.hh"
 
-// particles
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+PhysicsListEM::PhysicsListEM() : G4VModularPhysicsList()
+{
+
+  // EM physics
+  emName = G4String("local");
+  emPhysicsList = new PhysListEmStandard(emName);
+
+  SetDefaultCutValue(1*mm);
+  G4LossTableManager::Instance();
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+PhysicsListEM::~PhysicsListEM()
+{
+  delete pMessenger;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "G4BosonConstructor.hh"
 #include "G4LeptonConstructor.hh"
@@ -53,28 +68,6 @@
 #include "G4BaryonConstructor.hh"
 #include "G4IonConstructor.hh"
 #include "G4ShortLivedConstructor.hh"
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-PhysicsListEM::PhysicsListEM() : G4VModularPhysicsList(),
- fEmPhysicsList(0), fStepMaxProcess(0), fMessenger(0)
-{
-  G4LossTableManager::Instance();
-  SetDefaultCutValue(.1*mm);
-
-
-  // EM physics
-  fEmPhysicsList = new G4EmStandardPhysics_option2();
-
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-PhysicsListEM::~PhysicsListEM()
-{
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PhysicsListEM::ConstructParticle()
 {
@@ -99,7 +92,7 @@ void PhysicsListEM::ConstructParticle()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#include "G4ProcessManager.hh"
+#include "G4PhysicsListHelper.hh"
 #include "G4Decay.hh"
 
 void PhysicsListEM::ConstructProcess()
@@ -108,52 +101,17 @@ void PhysicsListEM::ConstructProcess()
 
   // electromagnetic Physics List
   //
-  fEmPhysicsList->ConstructProcess();
+  emPhysicsList->ConstructProcess();
 
   // Add Decay Process
   //
   G4Decay* fDecayProcess = new G4Decay();
+  G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
 
   theParticleIterator->reset();
   while( (*theParticleIterator)() ){
     G4ParticleDefinition* particle = theParticleIterator->value();
-    G4ProcessManager* pmanager = particle->GetProcessManager();
-
-    if (fDecayProcess->IsApplicable(*particle)) {
-
-      pmanager ->AddProcess(fDecayProcess);
-
-      // set ordering for PostStepDoIt and AtRestDoIt
-      pmanager ->SetProcessOrdering(fDecayProcess, idxPostStep);
-      pmanager ->SetProcessOrdering(fDecayProcess, idxAtRest);
-
-    }
-  }
-
-  // stepLimitation (as a full process)
-  //
-  AddStepMax();
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-#include "StepMax.hh"
-
-void PhysicsListEM::AddStepMax()
-{
-  // Step limitation seen as a process
-  fStepMaxProcess = new StepMax();
-
-  theParticleIterator->reset();
-  while ((*theParticleIterator)()){
-      G4ParticleDefinition* particle = theParticleIterator->value();
-      G4ProcessManager* pmanager = particle->GetProcessManager();
-
-      if (fStepMaxProcess->IsApplicable(*particle))
-        {
-          pmanager ->AddDiscreteProcess(fStepMaxProcess);
-        }
+    if (fDecayProcess->IsApplicable(*particle))
+      ph ->RegisterProcess(fDecayProcess, particle);
   }
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
