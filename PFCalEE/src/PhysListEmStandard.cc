@@ -78,7 +78,7 @@ void PhysListEmStandard::ConstructProcess()
   // Add standard EM Processes
   //
   aParticleIterator->reset();
-  while( (*aParticleIterator)() ){
+  while( *(subInstanceManager.offset[g4vpcInstanceID])._aParticleIterator){//(*aParticleIterator)() ){
     G4ParticleDefinition* particle = aParticleIterator->value();
     G4String particleName = particle->GetParticleName();
 
