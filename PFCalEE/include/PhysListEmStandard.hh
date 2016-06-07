@@ -39,7 +39,7 @@
 class PhysListEmStandard : public G4VPhysicsConstructor
 {
   public:
-    PhysListEmStandard(const G4String& name = "standard");
+	PhysListEmStandard(const G4String& name = "standard");
    ~PhysListEmStandard();
 
   public:

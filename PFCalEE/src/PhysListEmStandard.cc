@@ -58,7 +58,7 @@
 #include "G4MscStepLimitType.hh"
 
 #include "G4SystemOfUnits.hh"
-
+#define aParticleIterator ((subInstanceManager.offset[g4vpcInstanceID])._aParticleIterator)
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PhysListEmStandard::PhysListEmStandard(const G4String& name)
