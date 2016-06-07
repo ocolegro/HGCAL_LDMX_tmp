@@ -29,7 +29,6 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "PhysicsListEM.hh"
-
 #include "PhysListEmStandard.hh"
 
 #include "G4EmStandardPhysics.hh"
