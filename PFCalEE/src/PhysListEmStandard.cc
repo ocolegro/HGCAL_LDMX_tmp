@@ -77,6 +77,8 @@ void PhysListEmStandard::ConstructProcess()
 
   // Add standard EM Processes
   //
+  theParticleTable = G4ParticleTable::GetParticleTable();
+  G4ParticleTable::G4PTblDicIterator* theParticleIterator = theParticleTable->GetIterator();
   theParticleIterator->reset();
   while( (*theParticleIterator)() ){
     G4ParticleDefinition* particle = theParticleIterator->value();
