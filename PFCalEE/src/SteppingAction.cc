@@ -71,6 +71,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	}
 	*/
+	const G4ThreeVector &p = lTrack->GetMomentum();
+
 	if ((globalTime < timeLimit_)
 			//Select target particles from model v2
 			&& ((version_ == 2 && thePrePVname == "Wphys" && thePostPVname == "Si1_0phys") ||
@@ -80,7 +82,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	{
 		isTargetParticle = true;
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
-		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
 		genPart.setPosition(postposition[0], postposition[1], postposition[2]);
 		genPart.setMomentum(p[0], p[1], p[2]);
@@ -95,7 +96,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	unsigned int id_ = std::find(eventAction_->trackids.begin(),
 			eventAction_->trackids.end(), trackID)
 			- eventAction_->trackids.begin();
-	const G4ThreeVector &p = lTrack->GetMomentum();
 	bool isInitHadron = false;
 	//Only select new hadronic tracks with kin. energy > 10 MeV
 	if ((id_ == eventAction_->trackids.size()) && (kineng>10)) {
