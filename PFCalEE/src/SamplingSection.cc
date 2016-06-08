@@ -9,12 +9,11 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 		G4int layerId,G4bool isHadronTrack,G4bool isForward, G4bool isPrimaryTrack) {
 	std::string lstr = vol->GetName();
 	std::cout << "The lstr = " << lstr << std::endl;
-
+	bool breakSwitch = false;
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
-		std::cout << "ie is " << ie << "The sublayer_vol[ie] is " << sublayer_vol[ie]->GetName() << std::endl;
+		if (breakSwitch) break;
 		if (sublayer_vol[ie] && lstr == sublayer_vol[ie]->GetName()) {
-			std::cout << "Found a match at element ie =  " << ie << std::endl;
-
+			breakSwitch = true;
 			unsigned idx = getSensitiveLayerIndex(lstr);
 			unsigned eleidx = ie % n_elements;
 			sublayer_RawDep[eleidx] += depositRawE;
