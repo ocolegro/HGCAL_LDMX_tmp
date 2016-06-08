@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
 				layerHShowerSizeAvg=0,layerEShowerSizeAvg=0,hardestEarlyHadron = 0;
 
 		Float_t nSens = 3.0;
-		Float_t nLayers = 26.0;
+		Float_t nLayers = samplingVec->size();
 		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
 			summedSen += sec.sensDep();
