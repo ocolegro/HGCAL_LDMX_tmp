@@ -57,11 +57,11 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						if (sens_eleKinFlux[idx] > 4000){
 							for (int i = 0; i < parent_daughter_Ids.size(); i++){
 								G4cout
-										<< "The layer flux was " << sens_eleKinFlux[idx]
+										<< " The layer flux was " << sens_eleKinFlux[idx]
 										<< " The parent trackID is " << parent_daughter_Ids[idx].at(i)
 										<< G4endl;
 								G4cout
-										<< "And the particle KE is " << trackKe[idx].at(i)
+										<< " And the particle KE is " << trackKe[idx].at(i)
 										<< G4endl;
 							}
 						}
