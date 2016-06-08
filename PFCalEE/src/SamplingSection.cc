@@ -64,7 +64,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 										<< " and the daughter trackID is " << parent_daughter_Ids[idx].at(i).second
 										<< " and the particle KE is " << trackKe[idx].at(i)
 										<<G4endl;
-								sens_eleKinFlux[idx] = 0}
+								sens_eleKinFlux[idx] = 0;}
 							}
 						}
 
