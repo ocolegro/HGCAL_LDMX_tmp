@@ -134,7 +134,7 @@ public:
 				sens_muDep.clear();
 				sens_neutronDep.clear();
 				sens_hadDep.clear();
-
+				parent_daughter_Ids.clear();
 				sens_muKinFlux.clear();
 				sens_neutronKinFlux.clear();
 				sens_hadKinFlux.clear();
@@ -304,6 +304,7 @@ public:
 			std::vector<G4double> sublayer_RawDep;
 			std::vector<G4double> sublayer_NonIonDep;
 			std::vector<G4double> sublayer_dl;
+			std::vector<std::pair<G4int,G4int>> parent_daughter_Ids;
 			std::vector<G4VPhysicalVolume*> sublayer_vol;
 			std::vector<G4double> sens_gamDep, sens_eleDep, sens_muDep, sens_gamKinFlux,sens_eleKinFlux,
 			sens_muKinFlux,sens_neutronDep, sens_neutronKinFlux,

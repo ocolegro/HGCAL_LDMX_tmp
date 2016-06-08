@@ -30,7 +30,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 			lHit.trackId = trackID;
 			lHit.parentId = parentID;
 			lHit.parentKE = parentKE;
-
+			parent_daughter_Ids.push_back(std::make_pair(parentID,trackID));
 			if (isSensitiveElement(eleidx)) { //if Si || sci
 				sens_time[idx] += depositRawE * globalTime;
 
@@ -47,6 +47,13 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 					if (isForward){
 						sens_eleKinFlux[idx] += parentKE;
 						sens_eleCounter[idx] += 1;
+						if (sens_eleKinFlux[idx] > 4000){
+							for (int i = 0; i < parent_daughter_Ids.size(); i++){
+								std::cout << "The parent trackID is " << parent_daughter_Ids.at(i).first
+										<< "and the daughter trackID is " << parent_daughter_Ids.at(i).second;
+							}
+						}
+
 					}
 				}
 				else if (abs(pdgId) == 13) {

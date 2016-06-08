@@ -80,7 +80,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 					((version_ == 1 || version_ > 2) && thePrePVname == "Wphys" && thePostPVname == "W1phys") ||
 					(thePrePVname == "W1phys" && thePostPVname == "G4_Galactic1phys")))
 	{
-		isTargetParticle = true;
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
 		genPart.setPosition(postposition[0], postposition[1], postposition[2]);
@@ -91,7 +90,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.charge(pd->GetPDGCharge());
 		genPart.trackID(trackID);
 		genPart.layer(getLayer(thePostPVname) - ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer());
-
+		isTargetParticle = true;
 	}
 	unsigned int id_ = std::find(eventAction_->trackids.begin(),
 			eventAction_->trackids.end(), trackID)
