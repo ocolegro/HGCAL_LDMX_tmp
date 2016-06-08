@@ -73,7 +73,6 @@ void EventAction::BeginOfEventAction(const G4Event* evt) {
 		G4cout << "\n---> Begin of event: " << evtNb_ << G4endl;
 		CLHEP::HepRandom::showEngineStatus();
 	}
-	//fout_ << "Event " << evtNb_ << std::endl;
 
 }
 
