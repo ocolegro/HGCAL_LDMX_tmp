@@ -14,13 +14,9 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 			unsigned idx = getSensitiveLayerIndex(lstr);
 			unsigned eleidx = ie % n_elements;
 			sublayer_RawDep[eleidx] += depositRawE;
+			sublayer_PrimaryDep[eleidx] += depositNonIonE;
 
-			unsigned int trackLoc= std::find(Alltracks[eleidx].begin(),Alltracks[eleidx].end(), trackID) - Alltracks[eleidx].begin();
-			if (trackLoc == Alltracks[eleidx].size())
-			{
-				Alltracks[eleidx].push_back(trackID);
-				sublayer_PrimaryDep[eleidx] += depositRawE;
-			}
+
 			sublayer_dl[eleidx] += dl;
 
 			//add hit
