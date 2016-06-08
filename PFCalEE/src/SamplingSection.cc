@@ -37,17 +37,17 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 				//discriminate further by particle type
 				if (abs(pdgId) == 22){
 					sens_gamDep[idx] += depositRawE;
-					//if (isForward){
+					if (isForward){
 						sens_gamKinFlux[idx] += parentKE;
 						sens_gamCounter[idx] += 1;
-					//}
+					}
 				}
 				else if (abs(pdgId) == 11){
 					sens_eleDep[idx] += depositRawE;
-					//if (isForward){
+					if (isForward){
 						sens_eleKinFlux[idx] += parentKE;
 						sens_eleCounter[idx] += 1;
-					//}
+					}
 				}
 				else if (abs(pdgId) == 13) {
 					sens_muDep[idx] += depositRawE;

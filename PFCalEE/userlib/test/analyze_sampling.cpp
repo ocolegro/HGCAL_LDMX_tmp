@@ -60,10 +60,10 @@ int main(int argc, char** argv) {
 	Float_t summedTotalNonIon,summedTotal, summedSen, maxHadronKe,genKin,
 			layerAvgHFlux,layerAvgNFlux,layerAvgEFlux,layerAvgGFlux,layerAvgMFlux,layerAvgEGFlux,
 			layerAvgNCount,layerAvgHCount,layerAvgECount,layerAvgGCount,layerAvgMCount,
-			layerAvgHFrac,layerAvgNFrac,layerAvgMFrac,layerAvgEFrac,layerAvgGFrac,layerAvgEGCount,
+			layerAvgHFrac,layerAvgNFrac,layerAvgMFrac,layerAvgEFrac,layerAvgGFrac,layerAvgEGCount,layerAvgEGFrac,
 			layerEShowerSizeAvg,layerHShowerSizeAvg,hardestEarlyHadron,
 			layerHFlux[500], layerNFlux[500], layerMFlux[500],
-			layerHShowerSize[500], layerEShowerSize[500], layerTotal[500],
+			layerHShowerSize[500], layerEShowerSize[500], layerTotal[500],layerEGFrac[500],
 			layerHFrac[500], layerNFrac[500], layerMFrac[500],layerGFrac[500],layerEFrac[500],
 			layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500],layerNonIon[500],
 			layerEFlux[500],layerGFlux[500],layerECount[500],layerGCount[500],layerEGFlux[500],layerEGCount[500];
@@ -118,6 +118,7 @@ int main(int argc, char** argv) {
 	t1.Branch("layerMFrac", &layerMFrac, "layerMFrac[caloLen]/F");
 	t1.Branch("layerEFrac", &layerEFrac, "layerEFrac[caloLen]/F");
 	t1.Branch("layerGFrac", &layerGFrac, "layerGFrac[caloLen]/F");
+	t1.Branch("layerEGFrac", &layerEGFrac, "layerEGFrac[caloLen]/F");
 
 	t1.Branch("layerHShowerSize", &layerHShowerSize, "layerHShowerSize[caloLen]/F");
 	t1.Branch("layerEShowerSize", &layerEShowerSize, "layerEShowerSize[caloLen]/F");
@@ -140,7 +141,7 @@ int main(int argc, char** argv) {
 		summedSen = 0, summedTotal = 0, summedTotalNonIon = 0,caloLen = 0,
 				layerAvgHFlux = 0, layerAvgNFlux = 0, layerAvgMFlux =0,layerAvgEFlux=0,layerAvgGFlux=0,layerAvgEGCount = 0,
 				layerAvgHCount=0,layerAvgNCount=0,layerAvgMCount=0,layerAvgECount=0,layerAvgGCount=0,
-				layerAvgHFrac=0,layerAvgNFrac=0,layerAvgMFrac=0,layerAvgEFrac=0,layerAvgGFrac=0,
+				layerAvgHFrac=0,layerAvgNFrac=0,layerAvgMFrac=0,layerAvgEFrac=0,layerAvgGFrac=0,layerAvgEGFrac=0,
 				maxHadronKe=0,genCounter = 0,genKin=0,
 				layerHShowerSizeAvg=0,layerEShowerSizeAvg=0,hardestEarlyHadron = 0;
 
@@ -166,11 +167,13 @@ int main(int argc, char** argv) {
 			layerAvgECount += sec.eleCount()/(nSens * nLayers);
 			layerAvgGCount += sec.gamCount()/(nSens * nLayers);
 			layerAvgEGCount += ( sec.eleCount() +  sec.gamCount())/(nSens * nLayers);
+
 			layerAvgHFrac += sec.hadDepFrac()/(nLayers);
 			layerAvgNFrac += sec.neutronDepFrac()/(nLayers);
 			layerAvgMFrac += sec.muDepFrac()/(nLayers);
 			layerAvgEFrac += sec.eleDepFrac()/(nLayers);
 			layerAvgGFrac += sec.gamDepFrac()/(nLayers);
+			layerAvgEGFrac += (sec.gamDepFrac()+sec.gamDepFrac())/(nLayers);
 
 			layerSen[j - firstLayer] = sec.sensDep()/nSens;
 			layerTotal[j - firstLayer] = sec.totalDep()/nSens;
@@ -195,6 +198,7 @@ int main(int argc, char** argv) {
 			layerMFrac[j - firstLayer] = sec.muDepFrac();
 			layerEFrac[j - firstLayer] = sec.eleDepFrac();
 			layerGFrac[j - firstLayer] = sec.gamDepFrac();
+			layerEGFrac[j - firstLayer] = sec.gamDepFrac() + sec.eleDepFrac();
 
 			layerHShowerSize[j - firstLayer] = sec.hadronShowerSize();
 			layerEShowerSize[j - firstLayer] = sec.eleShowerSize();
