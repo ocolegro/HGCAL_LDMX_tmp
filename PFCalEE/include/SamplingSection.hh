@@ -175,11 +175,11 @@ public:
 				for (unsigned idx(0); idx<n_sens_elements; ++idx) {
 					if (sens_HitVec[idx].size() > sens_HitVec_size_max) {
 						sens_HitVec_size_max = 2*sens_HitVec[idx].size();
-						G4cout << "-- SamplingSection::resetCounters(), space reserved for HitVec vector increased to " << sens_HitVec_size_max << G4endl;
+						//G4cout << "-- SamplingSection::resetCounters(), space reserved for HitVec vector increased to " << sens_HitVec_size_max << G4endl;
 					}
 					if (abs_HitSumVec.size() > abs_HitVec_size_max) {
 						abs_HitVec_size_max = 2*abs_HitSumVec.size();
-						G4cout << "-- SamplingSection::resetCounters(), space reserved for absHitVec vector increased to " << abs_HitVec_size_max << G4endl;
+						//G4cout << "-- SamplingSection::resetCounters(), space reserved for absHitVec vector increased to " << abs_HitVec_size_max << G4endl;
 
 					}
 					sens_HitVec[idx].clear();
