@@ -44,7 +44,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						unsigned int trackLoc  = std::find(Gtracks[idx].begin(),Gtracks[idx].end(), trackID) - Gtracks[idx].begin();
 						std::cout <<"The gtrackloc is " << trackLoc << "The gtracks size is " << Gtracks.size() << std::endl;
 
-						if (trackLoc == Gtracks.size()){
+						if (trackLoc == Gtracks[idx].size()){
 							sens_gamKinFlux[idx] += parentKE;
 							sens_gamCounter[idx] += 1;
 							Gtracks[idx].push_back(trackID);
@@ -55,7 +55,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 					sens_eleDep[idx] += depositRawE;
 					if (isForward){
 						unsigned int trackLoc  = std::find(Etracks[idx].begin(),Etracks[idx].end(), trackID) - Etracks[idx].begin();
-						if (trackLoc == Etracks.size()){
+						if (trackLoc == Etracks[idx].size()){
 						//G4cout << "adding a parent id "  << G4endl;
 						parent_daughter_Ids[idx].push_back(std::make_pair(parentID,trackID));
 						//G4cout << "adding a track ke "  << G4endl;
@@ -64,27 +64,13 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						sens_eleCounter[idx] += 1;
 						Etracks[idx].push_back(trackID);
 						}
-						if (idx == 0){
-						if (sens_eleKinFlux[idx] > 4000){
-							G4cout << "Printing the particles for a new event " << G4endl;
-							for (int i = 0; i < parent_daughter_Ids[idx].size(); i++){
-								G4cout
-										<< "The layer flux was " << sens_eleKinFlux[idx]
-										<< " The parent trackID is " << parent_daughter_Ids[idx].at(i).first
-										<< " and the daughter trackID is " << parent_daughter_Ids[idx].at(i).second
-										<< " and the particle KE is " << trackKe[idx].at(i)
-										<<G4endl;
-								sens_eleKinFlux[idx] = 0;}
-							}
-						}
-
 					}
 				}
 				else if (abs(pdgId) == 13) {
 					sens_muDep[idx] += depositRawE;
 					if (isForward){
 						unsigned int trackLoc  = std::find(Mtracks[idx].begin(),Mtracks[idx].end(), trackID) - Mtracks[idx].begin();
-						if (trackLoc == Mtracks.size()){
+						if (trackLoc == Mtracks[idx].size()){
 						sens_muKinFlux[idx] += parentKE;
 						sens_muCounter[idx] += 1;
 						Mtracks[idx].push_back(trackID);
@@ -95,7 +81,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						sens_neutronDep[idx] += depositRawE;
 					if (isForward){
 						unsigned int trackLoc  = std::find(Ntracks[idx].begin(),Ntracks[idx].end(), trackID) - Ntracks[idx].begin();
-						if (trackLoc == Ntracks.size()){
+						if (trackLoc == Ntracks[idx].size()){
 						sens_neutronKinFlux[idx] += parentKE;
 						sens_neutronCounter[idx] += 1;
 						Ntracks[idx].push_back(trackID);
@@ -109,7 +95,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						sens_hadDep[idx] += depositRawE;
 					if (isForward){
 						unsigned int trackLoc  = std::find(Htracks[idx].begin(),Htracks[idx].end(), trackID) - Htracks[idx].begin();
-						if (trackLoc == Htracks.size()){
+						if (trackLoc == Htracks[idx].size()){
 						sens_hadKinFlux[idx] += parentKE;
 						sens_hadCounter[idx] += 1;
 						Htracks[idx].push_back(trackID);
