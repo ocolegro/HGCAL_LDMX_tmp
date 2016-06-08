@@ -11,6 +11,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 	std::cout << "The lstr = " << lstr << std::endl;
 
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
+		std::cout << "ie is " << ie << "The sublayer_vol[ie] is " << sublayer_vol[ie] << std::endl;
 		if (sublayer_vol[ie] && lstr == sublayer_vol[ie]->GetName()) {
 			std::cout << "Found a match at element ie =  " << ie << std::endl;
 
