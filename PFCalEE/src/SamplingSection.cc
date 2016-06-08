@@ -55,7 +55,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						sens_eleKinFlux[idx] += parentKE;
 						sens_eleCounter[idx] += 1;
 						if (sens_eleKinFlux[idx] > 4000){
-							for (int i = 0; i < parent_daughter_Ids.size(); i++){
+							for (int i = 0; i < parent_daughter_Ids[idx].size(); i++){
 								G4cout
 										<< " The layer flux was " << sens_eleKinFlux[idx]
 										<< " The parent trackID is " << parent_daughter_Ids[idx].at(i)
@@ -64,6 +64,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 										<< " And the particle KE is " << trackKe[idx].at(i)
 										<< G4endl;
 							}
+							G4cout << "Loop successfully executed" << G4endl;
 						}
 
 					}
