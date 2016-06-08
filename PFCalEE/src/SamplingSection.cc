@@ -49,8 +49,9 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						sens_eleCounter[idx] += 1;
 						if (sens_eleKinFlux[idx] > 4000){
 							for (int i = 0; i < parent_daughter_Ids.size(); i++){
+								std::cout << "The layer flux was " << sens_eleKinFlux[idx] ;
 								std::cout << "The parent trackID is " << parent_daughter_Ids.at(i).first
-										<< "and the daughter trackID is " << parent_daughter_Ids.at(i).second;
+										<< "and the daughter trackID is " << parent_daughter_Ids.at(i).second << "and the particle KE is";
 							}
 						}
 

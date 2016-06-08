@@ -135,6 +135,7 @@ public:
 				sens_neutronDep.clear();
 				sens_hadDep.clear();
 				parent_daughter_Ids.clear();
+				trackKe.clear();
 				sens_muKinFlux.clear();
 				sens_neutronKinFlux.clear();
 				sens_hadKinFlux.clear();
@@ -157,7 +158,8 @@ public:
 				sens_muDep.resize(n_sens_elements,0);
 				sens_neutronDep.resize(n_sens_elements,0);
 				sens_hadDep.resize(n_sens_elements,0);
-
+				parent_daughter_Ids.resize(n_sens_elements);
+				trackKe.resize(n_sens_elements);
 				sens_muKinFlux.resize(n_sens_elements,0);
 				sens_neutronKinFlux.resize(n_sens_elements,0);
 				sens_hadKinFlux.resize(n_sens_elements,0);
@@ -304,7 +306,9 @@ public:
 			std::vector<G4double> sublayer_RawDep;
 			std::vector<G4double> sublayer_NonIonDep;
 			std::vector<G4double> sublayer_dl;
-			std::vector<std::pair<G4int,G4int>> parent_daughter_Ids;
+			std::vector<std::vector<std::pair<G4int,G4int>>> parent_daughter_Ids;
+			std::vector<std::vector<G4double>> trackKe;
+
 			std::vector<G4VPhysicalVolume*> sublayer_vol;
 			std::vector<G4double> sens_gamDep, sens_eleDep, sens_muDep, sens_gamKinFlux,sens_eleKinFlux,
 			sens_muKinFlux,sens_neutronDep, sens_neutronKinFlux,
