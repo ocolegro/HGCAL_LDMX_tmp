@@ -11,10 +11,10 @@ class HGCSSSamplingSection {
 public:
 	HGCSSSamplingSection() :
 			volNb_(0), volX0trans_(0), voldEdx_(0), volLambdatrans_(0), measuredE_(
-					0), absorberE_(0), totalE_(0), gFrac_(0), eFrac_(0), muFrac_(
+					0), absorberE_(0), totalNonIonE_(0), totalRawE_(0),gFrac_(0), eFrac_(0), muFrac_(
 					0), neutronFrac_(0), hadFrac_(0), muKin_(0), neutronKin_(0), hadKin_(
 					0), avgTime_(0), nSiHits_(0), eleWgtCnt_(0), hadWgtCnt_(0), neutWgtCnt_(
-					0), muWgtCnt_(0),neutronCount_(0),hadCount_(0),muCount_(0) {
+					0), muWgtCnt_(0),neutronCount_(0),hadCount_(0),muCount_(0),eleCount_(0),gamCount_(0) {
 
 	}
 	;
@@ -51,7 +51,11 @@ public:
 	}
 	;
 	inline double totalE() const {
-		return totalE_;
+		return totalRawE_;
+	}
+	;
+	inline double nonIonE() {
+		return totalNonIonE_;
 	}
 	;
 	inline double gFrac() const {
@@ -84,6 +88,14 @@ public:
 	;
 	inline double hadKin() const {
 		return hadKin_;
+	}
+	;
+	inline double eleKin() const {
+		return eleKin_;
+	}
+	;
+	inline double gamKin() const {
+		return gamKin_;
 	}
 	;
 	inline double avgTime() const {
@@ -125,6 +137,14 @@ public:
 	}
 	;
 
+	inline unsigned gamCount() {
+		return gamCount_;
+	}
+	;
+	inline unsigned eleCount() const {
+		return eleCount_;
+	}
+	;
 	//setters
 	inline void volNb(const unsigned & aVal) {
 		volNb_ = aVal;
@@ -151,7 +171,11 @@ public:
 	}
 	;
 	inline void totalDep(const double & aVal) {
-		totalE_ = aVal;
+		totalRawE_ = aVal;
+	}
+	;
+	inline void totalNonIonDep(const double & aVal) {
+		totalNonIonE_ = aVal;
 	}
 	;
 	inline void gDepFrac(const double & aVal) {
@@ -194,7 +218,14 @@ public:
 		hadKin_ = aVal;
 	}
 	;
-
+	inline void gamKinFlux(const double & aVal) {
+		gamKin_ = aVal;
+	}
+	;
+	inline void eleKinFlux(const double & aVal) {
+		eleKin_ = aVal;
+	}
+	;
 	inline void eleShowerSize(const double & aVal) {
 		eleWgtCnt_ = aVal;
 	}
@@ -224,6 +255,14 @@ public:
 		neutronCount_ = aVal;
 	}
 	;
+	inline void gamCount(const double & aVal) {
+		gamCount_ = aVal;
+	}
+	;
+	inline void eleCount(const double & aVal) {
+		eleCount_ = aVal;
+	}
+	;
 private:
 	unsigned volNb_;
 	double volX0trans_;
@@ -231,7 +270,8 @@ private:
 	double volLambdatrans_;
 	double measuredE_;
 	double absorberE_;
-	double totalE_;
+	double totalNonIonE_;
+	double totalRawE_;
 	double gFrac_;
 	double eFrac_;
 	double muFrac_;
@@ -243,6 +283,8 @@ private:
 	double neutronKin_;
 	double muKin_;
 	double hadKin_;
+	double eleKin_;
+	double gamKin_;
 	double eleWgtCnt_;
 	double hadWgtCnt_;
 	double neutWgtCnt_;
@@ -251,6 +293,8 @@ private:
 	unsigned muCount_;
 	unsigned hadCount_;
 	unsigned neutronCount_;
+	unsigned gamCount_;
+	unsigned eleCount_;
 
 ClassDef(HGCSSSamplingSection,1)
 	;

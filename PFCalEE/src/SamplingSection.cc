@@ -3,68 +3,77 @@
 #include "SamplingSection.hh"
 
 //
-void SamplingSection::add(G4double parentKE, G4double depositE, G4double dl,
-		G4double globalTime, G4int pdgId, G4VPhysicalVolume* vol,
+void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depositNonIonE,
+		G4double dl, G4double globalTime, G4int pdgId, G4VPhysicalVolume* vol,
 		const G4ThreeVector & position, G4int trackID, G4int parentID,
-		G4int layerId,G4bool inc_) {
+		G4int layerId,G4bool goodGen,G4bool targetParticle) {
 	std::string lstr = vol->GetName();
 
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
 		if (ele_vol[ie] && lstr == ele_vol[ie]->GetName()) {
 			unsigned idx = getSensitiveLayerIndex(lstr);
 			unsigned eleidx = ie % n_elements;
-			ele_den[eleidx] += depositE;
-			ele_dl[eleidx] += dl;
+			if(!targetParticle){
+				hit_RawDep[eleidx] += depositRawE;
+				hit_NonIonDep[eleidx] += depositNonIonE;
 
-			//add hit
-			G4SiHit lHit;
-			lHit.energyDep = depositE;
-			lHit.time = globalTime;
-			lHit.pdgId = pdgId;
-			lHit.layer = layerId;
-			lHit.hit_x = position.x();
-			lHit.hit_y = position.y();
-			lHit.hit_z = position.z();
-			lHit.trackId = trackID;
-			lHit.parentId = parentID;
-			lHit.parentKE = parentKE;
+				ele_dl[eleidx] += dl;
 
-			if (isSensitiveElement(eleidx)) { //if Si || sci
-				sens_time[idx] += depositE * globalTime;
+				//add hit
+				G4SiHit lHit;
+				lHit.energyDep = depositRawE;
+				lHit.time = globalTime;
+				lHit.pdgId = pdgId;
+				lHit.layer = layerId;
+				lHit.hit_x = position.x();
+				lHit.hit_y = position.y();
+				lHit.hit_z = position.z();
+				lHit.trackId = trackID;
+				lHit.parentId = parentID;
+				lHit.parentKE = parentKE;
 
-				//discriminate further by particle type
-				if (abs(pdgId) == 22)
-					sens_photonDep[idx] += depositE;
-				else if (abs(pdgId) == 11)
-					sens_eleDep[idx] += depositE;
+				if (isSensitiveElement(eleidx)) { //if Si || sci
+					sens_time[idx] += depositRawE * globalTime;
 
-				else if (abs(pdgId) == 13) {
-					sens_muDep[idx] += depositE;
-					sens_muKinFlux[idx] += parentKE;
-					sens_muCounter[idx] += 1;
-				} else if (abs(pdgId) == 2112) {
-					if (pdgId == 2112 && inc_)
-						sens_neutronDep[idx] += depositE;
-						sens_neutronKinFlux[idx] += parentKE;
-						sens_neutronCounter[idx] += 1;
+					//discriminate further by particle type
+					if (abs(pdgId) == 22){
+						sens_gamDep[idx] += depositRawE;
+						sens_gamKinFlux[idx] += parentKE;
+						sens_gamCounter[idx] += 1;
 
-				} else {
-					if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
-							&& (pdgId != -2212) && (inc_) )
-						sens_hadDep[idx] += depositE;
-						sens_hadKinFlux[idx] += parentKE;
-						sens_hadCounter[idx] += 1;
+					}
+					else if (abs(pdgId) == 11){
+						sens_eleDep[idx] += depositRawE;
+						sens_eleKinFlux[idx] += parentKE;
+						sens_eleCounter[idx] += 1;
+					}
+					else if (abs(pdgId) == 13) {
+						sens_muDep[idx] += depositRawE;
+						sens_muKinFlux[idx] += parentKE;
+						sens_muCounter[idx] += 1;
+					} else if (abs(pdgId) == 2112) {
+						if (pdgId == 2112 && goodGen)
+							sens_neutronDep[idx] += depositRawE;
+							sens_neutronKinFlux[idx] += parentKE;
+							sens_neutronCounter[idx] += 1;
+
+					} else {
+						if ((abs(pdgId) != 111) && (abs(pdgId) != 310)
+								&& (pdgId != -2212) && (goodGen) )
+							sens_hadDep[idx] += depositRawE;
+							sens_hadKinFlux[idx] += parentKE;
+							sens_hadCounter[idx] += 1;
+					}
+					sens_HitVec[idx].push_back(lHit);
+				} //if Si
+				else {
+					//check for W in layer
+					if ((lstr.find("W") == std::string::npos) == 0)
+						abs_HitSumVec.push_back(lHit);
 				}
-				sens_HitVec[idx].push_back(lHit);
-			} //if Si
-			else {
-				//check for W in layer
-				if ((lstr.find("W") == std::string::npos) == 0)
-					sens_SummedAbsVec.push_back(lHit);
-			}
-		} //if in right material
-	} //loop on available materials
-
+			} //if in right material
+		} //loop on available materials
+	}
 }
 
 //
@@ -92,7 +101,16 @@ G4double SamplingSection::getTotalSensE() {
 	double etot = 0;
 	for (unsigned ie(0); ie < n_elements; ++ie) {
 		if (isSensitiveElement(ie))
-			etot += ele_den[ie];
+			etot += hit_RawDep[ie];
+	}
+	return etot;
+}
+
+G4double SamplingSection::getTotalSensNonIonE() {
+	double etot = 0;
+	for (unsigned ie(0); ie < n_elements; ++ie) {
+		if (isSensitiveElement(ie))
+			etot += hit_NonIonDep[ie];
 	}
 	return etot;
 }
@@ -111,7 +129,7 @@ G4double SamplingSection::getPhotonFraction() {
 	double etot = getTotalSensE();
 	double val = 0;
 	for (unsigned ie(0); ie < n_sens_elements; ++ie) {
-		val += sens_photonDep[ie];
+		val += sens_gamDep[ie];
 	}
 	return etot > 0 ? val / etot : 0;
 }
@@ -160,6 +178,7 @@ G4double SamplingSection::getHadronicFraction() {
 G4double SamplingSection::getMeasuredEnergy(bool weighted) {
 	G4double weight = (weighted ? getAbsorberX0() : 1.0);
 	return weight * getTotalSensE();
+
 }
 
 //
@@ -199,16 +218,19 @@ G4double SamplingSection::getAbsorbedEnergy() {
 	double val = 0;
 	for (unsigned ie(0); ie < n_elements; ++ie) {
 		if (isAbsorberElement(ie))
-			val += ele_den[ie];
+			val += hit_RawDep[ie];
 	}
 	return val;
 }
 
 //
-G4double SamplingSection::getTotalEnergy() {
+G4double SamplingSection::getTotalEnergy(bool raw) {
 	double val = 0;
 	for (unsigned ie(0); ie < n_elements; ++ie) {
-		val += ele_den[ie];
+		if (raw)
+			val += hit_RawDep[ie];
+		else
+			val += hit_NonIonDep[ie];
 	}
 	return val;
 }
@@ -218,7 +240,7 @@ const G4SiHitVec & SamplingSection::getSiHitVec(const unsigned & idx) const {
 }
 
 const G4SiHitVec & SamplingSection::getAbsHits() const {
-	return sens_SummedAbsVec;
+	return abs_HitSumVec;
 }
 void SamplingSection::trackParticleHistory(const unsigned & idx,
 		const G4SiHitVec & incoming) {
