@@ -80,7 +80,7 @@ public:
 					G4VPhysicalVolume* vol,
 					const G4ThreeVector & position,
 					G4int trackID, G4int parentID,
-					G4int layerId,G4bool goodGen,G4bool forward);
+					G4int layerId,G4bool isHadronTrack,G4bool isForward);
 
 			inline bool isSensitiveElement(const unsigned & aEle) {
 				if (aEle < n_elements &&
@@ -214,6 +214,7 @@ public:
 			inline G4double getKinEle() {
 				double val = 0;
 				for (unsigned ie(0); ie < n_sens_elements; ++ie) {
+					std::cout << "The number of sensing elements is " << n_sens_elements << std::endl;
 					val += sens_eleKinFlux[ie];
 				}
 				return val;

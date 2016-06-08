@@ -51,7 +51,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	}
 
 	G4double eRawDep = aStep->GetTotalEnergyDeposit();
-	G4double eNonIonDep = aStep->GetTotalEnergyDeposit();
+	G4double eNonIonDep = aStep->GetNonIonizingEnergyDeposit();
 
 	G4double stepl = 0.;
 	if (lTrack->GetDefinition()->GetPDGCharge() != 0.)
@@ -63,7 +63,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	const G4ThreeVector & position = thePreStepPoint->GetPosition();
 	HGCSSGenParticle genPart;
-	G4bool targetParticle = false;
+	G4bool isTargetParticle = false;
 	/*
 	if (trackID == 1){
 		std::cout << "The main particle is now at thePrePVname " << thePrePVname  << std::endl;
@@ -78,7 +78,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 					((version_ == 1 || version_ > 2) && thePrePVname == "Wphys" && thePostPVname == "W1phys") ||
 					(thePrePVname == "W1phys" && thePostPVname == "G4_Galactic1phys")))
 	{
-		targetParticle = true;
+		isTargetParticle = true;
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
 		const G4ThreeVector &p = lTrack->GetMomentum();
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
@@ -95,15 +95,13 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	unsigned int id_ = std::find(eventAction_->trackids.begin(),
 			eventAction_->trackids.end(), trackID)
 			- eventAction_->trackids.begin();
-	//Only select new tracks with kin. energy > 10 MeV
 	const G4ThreeVector &p = lTrack->GetMomentum();
-
-	G4bool forward_ = (p[2] > 0);
+	bool isInitHadron = false;
+	//Only select new hadronic tracks with kin. energy > 10 MeV
 	if ((id_ == eventAction_->trackids.size()) && (kineng>10)) {
 		//Only select hadrons
 		if ((abs(pdgId) != 11) && (abs(pdgId) != 22 ) && (pdgId != -2112) && (pdgId != -2212)  && (abs(pdgId) != 310) && (abs(pdgId) != 111)){
 		const G4ThreeVector & postposition = thePostStepPoint->GetPosition();
-
 		G4ParticleDefinition *pd = lTrack->GetDefinition();
 		genPart.setPosition(postposition[0], postposition[1], postposition[2]);
 		genPart.setMomentum(p[0], p[1], p[2]);
@@ -114,12 +112,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		genPart.trackID(trackID);
 		genPart.layer(getLayer(thePostPVname) - ((DetectorConstruction*) G4RunManager::GetRunManager()->GetUserDetectorConstruction())->initLayer());
 		eventAction_->trackids.push_back(trackID);
-
-		if(targetParticle == true)
-			eventAction_->Detect(kineng, eRawDep, eNonIonDep, stepl, globalTime, pdgId, volume,
-					position, trackID, parentID, genPart, false,forward_);
+		isInitHadron = true;
 		}
 	}
+	G4bool isForward = (p[2] > 0);
 	eventAction_->Detect(kineng, eRawDep, eNonIonDep, stepl, globalTime, pdgId, volume,
-			position, trackID, parentID, genPart, targetParticle,forward_);
+			position, trackID, parentID, genPart, isInitHadron,isTargetParticle,isForward);
 }
