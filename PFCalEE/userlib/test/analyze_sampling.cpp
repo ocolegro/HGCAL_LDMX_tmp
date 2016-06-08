@@ -95,8 +95,8 @@ int main(int argc, char** argv) {
 
 
 
-	t1.Branch("layerHShowerSize", &layerHShowerSize, "layerHShowerSize/F");
-	t1.Branch("layerEShowerSize", &layerEShowerSize, "layerEShowerSize/F");
+	t1.Branch("layerHShowerSizeAvg", &layerHShowerSizeAvg, "layerHShowerSizeAvg/F");
+	t1.Branch("layerEShowerSizeAvg", &layerEShowerSizeAvg, "layerEShowerSizeAvg/F");
 
 	t1.Branch("layerHFlux", &layerHFlux, "layerHFlux[caloLen]/F");
 	t1.Branch("layerNFlux", &layerNFlux, "layerNFlux[caloLen]/F");
@@ -110,6 +110,13 @@ int main(int argc, char** argv) {
 	t1.Branch("layerMCount", &layerMCount, "layerMCount[caloLen]/F");
 	t1.Branch("layerECount", &layerECount, "layerECount[caloLen]/F");
 	t1.Branch("layerGCount", &layerGCount, "layerGCount[caloLen]/F");
+
+	t1.Branch("layerHFrac", &layerHFrac, "layerHFrac[caloLen]/F");
+	t1.Branch("layerNFrac", &layerNFrac, "layerNFrac[caloLen]/F");
+	t1.Branch("layerMFrac", &layerMFrac, "layerMFrac[caloLen]/F");
+	t1.Branch("layerEFrac", &layerEFrac, "layerEFrac[caloLen]/F");
+	t1.Branch("layerGFrac", &layerGFrac, "layerGFrac[caloLen]/F");
+
 
 
 	t1.Branch("layerHShowerSize", &layerHShowerSize, "layerHShowerSize[caloLen]/F");
