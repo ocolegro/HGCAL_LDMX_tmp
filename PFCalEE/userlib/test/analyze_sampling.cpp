@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 			layerHFlux[500], layerNFlux[500], layerMFlux[500],
 			layerHShowerSize[500], layerEShowerSize[500], layerTotal[500],
 			layerHFrac[500], layerNFrac[500], layerMFrac[500],layerGFrac[500],layerEFrac[500],
-			layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500],
+			layerSen[500],layerHCount[500],layerNCount[500],layerMCount[500],layerNonIon[500],
 			layerEFlux[500],layerGFlux[500],layerECount[500],layerGCount[500];
 
 	Int_t layer[500], caloLen, maxHadronProdLayer,genCounter;
@@ -119,6 +119,7 @@ int main(int argc, char** argv) {
 
 	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
 	t1.Branch("layerTotal", &layerTotal, "layerTotal[caloLen]/F");
+	t1.Branch("layerNonIon", &layerNonIon, "layerNonIon[caloLen]/F");
 	t1.Branch("layer", &layer, "layer[caloLen]/I");
 
 
@@ -164,7 +165,7 @@ int main(int argc, char** argv) {
 
 			layerSen[j - firstLayer] = sec.sensDep()/nSens;
 			layerTotal[j - firstLayer] = sec.totalDep()/nSens;
-			summedTotalNonIon[j - firstLayer] = sec.totalNonIonDep()/nSens;
+			layerNonIon[j - firstLayer] = sec.totalNonIonDep()/nSens;
 
 			layerHFlux[j - firstLayer] = sec.hadKinFlux()/nSens;
 			layerNFlux[j - firstLayer] = sec.neutronKinFlux()/nSens;
