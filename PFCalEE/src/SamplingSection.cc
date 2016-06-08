@@ -42,7 +42,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 					if (isForward){
 						//Prevent twice counting any photon in any given sub-layer.
 						unsigned int trackLoc  = std::find(Gtracks[idx].begin(),Gtracks[idx].end(), trackID) - Gtracks[idx].begin();
-						if (trackLoc == Etracks.size()){
+						if (trackLoc == Gtracks.size()){
 							sens_gamKinFlux[idx] += parentKE;
 							sens_gamCounter[idx] += 1;
 							Gtracks[idx].push_back(trackID);
