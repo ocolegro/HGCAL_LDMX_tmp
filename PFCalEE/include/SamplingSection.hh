@@ -145,7 +145,6 @@ public:
 				Htracks.clear();
 				Mtracks.clear();
 				Ntracks.clear();
-				Alltracks.clear();
 
 				sens_muCounter.clear();
 				sens_neutronCounter.clear();
@@ -156,7 +155,6 @@ public:
 				sublayer_RawDep.resize(n_elements,0);
 				sublayer_PrimaryDep.resize(n_elements,0);
 				sublayer_dl.resize(n_elements,0);
-				Alltracks.resize(n_elements);
 				sens_time.resize(n_sens_elements,0);
 				sens_gamDep.resize(n_sens_elements,0);
 				sens_eleDep.resize(n_sens_elements,0);
