@@ -62,7 +62,8 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 										<< "The layer flux was " << sens_eleKinFlux[idx]
 										<< " The parent trackID is " << parent_daughter_Ids[idx].at(i).first
 										<< " and the daughter trackID is " << parent_daughter_Ids[idx].at(i).second
-										<< " and the particle KE is " << trackKe[idx].at(i);}
+										<< " and the particle KE is " << trackKe[idx].at(i)
+										<<G4endl;}
 							}
 						}
 
