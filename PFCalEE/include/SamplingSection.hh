@@ -306,7 +306,7 @@ public:
 			std::vector<G4double> sublayer_RawDep;
 			std::vector<G4double> sublayer_NonIonDep;
 			std::vector<G4double> sublayer_dl;
-			std::vector<std::vector<G4int>> parent_daughter_Ids;
+			std::vector<std::vector<std::pair<G4int,G4int>>> parent_daughter_Ids;
 			std::vector<std::vector<G4double>> trackKe;
 
 			std::vector<G4VPhysicalVolume*> sublayer_vol;

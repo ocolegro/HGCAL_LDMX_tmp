@@ -47,7 +47,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 					sens_eleDep[idx] += depositRawE;
 					if (isForward){
 						//G4cout << "adding a parent id "  << G4endl;
-						parent_daughter_Ids[idx].push_back(trackID);
+						parent_daughter_Ids[idx].push_back(std::make_pair(parentID,trackID));
 
 						//G4cout << "adding a track ke "  << G4endl;
 						trackKe[idx].push_back(parentKE);
@@ -57,14 +57,14 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						if (sens_eleKinFlux[idx] > 4000){
 							for (int i = 0; i < parent_daughter_Ids[idx].size(); i++){
 								G4cout
-										<< " The layer flux was " << sens_eleKinFlux[idx]
-										<< " The parent trackID is " << parent_daughter_Ids[idx].at(i)
+										<< "The layer flux was " << sens_eleKinFlux[idx]
+										<< " The parent trackID is " << parent_daughter_Ids[idx].at(i).first
+										<< " and the daughter trackID is " << parent_daughter_Ids[idx].at(i).second
 										<< G4endl;
 								G4cout
-										<< " And the particle KE is " << trackKe[idx].at(i)
+										<< "And the particle KE is " << trackKe[idx].at(i)
 										<< G4endl;
 							}
-							G4cout << "Loop successfully executed" << G4endl;
 						}
 
 					}
