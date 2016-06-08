@@ -46,10 +46,10 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 				else if (abs(pdgId) == 11){
 					sens_eleDep[idx] += depositRawE;
 					if (isForward){
-						G4cout << "adding a parent id "  << G4endl;
+						//G4cout << "adding a parent id "  << G4endl;
 						parent_daughter_Ids[idx].push_back(std::make_pair(parentID,trackID));
 
-						G4cout << "adding a track ke "  << G4endl;
+						//G4cout << "adding a track ke "  << G4endl;
 						trackKe[idx].push_back(parentKE);
 
 						sens_eleKinFlux[idx] += parentKE;
