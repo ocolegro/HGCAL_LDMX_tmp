@@ -38,6 +38,7 @@ int main(int argc, char** argv) {
 	std::cout << "Opening the file " << argv[1] << std::endl;
 	TFile *infile = TFile::Open(argv[1]);
 	TTree *tree = (TTree*) infile->Get("HGCSSTree");
+	freopen("log.txt", "w", stdout);
 
 	std::vector<HGCSSSamplingSection> * samplingVec = 0;
 	tree->SetBranchAddress("HGCSSSamplingSectionVec", &samplingVec);
@@ -141,6 +142,7 @@ int main(int argc, char** argv) {
 
 		Float_t nSens = 3.0;
 		Float_t nLayers = samplingVec->size();
+		std::cout << "The number of layers is " << nLayers << std::endl;
 		for (Int_t j = firstLayer; j < samplingVec->size(); j++) {
 			HGCSSSamplingSection& sec = (*samplingVec)[j];
 			summedSen += sec.sensDep();
