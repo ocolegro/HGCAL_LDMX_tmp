@@ -80,7 +80,6 @@ int main(int argc, char** argv) {
 	t1.Branch("layerAvgEFlux", &layerAvgEFlux, "layerAvgEFlux/F");
 	t1.Branch("layerAvgGFlux", &layerAvgGFlux, "layerAvgGFlux/F");
 
-
 	t1.Branch("layerAvgHCount", &layerAvgHCount, "layerAvgHCount/F");
 	t1.Branch("layerAvgNCount", &layerAvgNCount, "layerAvgNCount/F");
 	t1.Branch("layerAvgMCount", &layerAvgMCount, "layerAvgMCount/F");
@@ -93,17 +92,15 @@ int main(int argc, char** argv) {
 	t1.Branch("layerAvgEFrac", &layerAvgEFrac, "layerAvgEFrac/F");
 	t1.Branch("layerAvgGFrac", &layerAvgGFrac, "layerAvgGFrac/F");
 
-
-
 	t1.Branch("layerHShowerSizeAvg", &layerHShowerSizeAvg, "layerHShowerSizeAvg/F");
 	t1.Branch("layerEShowerSizeAvg", &layerEShowerSizeAvg, "layerEShowerSizeAvg/F");
+
 
 	t1.Branch("layerHFlux", &layerHFlux, "layerHFlux[caloLen]/F");
 	t1.Branch("layerNFlux", &layerNFlux, "layerNFlux[caloLen]/F");
 	t1.Branch("layerMFlux", &layerMFlux, "layerMFlux[caloLen]/F");
 	t1.Branch("layerEFlux", &layerEFlux, "layerEFlux[caloLen]/F");
 	t1.Branch("layerGFlux", &layerGFlux, "layerGFlux[caloLen]/F");
-
 
 	t1.Branch("layerHCount", &layerHCount, "layerHCount[caloLen]/F");
 	t1.Branch("layerNCount", &layerNCount, "layerNCount[caloLen]/F");
@@ -117,25 +114,18 @@ int main(int argc, char** argv) {
 	t1.Branch("layerEFrac", &layerEFrac, "layerEFrac[caloLen]/F");
 	t1.Branch("layerGFrac", &layerGFrac, "layerGFrac[caloLen]/F");
 
-
-
 	t1.Branch("layerHShowerSize", &layerHShowerSize, "layerHShowerSize[caloLen]/F");
 	t1.Branch("layerEShowerSize", &layerEShowerSize, "layerEShowerSize[caloLen]/F");
+
+	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
+	t1.Branch("layerTotal", &layerTotal, "layerTotal[caloLen]/F");
+	t1.Branch("layer", &layer, "layer[caloLen]/I");
 
 
 	t1.Branch("maxHadronKe", &maxHadronKe, "maxHadronKe/F");
 	t1.Branch("genKin", &genKin, "genKin/F");
-
 	t1.Branch("genCounter", &genCounter, "genCounter/I");
 	t1.Branch("maxHadronProdLayer", &maxHadronProdLayer, "maxHadronProdLayer/I");
-
-	t1.Branch("layerSen", &layerSen, "layerSen[caloLen]/F");
-	t1.Branch("layerTotal", &layerTotal, "layerTotal[caloLen]/F");
-
-
-	t1.Branch("layer", &layer, "layer[caloLen]/I");
-
-
 	t1.Branch("hardestEarlyHadron", &hardestEarlyHadron, "hardestEarlyHadron/F");
 
 	for (unsigned ievt(0); ievt < nEvts; ++ievt) { //loop on entries
