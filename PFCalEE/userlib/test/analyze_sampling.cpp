@@ -135,9 +135,8 @@ int main(int argc, char** argv) {
 				layerAvgHFlux = 0, layerAvgNFlux = 0, layerAvgMFlux =0,layerAvgEFlux=0,layerAvgGFlux=0,
 				layerAvgHCount=0,layerAvgNCount=0,layerAvgMCount=0,layerAvgECount=0,layerAvgGCount=0,
 				layerAvgHFrac=0,layerAvgNFrac=0,layerAvgMFrac=0,layerAvgEFrac=0,layerAvgGFrac=0,
-
 				maxHadronKe=0,genCounter = 0,genKin=0,
-				layerHShowerSize=0,layerEShowerSize=0,hardestEarlyHadron = 0;
+				layerHShowerSizeAvg=0,layerEShowerSizeAvg=0,hardestEarlyHadron = 0;
 
 		Float_t nSens = 3.0;
 		Float_t nLayers = 26.0;
