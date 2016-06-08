@@ -15,7 +15,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 			unsigned eleidx = ie % n_elements;
 			sublayer_RawDep[eleidx] += depositRawE;
 			if (isPrimaryTrack)
-			sublayer_NonIonDep[eleidx] += depositRawE;
+				sublayer_PrimaryDep[eleidx] += depositRawE;
 
 			sublayer_dl[eleidx] += dl;
 
@@ -42,8 +42,6 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 					if (isForward){
 						//Prevent twice counting any photon in any given sub-layer.
 						unsigned int trackLoc  = std::find(Gtracks[idx].begin(),Gtracks[idx].end(), trackID) - Gtracks[idx].begin();
-						std::cout <<"The gtrackloc is " << trackLoc << "The gtracks size is " << Gtracks.size() << std::endl;
-
 						if (trackLoc == Gtracks[idx].size()){
 							sens_gamKinFlux[idx] += parentKE;
 							sens_gamCounter[idx] += 1;
@@ -148,7 +146,7 @@ G4double SamplingSection::getTotalSensNonIonE() {
 	double etot = 0;
 	for (unsigned ie(0); ie < n_elements; ++ie) {
 		if (isSensitiveElement(ie))
-			etot += sublayer_NonIonDep[ie];
+			etot += sublayer_PrimaryDep[ie];
 	}
 	return etot;
 }
@@ -268,7 +266,7 @@ G4double SamplingSection::getTotalEnergy(bool raw) {
 		if (raw)
 			val += sublayer_RawDep[ie];
 		else
-			val += sublayer_NonIonDep[ie];
+			val += sublayer_PrimaryDep[ie];
 	}
 	return val;
 }

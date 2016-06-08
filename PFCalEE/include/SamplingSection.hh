@@ -126,7 +126,7 @@ public:
 			inline void resetCounters()
 			{
 				sublayer_RawDep.clear();
-				sublayer_NonIonDep.clear();
+				sublayer_PrimaryDep.clear();
 				sublayer_dl.clear();
 				sens_time.clear();
 				sens_gamDep.clear();
@@ -155,7 +155,7 @@ public:
 				sens_gamCounter.clear();
 
 				sublayer_RawDep.resize(n_elements,0);
-				sublayer_NonIonDep.resize(n_elements,0);
+				sublayer_PrimaryDep.resize(n_elements,0);
 				sublayer_dl.resize(n_elements,0);
 				sens_time.resize(n_sens_elements,0);
 				sens_gamDep.resize(n_sens_elements,0);
@@ -315,7 +315,7 @@ public:
 			std::vector<G4double> sublayer_dEdx;
 			std::vector<G4double> sublayer_L0;
 			std::vector<G4double> sublayer_RawDep;
-			std::vector<G4double> sublayer_NonIonDep;
+			std::vector<G4double> sublayer_PrimaryDep;
 			std::vector<G4double> sublayer_dl;
 			std::vector<std::vector<std::pair<G4int,G4int>>> parent_daughter_Ids;
 			std::vector<std::vector<G4double>> trackKe;
