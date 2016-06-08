@@ -142,6 +142,11 @@ public:
 				sens_gamKinFlux.clear();
 				sens_eleKinFlux.clear();
 
+				Etracks.clear();
+				Gtracks.clear();
+				Htracks.clear();
+				Mtracks.clear();
+				Ntracks.clear();
 
 				sens_muCounter.clear();
 				sens_neutronCounter.clear();
@@ -165,6 +170,12 @@ public:
 				sens_hadKinFlux.resize(n_sens_elements,0);
 				sens_eleKinFlux.resize(n_sens_elements,0);
 				sens_gamKinFlux.resize(n_sens_elements,0);
+
+				Etracks.resize(n_sens_elements);
+				Gtracks.resize(n_sens_elements);
+				Htracks.resize(n_sens_elements);
+				Mtracks.resize(n_sens_elements);
+				Ntracks.resize(n_sens_elements);
 
 				sens_muCounter.resize(n_sens_elements,0);
 				sens_neutronCounter.resize(n_sens_elements,0);
@@ -313,6 +324,7 @@ public:
 			std::vector<G4double> sens_gamDep, sens_eleDep, sens_muDep, sens_gamKinFlux,sens_eleKinFlux,
 			sens_muKinFlux,sens_neutronDep, sens_neutronKinFlux,
 			sens_hadDep, sens_hadKinFlux, sens_time;
+			std::vector<std::vector<unsigned int>> Etracks,Gtracks,Mtracks,Ntracks,Htracks;
 			std::vector<unsigned int> sens_neutronCounter,sens_hadCounter,sens_muCounter,sens_gamCounter,sens_eleCounter;
 			G4double Total_thick;
 
