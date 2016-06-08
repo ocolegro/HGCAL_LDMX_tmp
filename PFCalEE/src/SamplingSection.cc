@@ -14,7 +14,10 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 			unsigned idx = getSensitiveLayerIndex(lstr);
 			unsigned eleidx = ie % n_elements;
 			sublayer_RawDep[eleidx] += depositRawE;
-			if (isPrimaryTrack)
+
+			unsigned int trackLoc= std::find(Alltracks[eleidx].begin(),Alltracks[eleidx].end(), trackID) - Alltracks[eleidx].begin();
+			if (trackLoc == Alltracks[eleidx].size())
+				Alltracks[eleidx].push_back(trackID);
 				sublayer_PrimaryDep[eleidx] += depositRawE;
 
 			sublayer_dl[eleidx] += dl;
@@ -52,12 +55,9 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 				else if (abs(pdgId) == 11){
 					sens_eleDep[idx] += depositRawE;
 					if (isForward){
+						//Prevent twice counting any electron in any given sub-layer.
 						unsigned int trackLoc  = std::find(Etracks[idx].begin(),Etracks[idx].end(), trackID) - Etracks[idx].begin();
 						if (trackLoc == Etracks[idx].size()){
-						//G4cout << "adding a parent id "  << G4endl;
-						parent_daughter_Ids[idx].push_back(std::make_pair(parentID,trackID));
-						//G4cout << "adding a track ke "  << G4endl;
-						trackKe[idx].push_back(parentKE);
 						sens_eleKinFlux[idx] += parentKE;
 						sens_eleCounter[idx] += 1;
 						Etracks[idx].push_back(trackID);
@@ -67,6 +67,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 				else if (abs(pdgId) == 13) {
 					sens_muDep[idx] += depositRawE;
 					if (isForward){
+						//Prevent twice counting any muon in any given sub-layer.
 						unsigned int trackLoc  = std::find(Mtracks[idx].begin(),Mtracks[idx].end(), trackID) - Mtracks[idx].begin();
 						if (trackLoc == Mtracks[idx].size()){
 						sens_muKinFlux[idx] += parentKE;
@@ -78,12 +79,12 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 					if (pdgId == 2112 && isHadronTrack)
 						sens_neutronDep[idx] += depositRawE;
 					if (isForward){
+						//Prevent twice counting any neutron in any given sub-layer.
 						unsigned int trackLoc  = std::find(Ntracks[idx].begin(),Ntracks[idx].end(), trackID) - Ntracks[idx].begin();
 						if (trackLoc == Ntracks[idx].size()){
 						sens_neutronKinFlux[idx] += parentKE;
 						sens_neutronCounter[idx] += 1;
 						Ntracks[idx].push_back(trackID);
-
 						}
 					}
 				} else {
@@ -94,6 +95,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 					if (isForward){
 						unsigned int trackLoc  = std::find(Htracks[idx].begin(),Htracks[idx].end(), trackID) - Htracks[idx].begin();
 						if (trackLoc == Htracks[idx].size()){
+						//Prevent twice counting any hadron in any given sub-layer.
 						sens_hadKinFlux[idx] += parentKE;
 						sens_hadCounter[idx] += 1;
 						Htracks[idx].push_back(trackID);

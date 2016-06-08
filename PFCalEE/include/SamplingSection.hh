@@ -134,8 +134,6 @@ public:
 				sens_muDep.clear();
 				sens_neutronDep.clear();
 				sens_hadDep.clear();
-				parent_daughter_Ids.clear();
-				trackKe.clear();
 				sens_muKinFlux.clear();
 				sens_neutronKinFlux.clear();
 				sens_hadKinFlux.clear();
@@ -147,6 +145,7 @@ public:
 				Htracks.clear();
 				Mtracks.clear();
 				Ntracks.clear();
+				Alltracks.clear();
 
 				sens_muCounter.clear();
 				sens_neutronCounter.clear();
@@ -157,14 +156,13 @@ public:
 				sublayer_RawDep.resize(n_elements,0);
 				sublayer_PrimaryDep.resize(n_elements,0);
 				sublayer_dl.resize(n_elements,0);
+				Alltracks.resize(n_elements);
 				sens_time.resize(n_sens_elements,0);
 				sens_gamDep.resize(n_sens_elements,0);
 				sens_eleDep.resize(n_sens_elements,0);
 				sens_muDep.resize(n_sens_elements,0);
 				sens_neutronDep.resize(n_sens_elements,0);
 				sens_hadDep.resize(n_sens_elements,0);
-				parent_daughter_Ids.resize(n_sens_elements);
-				trackKe.resize(n_sens_elements);
 				sens_muKinFlux.resize(n_sens_elements,0);
 				sens_neutronKinFlux.resize(n_sens_elements,0);
 				sens_hadKinFlux.resize(n_sens_elements,0);
@@ -317,14 +315,12 @@ public:
 			std::vector<G4double> sublayer_RawDep;
 			std::vector<G4double> sublayer_PrimaryDep;
 			std::vector<G4double> sublayer_dl;
-			std::vector<std::vector<std::pair<G4int,G4int>>> parent_daughter_Ids;
-			std::vector<std::vector<G4double>> trackKe;
 
 			std::vector<G4VPhysicalVolume*> sublayer_vol;
 			std::vector<G4double> sens_gamDep, sens_eleDep, sens_muDep, sens_gamKinFlux,sens_eleKinFlux,
 			sens_muKinFlux,sens_neutronDep, sens_neutronKinFlux,
 			sens_hadDep, sens_hadKinFlux, sens_time;
-			std::vector<std::vector<unsigned int>> Etracks,Gtracks,Mtracks,Ntracks,Htracks;
+			std::vector<std::vector<unsigned int>> Alltracks,Etracks,Gtracks,Mtracks,Ntracks,Htracks;
 			std::vector<unsigned int> sens_neutronCounter,sens_hadCounter,sens_muCounter,sens_gamCounter,sens_eleCounter;
 			G4double Total_thick;
 
