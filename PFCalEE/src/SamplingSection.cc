@@ -30,7 +30,9 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 			lHit.trackId = trackID;
 			lHit.parentId = parentID;
 			lHit.parentKE = parentKE;
-			parent_daughter_Ids.push_back(std::make_pair(parentID,trackID));
+			parent_daughter_Ids[idx].push_back(std::make_pair(parentID,trackID));
+			trackKe[idx].push_back(parentKE);
+
 			if (isSensitiveElement(eleidx)) { //if Si || sci
 				sens_time[idx] += depositRawE * globalTime;
 
@@ -49,9 +51,10 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 						sens_eleCounter[idx] += 1;
 						if (sens_eleKinFlux[idx] > 4000){
 							for (int i = 0; i < parent_daughter_Ids.size(); i++){
-								std::cout << "The layer flux was " << sens_eleKinFlux[idx] ;
-								std::cout << "The parent trackID is " << parent_daughter_Ids.at(i).first
-										<< "and the daughter trackID is " << parent_daughter_Ids.at(i).second << "and the particle KE is";
+								std::cout << "The layer flux was " << sens_eleKinFlux[idx] <<
+								 << "The parent trackID is " << parent_daughter_Ids[idx].at(i).first
+										<< "and the daughter trackID is " << trackKe[idx].push_back(parentKE)
+										<< "and the particle KE is " << trackKe[idx].at(i) << std::endl;
 							}
 						}
 
