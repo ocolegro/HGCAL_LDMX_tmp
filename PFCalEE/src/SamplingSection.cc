@@ -6,7 +6,7 @@
 void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depositNonIonE,
 		G4double dl, G4double globalTime, G4int pdgId, G4VPhysicalVolume* vol,
 		const G4ThreeVector & position, G4int trackID, G4int parentID,
-		G4int layerId,G4bool isHadronTrack,G4bool isForward) {
+		G4int layerId,G4bool isHadronTrack,G4bool isForward, G4bool isPrimaryTrack) {
 	std::string lstr = vol->GetName();
 
 	for (unsigned ie(0); ie < n_elements * n_sectors; ++ie) {
@@ -14,7 +14,8 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 			unsigned idx = getSensitiveLayerIndex(lstr);
 			unsigned eleidx = ie % n_elements;
 			sublayer_RawDep[eleidx] += depositRawE;
-			sublayer_NonIonDep[eleidx] += depositNonIonE;
+			if (isPrimaryTrack)
+			sublayer_NonIonDep[eleidx] += depositRawE;
 
 			sublayer_dl[eleidx] += dl;
 
