@@ -32,7 +32,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	// get TouchableHandle
 
 	//G4TouchableHandle theTouchable = thePreStepPoint->GetTouchableHandle();
-	const G4Track* lTrack = aStep->GetTrack();
+	G4Track* lTrack = aStep->GetTrack();
 	G4int trackID = lTrack->GetTrackID();
 	G4int parentID = lTrack->GetParentID();
 
