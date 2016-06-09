@@ -100,7 +100,7 @@ int main(int argc, char** argv) {
 	for (unsigned ievt(0); ievt < nEvts; ++ievt) { //loop on entries
 		tree->GetEntry(ievt);
 
-
+		nTargetParticles = 0, nHadrons = 0;
 
 		for (Int_t j = 0; j < targetVec->size(); j++) {
 			nTargetParticles = nTargetParticles + 1;
@@ -120,6 +120,7 @@ int main(int argc, char** argv) {
 
 		for (Int_t j = 0; j < hadronVec->size(); j++) {
 			HGCSSGenParticle& hadron = (*hadronVec)[j];
+			nHadrons = nHadrons + 1;
 			hadron_time[j]      = hadron.time();
 			hadron_xpos[j] 	    = hadron.x();
 			hadron_ypos[j] 		= hadron.y();
