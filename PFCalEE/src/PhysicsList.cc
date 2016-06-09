@@ -67,9 +67,9 @@ void PhysicsList::SetCuts() {
 			// because some processes for e+/e- need cut values for gamma
 			//
 
-			SetCutValue(100.*mm, "gamma");
-			SetCutValue(30.*mm, "e-");
-			SetCutValue(30.*mm, "e+");
+			SetCutValue(25.*mm, "gamma");
+			SetCutValue(25.*mm, "e-");
+			SetCutValue(25.*mm, "e+");
 			SetCutValue(.7*mm, "proton");
 
 			//set smaller cut for Si
