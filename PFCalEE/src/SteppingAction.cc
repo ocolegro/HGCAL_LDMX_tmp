@@ -8,7 +8,7 @@
 #include "DetectorConstruction.hh"
 
 #include "HGCSSGenParticle.hh"
-
+#include "G4TrackStatus.hh"
 //
 SteppingAction::SteppingAction() {
 	eventAction_ =
