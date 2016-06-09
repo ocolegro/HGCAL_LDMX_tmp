@@ -71,6 +71,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	}
 	*/
+	lTrack->fKill();
 	const G4ThreeVector &p = lTrack->GetMomentum();
 
 	if ((globalTime < timeLimit_)
