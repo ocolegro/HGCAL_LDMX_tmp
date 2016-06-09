@@ -106,7 +106,7 @@ void SamplingSection::add(G4double parentKE, G4double depositRawE, G4double depo
 			} //if Si
 			else {
 				//check for W in layer
-				if ((lstr.find("W") == std::string::npos) == 0)
+				if ((lstr.find("SSteel") == std::string::npos) == 0)
 					abs_HitSumVec.push_back(lHit);
 			} //if in right material
 		} //loop on available materials
