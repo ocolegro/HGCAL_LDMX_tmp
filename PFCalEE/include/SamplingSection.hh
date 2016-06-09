@@ -145,7 +145,7 @@ public:
 				Htracks.clear();
 				Mtracks.clear();
 				Ntracks.clear();
-				Alltracks.clear();
+
 				sens_muCounter.clear();
 				sens_neutronCounter.clear();
 				sens_hadCounter.clear();
@@ -155,7 +155,6 @@ public:
 				sublayer_RawDep.resize(n_elements,0);
 				sublayer_PrimaryDep.resize(n_elements,0);
 				sublayer_dl.resize(n_elements,0);
-				Alltracks.resize(n_elements);
 				sens_time.resize(n_sens_elements,0);
 				sens_gamDep.resize(n_sens_elements,0);
 				sens_eleDep.resize(n_sens_elements,0);
@@ -319,7 +318,7 @@ public:
 			std::vector<G4double> sens_gamDep, sens_eleDep, sens_muDep, sens_gamKinFlux,sens_eleKinFlux,
 			sens_muKinFlux,sens_neutronDep, sens_neutronKinFlux,
 			sens_hadDep, sens_hadKinFlux, sens_time;
-			std::vector<std::vector<unsigned int>> Alltracks,Etracks,Gtracks,Mtracks,Ntracks,Htracks;
+			std::vector<std::vector<unsigned int>> Etracks,Gtracks,Mtracks,Ntracks,Htracks;
 			std::vector<unsigned int> sens_neutronCounter,sens_hadCounter,sens_muCounter,sens_gamCounter,sens_eleCounter;
 			G4double Total_thick;
 

@@ -67,10 +67,10 @@ void PhysicsList::SetCuts() {
 			// because some processes for e+/e- need cut values for gamma
 			//
 
-			SetCutValue(.1*mm, "gamma");
-			SetCutValue(.1*mm, "e-");
-			SetCutValue(.1*mm, "e+");
-			SetCutValue(.1*mm, "proton");
+			SetCutValue(10.*mm, "gamma");
+			SetCutValue(10.*mm, "e-");
+			SetCutValue(10.*mm, "e+");
+			SetCutValue(.7*mm, "proton");
 
 			//set smaller cut for Si
 			const std::vector<G4LogicalVolume*> & logSi = ((DetectorConstruction*)G4RunManager::GetRunManager()->GetUserDetectorConstruction())->getSiLogVol();
