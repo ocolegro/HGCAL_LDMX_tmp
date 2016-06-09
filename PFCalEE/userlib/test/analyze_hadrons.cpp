@@ -52,7 +52,6 @@ int main(int argc, char** argv) {
 	std::vector<HGCSSGenParticle> * targetVec = 0;
 	tree->SetBranchAddress("HGCSSTargetVec", &targetVec);
 	Int_t firstLayer = 0;
-	unsigned nEvts = tree->GetEntries();
 
 	TFile hfile("analyzed_tuple.root", "RECREATE");
 	TTree t1("sampling", "Sampling Study");
